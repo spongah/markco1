@@ -19,9 +19,9 @@
        	bounds = new google.maps.LatLngBounds();
        	getMyLocation(function () {
        		var options = {
-												  enableHighAccuracy: true,
+												  enableHighAccuracy: false,
 												  timeout: Infinity,
-												  maximumAge: 0
+												  maximumAge: 5000
 												}
        		createMap();
        		placeMyMarker(myPosition, "", "YOU", "http://www.fakefakefake.gov/", myIcon);
