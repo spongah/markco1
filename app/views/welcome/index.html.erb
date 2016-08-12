@@ -1,0 +1,95 @@
+<div class="main">
+	<div class="title">Markco 1</div>
+	<div class="yourlocation" id="yourlocation">
+		<div id="map"></div>
+		<div id="status"></div>
+		<div id="status2"></div>
+    <script>
+      var map;
+      var infoWindow;
+      var bounds;
+      var myPosition;
+      var myMarker;
+      var myWatcher;
+      var myIcon = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
+
+      
+
+      function initMap() {
+       	bounds = new google.maps.LatLngBounds();
+       	getMyLocation(function () {
+       		createMap();
+       		placeMyMarker(myPosition, "", "YOU", "http://www.fakefakefake.gov/", myIcon);
+	        map.fitBounds(bounds);
+	        map.setCenter(myPosition);
+	        console.log("starting position: " + myPosition.lat + "," + myPosition.lng);
+	        document.getElementById('status').innerHTML = "starting position: " + myPosition.lat + "," + myPosition.lng;
+	        myWatcher = navigator.geolocation.watchPosition(function(position) {
+					  //update location marker
+					  console.log("moving to : " + myPosition.lat + "," + myPosition.lng);
+					  document.getElementById('status2').innerHTML = "moving to : " + myPosition.lat + "," + myPosition.lng;
+					  myMarker.setPosition(myPosition);
+					});
+       	});
+
+       	function createMap() {
+					map = new google.maps.Map(document.getElementById('map'), {			// CREATE MAP CENTERED ON MYPOSITION
+		        center: myPosition,
+		        zoom: 13
+		      });    
+		      console.log("map: " + map)
+		    }
+
+		    function getMyLocation(callback) {
+		    	if (navigator.geolocation) {																		// GET MYLOCATION
+	          navigator.geolocation.getCurrentPosition(function(position) {
+	            myPosition = {
+	              lat: position.coords.latitude,
+	              lng: position.coords.longitude
+	            }
+	            console.log("my position: " + myPosition);
+	            callback && callback();
+	          });
+	        } else {
+	          // Browser doesn't support Geolocation
+	          document.getElementById('map').innerHTML = "Browser doesn't support Geolocation";
+	        }
+		    }
+      }
+
+      function placeMyMarker(pos, label, title, url, image) {
+      	myMarker = new google.maps.Marker({
+          position: new google.maps.LatLng(pos),
+          label: label,
+          title: title,
+          url: url,
+          animation: google.maps.Animation.DROP,
+          icon: image,
+          map: map
+        });
+        bounds.extend(myMarker.position);
+        google.maps.event.addListener(myMarker, 'click', function() {
+            window.location.href = url;
+        });
+      }
+
+      function placeMarker(pos, label, title, url, image) {
+      	marker = new google.maps.Marker({
+          position: new google.maps.LatLng(pos),
+          label: label,
+          title: title,
+          url: url,
+          animation: google.maps.Animation.DROP,
+          icon: image,
+          map: map
+        });
+        bounds.extend(marker.position);
+        google.maps.event.addListener(marker, 'click', function() {
+            window.location.href = url;
+        });
+      }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWjXhmnA63FsuAVIrTzKRG_D5SJZrDrqg&callback=initMap" async defer></script>
+	</div>
+</div>

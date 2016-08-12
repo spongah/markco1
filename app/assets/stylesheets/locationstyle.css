@@ -1,0 +1,24 @@
+.main {
+	display: block;
+	position: absolute;
+	border: 1px solid green;
+	height: 98%;
+	width: 99%;
+}
+
+.title {
+	border: 1px solid blue;
+	font-size: 2em;
+	padding: 10px;
+	text-align: center;
+}
+
+.yourlocation {
+	border: 1px solid red;
+	padding: 20px;
+	height: 90%;
+}
+
+#map {
+	height: 90%;
+}
