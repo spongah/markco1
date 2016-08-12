@@ -4,6 +4,8 @@
 		<div id="map"></div>
 		<div id="status"></div>
 		<div id="status2"></div>
+		<div id="status3"></div>
+
     <script>
       var map;
       var infoWindow;
@@ -16,6 +18,7 @@
       
 
       function initMap() {
+      	var updates = 0;
        	bounds = new google.maps.LatLngBounds();
        	getMyLocation(function () {
        		var options = {
@@ -31,10 +34,12 @@
 	        document.getElementById('status').innerHTML = myPosition.lat + "," + myPosition.lng;
 	        myWatcher = navigator.geolocation.watchPosition(function(position) {
 					  //update location marker
+					  updates += 1;
 					  console.log(position);
 					  myPosition.lat = position.coords.latitude;
 					  myPosition.lng = position.coords.longitude;
 					  document.getElementById('status2').innerHTML = myPosition.lat + "," + myPosition.lng;
+					  document.getElementById('status3').innerHTML = "updates: " + updates;
 					  myMarker.setPosition(myPosition);
 	        	map.setCenter(myPosition);
 					}, function(err){ console.log(err) }, options);
