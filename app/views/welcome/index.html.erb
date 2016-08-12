@@ -36,7 +36,6 @@
 					  myPosition.lng = position.coords.longitude;
 					  document.getElementById('status2').innerHTML = myPosition.lat + "," + myPosition.lng;
 					  myMarker.setPosition(myPosition);
-					 	map.fitBounds(bounds);
 	        	map.setCenter(myPosition);
 					}, function(err){ console.log(err) }, options);
        	});
