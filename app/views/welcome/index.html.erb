@@ -18,18 +18,27 @@
       function initMap() {
        	bounds = new google.maps.LatLngBounds();
        	getMyLocation(function () {
+       		var options = {
+												  enableHighAccuracy: true,
+												  timeout: Infinity,
+												  maximumAge: 0
+												}
        		createMap();
        		placeMyMarker(myPosition, "", "YOU", "http://www.fakefakefake.gov/", myIcon);
 	        map.fitBounds(bounds);
 	        map.setCenter(myPosition);
 	        console.log("starting position: " + myPosition.lat + "," + myPosition.lng);
-	        document.getElementById('status').innerHTML = "starting position: " + myPosition.lat + "," + myPosition.lng;
+	        document.getElementById('status').innerHTML = myPosition.lat + "," + myPosition.lng;
 	        myWatcher = navigator.geolocation.watchPosition(function(position) {
 					  //update location marker
-					  console.log("moving to : " + myPosition.lat + "," + myPosition.lng);
-					  document.getElementById('status2').innerHTML = "moving to : " + myPosition.lat + "," + myPosition.lng;
+					  console.log(position);
+					  myPosition.lat = position.coords.latitude;
+					  myPosition.lng = position.coords.longitude;
+					  document.getElementById('status2').innerHTML = myPosition.lat + "," + myPosition.lng;
 					  myMarker.setPosition(myPosition);
-					});
+					 	map.fitBounds(bounds);
+	        	map.setCenter(myPosition);
+					}, function(err){ console.log(err) }, options);
        	});
 
        	function createMap() {
