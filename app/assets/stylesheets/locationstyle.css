@@ -3,7 +3,7 @@
 	position: absolute;
 	border: 1px solid green;
 	height: 98%;
-	width: 99%;
+	width: 98%;
 }
 
 .title {
@@ -15,8 +15,7 @@
 
 .yourlocation {
 	border: 1px solid red;
-	padding: 20px;
-	height: 90%;
+	height: 92.75%;
 }
 
 #map {
