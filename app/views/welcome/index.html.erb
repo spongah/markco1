@@ -48,7 +48,8 @@
        	function createMap() {
 					map = new google.maps.Map(document.getElementById('map'), {			// CREATE MAP CENTERED ON MYPOSITION
 		        center: myPosition,
-		        zoom: 13
+		        zoom: 13,
+		        mapTypeId: 'hybrid'
 		      });    
 		      console.log("map: " + map)
 		    }
