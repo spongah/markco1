@@ -21,6 +21,7 @@ function initMap() {
  		createMap();														// CREATES MAP AFTER getMyLocation SETS myPosition
 
  		myMarker = placeMarker(myPosition, "", "YOU", "http://www.fakefakefake.gov/", myIcon); // SET MY MARKER
+ 		loadMarkers(gon.markerArray);						// LOAD OTHER MARKERS (NOT MINE)
 
     map.fitBounds(bounds);									// ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
     map.setCenter(myPosition);							// CENTER MAP ON myPosition
@@ -38,30 +39,39 @@ function initMap() {
     	map.setCenter(myPosition);										// RE CENTER MAP
 		}, function(err){ console.log(err) }, options);	// LOGS ERRORS TO CONSOLE, INSERTS OPTIONS HASH
  	});
+}
 
- 	function createMap() {
-		map = new google.maps.Map(document.getElementById('map'), {			// CREATE MAP CENTERED ON MYPOSITION
-      center: myPosition,
-      zoom: 13,
-      mapTypeId: 'hybrid'
-    });    
-    console.log("map: " + map)
-  }
 
-  function getMyLocation(callback) {
-  	if (navigator.geolocation) {																		// GET MYLOCATION FROM HTML5
-      navigator.geolocation.getCurrentPosition(function(position) {
-        myPosition = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        }
-        console.log("my position: " + myPosition);
-        callback && callback();
-      });
-    } else {
-      document.getElementById('map').innerHTML = "Browser doesn't support Geolocation";
-    }
+function createMap() {
+	map = new google.maps.Map(document.getElementById('map'), {			// CREATE MAP CENTERED ON MYPOSITION
+    center: myPosition,
+    zoom: 13,
+    mapTypeId: 'hybrid'
+  });    
+  console.log("map: " + map)
+}
+
+function getMyLocation(callback) {
+	if (navigator.geolocation) {																		// GET MYLOCATION FROM HTML5
+    navigator.geolocation.getCurrentPosition(function(position) {
+      myPosition = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      }
+      console.log("my position: " + myPosition);
+      callback && callback();
+    });
+  } else {
+    document.getElementById('map').innerHTML = "Browser doesn't support Geolocation";
   }
+}
+
+function loadMarkers(markerArray) {
+	for(x=0;x<markerArray.length;x+=1) {
+		m = markerArray[x];
+		tempPosition = { lat : m.lat, lng : m.lng };
+		placeMarker(tempPosition, String(x+2), m.name);
+	}
 }
 
 function placeMarker(pos, label, title, url, image) {							// PLACE A MARKER AND EXTEND BOUNDS
