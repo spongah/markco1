@@ -1,11 +1,5 @@
 <div class="main">
 	<div class="title">Markco 1</div>
-	<% if user_signed_in? then %>
-		<%= link_to("Sign Out", destroy_user_session_path, method: :delete) %>
-		<% else %>
-		<%= link_to("Sign In", user_session_path) %>
-		<% end %>
-
 	<div class="yourlocation" id="yourlocation">
 		<div id="map">
 			<div class="loading">  
@@ -15,6 +9,12 @@
 		<div id="status"></div>
 		<div id="status2"></div>
 		<div id="status3"></div>
+		
+		<% if user_signed_in? then %>
+			<%= link_to("Sign Out", destroy_user_session_path, method: :delete) %>
+			<% else %>
+			<%= link_to("Sign In", user_session_path) %>
+		<% end %>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWjXhmnA63FsuAVIrTzKRG_D5SJZrDrqg&callback=initMap" async defer></script>
 	</div>

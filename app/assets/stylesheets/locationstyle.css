@@ -22,6 +22,15 @@
 	height: 80%;
 }
 
+.notice {
+	color: green;
+}
+
+.alert {
+	color: red;
+}
+
+
 .loading {
 	text-align: center;
 	padding-right: 45%;
