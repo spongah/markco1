@@ -1,7 +1,11 @@
 <div class="main">
 	<div class="title">Markco 1</div>
 	<div class="yourlocation" id="yourlocation">
-		<div id="map"></div>
+		<div id="map">
+			<div class="loading">  <!-- shows loading gif then gets over-written by map when loaded -->
+				<%= image_tag "loading.gif" %>
+			</div> 
+		<div>
 		<div id="status"></div>
 		<div id="status2"></div>
 		<div id="status3"></div>
