@@ -20,25 +20,40 @@ function initMap() {
 
  		createMap();														// CREATES MAP AFTER getMyLocation SETS myPosition
 
+    //console.log("updating position 1");
+    updatePosition()                        // SEND NEW POSITION TO DATABASE
+
  		myMarker = placeMarker(myPosition, "", "YOU", "http://www.fakefakefake.gov/", myIcon); // SET MY MARKER
  		loadMarkers(gon.markerArray);						// LOAD OTHER MARKERS (NOT MINE)
 
     map.fitBounds(bounds);									// ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
     map.setCenter(myPosition);							// CENTER MAP ON myPosition
 
-    console.log("starting position: " + myPosition.lat + "," + myPosition.lng);
-    document.getElementById('status').innerHTML = myPosition.lat + "," + myPosition.lng;
+    // console.log("starting position: " + myPosition.lat + "," + myPosition.lng);
+    // document.getElementById('status').innerHTML = myPosition.lat + "," + myPosition.lng;
     myWatcher = navigator.geolocation.watchPosition(function(position) {		// SET WATCHER FOR LOCATION CHANGE
 		  updates += 1;
-		  console.log(position);
+		  // console.log(position);
 		  myPosition.lat = position.coords.latitude;		// SET myPosition
 		  myPosition.lng = position.coords.longitude;		// SET myPosition
-		  document.getElementById('status2').innerHTML = myPosition.lat + "," + myPosition.lng;
-		  document.getElementById('status3').innerHTML = "updates: " + updates;
+		  // document.getElementById('status2').innerHTML = myPosition.lat + "," + myPosition.lng;
+		  // document.getElementById('status3').innerHTML = "updates: " + updates;
 		  myMarker.setPosition(myPosition);							// SET myMarker POSITION BASED ON UPDATED myPosition
     	map.setCenter(myPosition);										// RE CENTER MAP
+      //console.log("updating position 2");
+      updatePosition();                             // SEND NEW POSITION TO DATABASE
 		}, function(err){ console.log(err) }, options);	// LOGS ERRORS TO CONSOLE, INSERTS OPTIONS HASH
  	});
+}
+
+function updatePosition() {
+  urlValue = "updatepos";
+  $.ajax({          
+    data: myPosition,
+    url: urlValue,
+    type: "PATCH",
+    dataType: "json"
+  });
 }
 
 
@@ -48,7 +63,7 @@ function createMap() {
     zoom: 13,
     mapTypeId: 'hybrid'
   });    
-  console.log("map: " + map)
+  // console.log("map: " + map)
 }
 
 function getMyLocation(callback) {
@@ -58,7 +73,7 @@ function getMyLocation(callback) {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       }
-      console.log("my position: " + myPosition);
+      // console.log("my position: " + myPosition);
       callback && callback();
     });
   } else {

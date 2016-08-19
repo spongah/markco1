@@ -1,5 +1,7 @@
 class WelcomeController < ApplicationController
 	before_action :authenticate_user!
+	before_action :set_user, only: [:updatepos]
+
   def index
   	markerArray = []
   	gon.active = true
@@ -15,4 +17,24 @@ class WelcomeController < ApplicationController
 
   	gon.markerArray = markerArray
   end
+
+  def updatepos
+      if @user.update(user_params)
+      	# puts "UPDATED DATABASE WITH NEW LOCATION"
+      	render :nothing => true, :status => 200, :content_type => 'text/html'
+      else
+        # puts "OH SHIT"
+      end
+  end
+
+  private
+
+  def user_params
+			params.permit(:lat, :lng)
+	end
+
+	def set_user
+			@user = User.find(current_user.id)
+	end
+
 end
