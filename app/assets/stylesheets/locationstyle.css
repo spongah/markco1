@@ -10,7 +10,6 @@
 	border: 0px solid blue;
 	font-size: 2em;
 	padding-left: 0%;
-	padding-bottom: 2%;
 	text-align: center;
 }
 
@@ -19,11 +18,20 @@
 	height: 92.75%;
 }
 
+.tracking {
+	padding-left: 3%;
+}
+
 .signout {
 	float: right;
 	position: relative;
 	z-index: 5;
-	padding-right: 5%;
+	padding-right: 3%;
+}
+
+.userid {
+	text-align: center;
+	padding-bottom: 2%;
 }
 
 .login {
@@ -32,6 +40,23 @@
 
 #map {
 	height: 80%;
+}
+
+.alert-box {
+		color:#555;
+    border-radius:10px;
+    font-family:Tahoma,Geneva,Arial,sans-serif;font-size:11px;
+    padding:10px 10px 10px 36px;
+    margin:10px;
+}
+
+.error {
+    background:#ffecec;
+    border:1px solid #f5aca6;
+}
+.success {
+    background:#e9ffd9;
+    border:1px solid #a6ca8a;
 }
 
 .notice {
