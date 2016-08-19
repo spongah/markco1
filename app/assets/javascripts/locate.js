@@ -24,7 +24,7 @@ function initMap() {
     updatePosition()                        // SEND NEW POSITION TO DATABASE
 
  		myMarker = placeMarker(myPosition, "", "YOU", "http://www.fakefakefake.gov/", myIcon); // SET MY MARKER
- 		loadMarkers(gon.markerArray);						// LOAD OTHER MARKERS (NOT MINE)
+ 	  loadMarkers(gon.markerArray);						// LOAD OTHER MARKERS (NOT MINE)
 
     map.fitBounds(bounds);									// ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
     map.setCenter(myPosition);							// CENTER MAP ON myPosition

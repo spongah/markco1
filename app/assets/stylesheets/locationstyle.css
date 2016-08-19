@@ -9,13 +9,21 @@
 .title {
 	border: 0px solid blue;
 	font-size: 2em;
-	padding: 7px;
+	padding-left: 22%;
+	padding-bottom: 2%;
 	text-align: center;
 }
 
 .yourlocation {
 	border: 0px solid red;
 	height: 92.75%;
+}
+
+.signout {
+	float: right;
+	position: relative;
+	z-index: 5;
+	padding-right: 5%;
 }
 
 #map {
