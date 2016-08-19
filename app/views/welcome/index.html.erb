@@ -6,7 +6,15 @@
 			<%= link_to("Sign In", user_session_path) %>
 		<% end %>
 	</div>
-	
+
+	<div class="tracking">
+		<% if @user.tracking then %>
+			<%= link_to("Stop Tracking", stoptracking_path, method: :patch) %>
+			<% else %>
+			<%= link_to("Start Tracking", starttracking_path, method: :patch) %>
+		<% end %>
+	</div>
+
 	<div class="title">Markco 1</div>
 	<div class="yourlocation" id="yourlocation">
 

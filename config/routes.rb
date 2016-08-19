@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   devise_for :users
   get 'welcome/index'
   patch 'updatepos' => 'welcome#updatepos'
+  patch 'starttracking' => 'welcome#starttracking'
+  patch 'stoptracking' => 'welcome#stoptracking'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

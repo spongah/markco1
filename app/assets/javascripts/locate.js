@@ -5,6 +5,8 @@ var myPosition;
 var myMarker;
 var myWatcher;
 var myIcon = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
+// var myIcon = "ericsmall.png";
+// var moniqueIcon = "moniquesmall.png";
 
 
 
@@ -24,7 +26,7 @@ function initMap() {
     updatePosition()                        // SEND NEW POSITION TO DATABASE
 
  		myMarker = placeMarker(myPosition, "", "YOU", "http://www.fakefakefake.gov/", myIcon); // SET MY MARKER
- 	  loadMarkers(gon.markerArray);						// LOAD OTHER MARKERS (NOT MINE)
+ 	  if (gon.markerArray) { loadMarkers(gon.markerArray); }						// LOAD OTHER MARKERS (NOT MINE)
 
     map.fitBounds(bounds);									// ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
     map.setCenter(myPosition);							// CENTER MAP ON myPosition
@@ -55,7 +57,6 @@ function updatePosition() {
     dataType: "json"
   });
 }
-
 
 function createMap() {
 	map = new google.maps.Map(document.getElementById('map'), {			// CREATE MAP CENTERED ON MYPOSITION

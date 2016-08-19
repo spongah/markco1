@@ -9,7 +9,7 @@
 .title {
 	border: 0px solid blue;
 	font-size: 2em;
-	padding-left: 22%;
+	padding-left: 0%;
 	padding-bottom: 2%;
 	text-align: center;
 }
@@ -24,6 +24,10 @@
 	position: relative;
 	z-index: 5;
 	padding-right: 5%;
+}
+
+.login {
+	text-align: center;
 }
 
 #map {
