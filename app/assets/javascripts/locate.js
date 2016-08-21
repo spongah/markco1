@@ -4,8 +4,8 @@ var bounds;
 var myPosition;
 var myMarker;
 var myWatcher;
-var myIcon = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
-// var myIcon = "ericsmall.png";
+// var myIcon = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
+var myIcon = "ericsmall.png";
 // var moniqueIcon = "moniquesmall.png";
 
 
@@ -86,7 +86,7 @@ function loadMarkers(markerArray) {
 	for(x=0;x<markerArray.length;x+=1) {
 		m = markerArray[x];
 		tempPosition = { lat : m.lat, lng : m.lng };
-		placeMarker(tempPosition, String(x+2), m.name);
+		placeMarker(tempPosition, String(x+2), m.name, "", m.icon);
 	}
 }
 

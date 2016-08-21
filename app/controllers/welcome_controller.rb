@@ -11,7 +11,7 @@ class WelcomeController < ApplicationController
   	@users = User.all
   	@users.each do |x|
   		if (x != current_user) && x.tracking
-  			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, name: x.name })
+  			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, name: x.name, icon: x.icon })
   		end
   	end
 
