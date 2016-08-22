@@ -6,6 +6,7 @@ class WelcomeController < ApplicationController
   	markerArray = []
   	gon.active = true
   	gon.user_signed_in = user_signed_in?
+  	gon.user = @user
   	
 
   	@users = User.all

@@ -4,9 +4,19 @@ var bounds;
 var myPosition;
 var myMarker;
 var myWatcher;
-// var myIcon = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
 var myIcon = "ericsmall.png";
-// var moniqueIcon = "moniquesmall.png";
+var mainloopcount = 0;
+var allMarkers = [];
+
+function mainLoop() {
+  setTimeout(function () {
+
+        document.getElementById("status").innerHTML = String(mainloopcount);
+
+        mainloopcount += 1;
+        mainLoop();
+    }, 5000);
+}
 
 
 
@@ -25,11 +35,13 @@ function initMap() {
     //console.log("updating position 1");
     updatePosition()                        // SEND NEW POSITION TO DATABASE
 
- 		myMarker = placeMarker(myPosition, "", "YOU", "http://www.fakefakefake.gov/", myIcon); // SET MY MARKER
+ 		myMarker = placeMarker(myPosition, "", "YOU", "http://www.fakefakefake.gov/", gon.user.icon); // SET MY MARKER
  	  if (gon.markerArray) { loadMarkers(gon.markerArray); }						// LOAD OTHER MARKERS (NOT MINE)
 
     map.fitBounds(bounds);									// ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
     map.setCenter(myPosition);							// CENTER MAP ON myPosition
+
+    mainLoop();
 
     // console.log("starting position: " + myPosition.lat + "," + myPosition.lng);
     // document.getElementById('status').innerHTML = myPosition.lat + "," + myPosition.lng;
@@ -83,10 +95,11 @@ function getMyLocation(callback) {
 }
 
 function loadMarkers(markerArray) {
+  allMarkers = [];
 	for(x=0;x<markerArray.length;x+=1) {
 		m = markerArray[x];
 		tempPosition = { lat : m.lat, lng : m.lng };
-		placeMarker(tempPosition, String(x+2), m.name, "", m.icon);
+		allMarkers[x] = placeMarker(tempPosition, String(x+2), m.name, "", m.icon);
 	}
 }
 
