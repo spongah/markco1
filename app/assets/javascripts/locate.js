@@ -4,26 +4,18 @@ var bounds;
 var myPosition;
 var myMarker;
 var myWatcher;
-// var myIcon = "ericsmall.png";
 var mainloopcount = 0;
 var allMarkers = [];
 
 function mainLoop() {
   setTimeout(function () {
-        // HERE WE WILL CALL UPDATEMARKERS WHICH WILL TRIGGER THE RAILS METHOD TO UPDATE THE RAILS VARIABLE MARKERARRAY
-        // THEN IT WILL SIMPLY LOOP THROUGH THE ALLMARKERS ARRAY AND UPDATE POSITION FOR EACH ONE BASED ON THE GON.MARKERARRAY
-        gon.watch("markerArray", function(result){
-          updateMarkers(result);
-        });
-
-        // document.getElementById("status").innerHTML = String(mainloopcount);   // count updates
-
-        mainloopcount += 1;
-        mainLoop();
-    }, 2000);
+    gon.watch("markerArray", function(result){
+      updateMarkers(result);
+    });
+    mainloopcount += 1;
+    mainLoop();
+  }, 2000);
 }
-
-
 
 function initMap() {
 	var updates = 0;
@@ -37,7 +29,6 @@ function initMap() {
 
  		createMap();														// CREATES MAP AFTER getMyLocation SETS myPosition
 
-    //console.log("updating position 1");
     updatePosition()                        // SEND NEW POSITION TO DATABASE
 
  		myMarker = placeMarker(myPosition, "", gon.user.name, "", gon.user.icon); // SET MY MARKER
@@ -48,59 +39,71 @@ function initMap() {
 
     mainLoop();
 
-    // console.log("starting position: " + myPosition.lat + "," + myPosition.lng);
-    // document.getElementById('status').innerHTML = myPosition.lat + "," + myPosition.lng;
     myWatcher = navigator.geolocation.watchPosition(function(position) {		// SET WATCHER FOR LOCATION CHANGE
 		  updates += 1;
-		  // console.log(position);
 		  myPosition.lat = position.coords.latitude;		// SET myPosition
 		  myPosition.lng = position.coords.longitude;		// SET myPosition
-		  // document.getElementById('status2').innerHTML = myPosition.lat + "," + myPosition.lng;
-		  // document.getElementById('status3').innerHTML = "updates: " + updates;
 		  myMarker.setPosition(myPosition);							// SET myMarker POSITION BASED ON UPDATED myPosition
-    	map.setCenter(myPosition);										// RE CENTER MAP
-      //console.log("updating position 2");
       updatePosition();                             // SEND NEW POSITION TO DATABASE
 		}, function(err){ console.log(err) }, options);	// LOGS ERRORS TO CONSOLE, INSERTS OPTIONS HASH
  	});
 }
 
 function updateMarkers(markerArray) {
-  // console.log("running updateMarkers");
-//  $.ajax({          
-//    data: "",
-//    url: "updatemarkers",
-//    type: "PATCH",
-//    dataType: "json"
-//  });
-  // console.log(markerArray);
-  var newMarkerLength = markerArray.length;
-  var currentMarkerLength = allMarkers.length;
-  for(x=0;x<newMarkerLength;x+=1) {
-    m = markerArray[x];
-    markerFound = false;
-    tempPosition = {
-        lat: m.lat,
-        lng: m.lng
-    };
-    for(y=0;y<currentMarkerLength;y+=1) {
-      if (m.userid == allMarkers[y].userid) {
-        if ((Number(allMarkers[y].position.lat()).toPrecision(10) != Number(m.lat).toPrecision(10)) || (Number(allMarkers[y].position.lng()).toPrecision(10) != Number(m.lng).toPrecision(10))) {
-          //console.log("marker updated! user id: " + m.userid);
-          //console.log("old lat: " + Number(allMarkers[y].position.lat()).toPrecision(10) + " old lng: " + Number(allMarkers[y].position.lng()).toPrecision(10));
-          //console.log("new lat: " + Number(m.lat).toPrecision(10) + " new lng: " + Number(m.lng).toPrecision(10));
+  bounds = new google.maps.LatLngBounds();
+  bounds.extend(myPosition);
+  for(x=0;x<markerArray.length;x+=1) {
+    bounds.extend(markerArray[x]);
+  }
+  if ((markerArray != []) && (typeof(markerArray) != 'undefined')) {
 
-          allMarkers[y].setPosition(tempPosition);        // WRITE A FUNCTION TO ANIMATE THIS SO IT'S SMOOTHER
+    var newMarkerLength = markerArray.length;
+    var currentMarkerLength = allMarkers.length;
+    for(x=0;x<newMarkerLength;x+=1) {
+      m = markerArray[x];
+      markerFound = false;
+      tempPosition = {
+          lat: m.lat,
+          lng: m.lng
+      };
+      for(y=0;y<currentMarkerLength;y+=1) {
+        if (m.userid == allMarkers[y].userid) {
+          if ((Number(allMarkers[y].position.lat()).toPrecision(10) != Number(m.lat).toPrecision(10)) || (Number(allMarkers[y].position.lng()).toPrecision(10) != Number(m.lng).toPrecision(10))) {
+            allMarkers[y].setPosition(tempPosition);        // MOVE MARKERS, LETS MAKE A FUNCTION TO ANIMATE THIS?
+            document.getElementById('status').innerHTML = "Updated " + m.name + "'s position!";
+            // map.fitBounds(bounds);                     //  I THINK NO FITBOUNDS AFTER UPDATES (HAPPENS A LOT)
+          }
+          markerFound = true;
         }
-        markerFound = true;
       }
-      // console.log("looping2");
+      if (!markerFound) {
+        allMarkers[allMarkers.length] = placeMarker(tempPosition, "", m.name, "", m.icon, m.userid)
+        map.fitBounds(bounds);                  // I THINK FIT BOUNDS AFTER ADDING A NEW PERSON!
+        document.getElementById('status2').innerHTML = m.name + " just joined the map!";
+        //map.setCenter(myPosition);              // CENTER MAP ON myPosition
+      }
     }
-    if (!markerFound) {
-      allMarkers[allMarkers.length] = placeMarker(tempPosition, "", m.name, "", m.icon, m.userid)
-      console.log("placed marker with userid: " + m.userid);
+
+    // DELETE ANY MARKERS FOUND IN CURRENT MARKER THAT ARE NOT IN NEW MARKER ARRAY
+    newMarkerLength = markerArray.length;
+    currentMarkerLength = allMarkers.length;
+    for(x=0;x<currentMarkerLength;x+=1) {
+      markerExists = false;
+      for(y=0;y<newMarkerLength;y+=1) {
+        if (markerArray[y].userid == allMarkers[x].userid) {
+          markerExists = true;
+        }
+      }
+      if (!markerExists) {
+        document.getElementById('status2').innerHTML = allMarkers[x].title + " just left the map!";
+        allMarkers[x].setMap(null);
+        allMarkers.splice(x,1);
+        currentMarkerLength -= 1;
+
+        // map.fitBounds(bounds);                   // I THINK DONT FIT BOUNDS AFTER SOMEONE DISAPPEARS
+      }
     }
-    // console.log("looping1");
+    //map.setCenter(myPosition);              // CENTER MAP ON myPosition
   }
 }
 
@@ -120,7 +123,6 @@ function createMap() {
     zoom: 13,
     mapTypeId: 'hybrid'
   });    
-  // console.log("map: " + map)
 }
 
 function getMyLocation(callback) {
@@ -130,7 +132,6 @@ function getMyLocation(callback) {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       }
-      // console.log("my position: " + myPosition);
       callback && callback();
     });
   } else {
@@ -159,8 +160,8 @@ function placeMarker(pos, label, title, url, image, userid) {							// PLACE A M
     userid: userid
   });
   bounds.extend(marker.position);
-  google.maps.event.addListener(marker, 'click', function() {
-      window.location.href = url;
-  });
+ // google.maps.event.addListener(marker, 'click', function() {
+ //     window.location.href = url;
+ // });
   return marker;																									// RETURN MARKER SO WE CAN KEEP TRACK
 }

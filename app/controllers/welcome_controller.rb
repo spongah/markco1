@@ -7,24 +7,14 @@ class WelcomeController < ApplicationController
   	gon.active = true
   	gon.user_signed_in = user_signed_in?
   	gon.user = @user
-  	updatemarkers(false)							# refresh markerarray
-  end
-
-  def updatemarkers(rendernothing = true)
   	markerArray = []
   	@users = User.all
   	@users.each do |x|
   		if (x != current_user) && x.tracking
   			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, name: x.name, icon: x.icon, userid: x.id })
-  			puts "updated markerArray!"
   		end
   	end
   	gon.watch.markerArray = markerArray
-
-  	# puts "updatemarkers!"
-  	if rendernothing then
-  		render :nothing => true, :status => 200, :content_type => 'text/html'
-  	end
   end
 
   def updatepos
