@@ -4,14 +4,19 @@ var bounds;
 var myPosition;
 var myMarker;
 var myWatcher;
-var myIcon = "ericsmall.png";
+// var myIcon = "ericsmall.png";
 var mainloopcount = 0;
 var allMarkers = [];
 
 function mainLoop() {
   setTimeout(function () {
+        // HERE WE WILL CALL UPDATEMARKERS WHICH WILL TRIGGER THE RAILS METHOD TO UPDATE THE RAILS VARIABLE MARKERARRAY
+        // THEN IT WILL SIMPLY LOOP THROUGH THE ALLMARKERS ARRAY AND UPDATE POSITION FOR EACH ONE BASED ON THE GON.MARKERARRAY
+        gon.watch("markerArray", function(result){
+          updateMarkers(result);
+        });
 
-        document.getElementById("status").innerHTML = String(mainloopcount);
+        document.getElementById("status").innerHTML = String(mainloopcount);   // count updates
 
         mainloopcount += 1;
         mainLoop();
@@ -35,7 +40,7 @@ function initMap() {
     //console.log("updating position 1");
     updatePosition()                        // SEND NEW POSITION TO DATABASE
 
- 		myMarker = placeMarker(myPosition, "", "YOU", "http://www.fakefakefake.gov/", gon.user.icon); // SET MY MARKER
+ 		myMarker = placeMarker(myPosition, "", gon.user.name, "", gon.user.icon); // SET MY MARKER
  	  if (gon.markerArray) { loadMarkers(gon.markerArray); }						// LOAD OTHER MARKERS (NOT MINE)
 
     map.fitBounds(bounds);									// ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
@@ -58,6 +63,45 @@ function initMap() {
       updatePosition();                             // SEND NEW POSITION TO DATABASE
 		}, function(err){ console.log(err) }, options);	// LOGS ERRORS TO CONSOLE, INSERTS OPTIONS HASH
  	});
+}
+
+function updateMarkers(markerArray) {
+  // console.log("running updateMarkers");
+//  $.ajax({          
+//    data: "",
+//    url: "updatemarkers",
+//    type: "PATCH",
+//    dataType: "json"
+//  });
+  // console.log(markerArray);
+  var newMarkerLength = markerArray.length;
+  var currentMarkerLength = allMarkers.length;
+  for(x=0;x<newMarkerLength;x+=1) {
+    m = markerArray[x];
+    markerFound = false;
+    tempPosition = {
+        lat: m.lat,
+        lng: m.lng
+    };
+    for(y=0;y<currentMarkerLength;y+=1) {
+      if (m.userid == allMarkers[y].userid) {
+        if ((Number(allMarkers[y].position.lat()).toPrecision(10) != Number(m.lat).toPrecision(10)) || (Number(allMarkers[y].position.lng()).toPrecision(10) != Number(m.lng).toPrecision(10))) {
+          //console.log("marker updated! user id: " + m.userid);
+          //console.log("old lat: " + Number(allMarkers[y].position.lat()).toPrecision(10) + " old lng: " + Number(allMarkers[y].position.lng()).toPrecision(10));
+          //console.log("new lat: " + Number(m.lat).toPrecision(10) + " new lng: " + Number(m.lng).toPrecision(10));
+
+          allMarkers[y].setPosition(tempPosition);        // WRITE A FUNCTION TO ANIMATE THIS SO IT'S SMOOTHER
+        }
+        markerFound = true;
+      }
+      // console.log("looping2");
+    }
+    if (!markerFound) {
+      allMarkers[allMarkers.length] = placeMarker(tempPosition, "", m.name, "", m.icon, m.userid)
+      console.log("placed marker with userid: " + m.userid);
+    }
+    // console.log("looping1");
+  }
 }
 
 function updatePosition() {
@@ -99,11 +143,11 @@ function loadMarkers(markerArray) {
 	for(x=0;x<markerArray.length;x+=1) {
 		m = markerArray[x];
 		tempPosition = { lat : m.lat, lng : m.lng };
-		allMarkers[x] = placeMarker(tempPosition, String(x+2), m.name, "", m.icon);
+		allMarkers[x] = placeMarker(tempPosition, "", m.name, "", m.icon, m.userid);
 	}
 }
 
-function placeMarker(pos, label, title, url, image) {							// PLACE A MARKER AND EXTEND BOUNDS
+function placeMarker(pos, label, title, url, image, userid) {							// PLACE A MARKER AND EXTEND BOUNDS
 	marker = new google.maps.Marker({																// DOES NOT RE CENTER OR ZOOM MAP
     position: new google.maps.LatLng(pos),
     label: label,
@@ -111,7 +155,8 @@ function placeMarker(pos, label, title, url, image) {							// PLACE A MARKER AN
     url: url,
     animation: google.maps.Animation.DROP,
     icon: image,
-    map: map
+    map: map,
+    userid: userid
   });
   bounds.extend(marker.position);
   google.maps.event.addListener(marker, 'click', function() {

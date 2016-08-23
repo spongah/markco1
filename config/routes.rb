@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   patch 'updatepos' => 'welcome#updatepos'
   patch 'starttracking' => 'welcome#starttracking'
   patch 'stoptracking' => 'welcome#stoptracking'
+  patch 'updatemarkers' => 'welcome#updatemarkers'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
