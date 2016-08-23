@@ -16,11 +16,11 @@ function mainLoop() {
           updateMarkers(result);
         });
 
-        document.getElementById("status").innerHTML = String(mainloopcount);   // count updates
+        // document.getElementById("status").innerHTML = String(mainloopcount);   // count updates
 
         mainloopcount += 1;
         mainLoop();
-    }, 5000);
+    }, 2000);
 }
 
 
