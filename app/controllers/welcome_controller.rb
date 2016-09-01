@@ -64,7 +64,7 @@ class WelcomeController < ApplicationController
   end
 
   def user_params
-			params.permit(:lat, :lng, :tracking, :room)
+			params.permit(:lat, :lng, :tracking, :room, :invite)
 	end
 
 	def set_user

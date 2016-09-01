@@ -16,8 +16,10 @@ function mainLoop() {
     });
     gon.watch("inviteArray", function(result){
       if (result[0] != undefined) {
-        console.log(result);
-        displayInvite(result[0]);
+        if (result[0].room != gon.user.invite) {
+          console.log(result);
+          displayInvite(result[0]);
+        }
       }
     });
 
@@ -75,6 +77,7 @@ function displayInvite(user) {
   invitingUser = user;
 
   acceptInvite.onclick = function() {
+    updateGeneric(user = { invite: gon.user.id });
     newRoom = invitingUser.room;
     updateGeneric(user = { room: newRoom });
     document.getElementById("roomid").innerHTML = invitingUser.name + "'s Room";
