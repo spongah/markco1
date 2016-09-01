@@ -8,13 +8,27 @@ class WelcomeController < ApplicationController
   	gon.user_signed_in = user_signed_in?
   	gon.user = @user
   	markerArray = []
+    inviteArray = []
   	@users = User.all
   	@users.each do |x|
-  		if (x != current_user) && x.tracking
+  		if (x != current_user) && x.tracking && (x.room == @user.room)
   			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, name: x.name, icon: x.icon, userid: x.id })
   		end
   	end
   	gon.watch.markerArray = markerArray
+
+    if (@user.invite != @user.room)
+      inviter = User.find(@user.invite)
+      inviteArray = [{ name: inviter.name, room: inviter.id }]   # I will push later to handle multiple invites at once
+    end
+    gon.watch.inviteArray = inviteArray
+
+
+    if (@user.room == @user.id)
+      gon.watch.roomName = "Your Room"
+    else
+      gon.watch.roomName = "" + @users.find(@user.room).name.to_s + "'s Room"
+    end
   end
 
   def updatepos
@@ -50,7 +64,7 @@ class WelcomeController < ApplicationController
   end
 
   def user_params
-			params.permit(:lat, :lng, :tracking)
+			params.permit(:lat, :lng, :tracking, :room)
 	end
 
 	def set_user

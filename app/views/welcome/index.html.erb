@@ -21,7 +21,7 @@
 	<% else %>
 		<div class="title" style="color: red">Markco 1</div>
 	<% end %>
-	<div class="userid">
+	<div class="userid" id="roomid">
 		<%= @user.email %>
 	</div>
 	<div class="yourlocation" id="yourlocation">
@@ -41,14 +41,15 @@
 		<script>
 			setTimeout(fade_out, 5000);
 
-				function fade_out() {
-				  $(".notice").fadeOut(1000, function() { 
-				  	$(this).remove()
-				  });
-				  $(".alert").fadeOut(1000, function() { 
-				  	$(this).remove()
-				  });
-				}
+			function fade_out() {
+			  $(".notice").fadeOut(1000, function() { 
+			  	$(this).remove()
+			  });
+			  $(".alert").fadeOut(1000, function() { 
+			  	$(this).remove()
+			  });
+			}
+
 		</script>
 		<div id="status"></div>
 		<div id="status2"></div>

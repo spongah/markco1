@@ -6,12 +6,21 @@ var myMarker;
 var myWatcher;
 var mainloopcount = 0;
 var allMarkers = [];
+var modal;
+var closeModal;
 
 function mainLoop() {
   setTimeout(function () {
     gon.watch("markerArray", function(result){
       updateMarkers(result);
     });
+    gon.watch("inviteArray", function(result){
+      if (result[0] != undefined) {
+        console.log(result);
+        displayInvite(result[0]);
+      }
+    });
+
     mainloopcount += 1;
     mainLoop();
   }, 2000);
@@ -24,7 +33,7 @@ function initMap() {
  		var options = {
 									  enableHighAccuracy: true,
 									  timeout: Infinity,
-									  maximumAge: 1000
+									  maximumAge: 5000
 									}
 
  		createMap();														// CREATES MAP AFTER getMyLocation SETS myPosition
@@ -37,7 +46,17 @@ function initMap() {
     map.fitBounds(bounds);									// ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
     map.setCenter(myPosition);							// CENTER MAP ON myPosition
 
+    gon.watch("roomName", function(result) {
+      document.getElementById("roomid").innerHTML = result;
+    });
+
     mainLoop();
+
+    modal = document.getElementById('myModal');
+    userInviting = document.getElementById('userInviting');
+    closeModal = document.getElementsByClassName("close")[0];
+    acceptInvite = document.getElementById('acceptInvite');
+    declineInvite = document.getElementById('declineInvite');
 
     myWatcher = navigator.geolocation.watchPosition(function(position) {		// SET WATCHER FOR LOCATION CHANGE
 		  updates += 1;
@@ -47,6 +66,33 @@ function initMap() {
       updatePosition();                             // SEND NEW POSITION TO DATABASE
 		}, function(err){ console.log(err) }, options);	// LOGS ERRORS TO CONSOLE, INSERTS OPTIONS HASH
  	});
+}
+
+function displayInvite(user) {
+  userInviting.innerHTML = user.name;
+  console.log("updating to room # " + user.room);
+  modal.style.display = "block";
+  invitingUser = user;
+
+  acceptInvite.onclick = function() {
+    newRoom = invitingUser.room;
+    updateGeneric(user = { room: newRoom });
+    document.getElementById("roomid").innerHTML = invitingUser.name + "'s Room";
+
+    console.log("ACCEPTED INVITE!");
+    modal.style.display = "none";
+  }
+
+  declineInvite.onclick = function() {
+    console.log("DECLINED INVITE!");
+    modal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  }
 }
 
 function updateMarkers(markerArray) {
@@ -105,6 +151,16 @@ function updateMarkers(markerArray) {
     }
     //map.setCenter(myPosition);              // CENTER MAP ON myPosition
   }
+}
+
+function updateGeneric(data) {
+  urlValue = "updatepos";
+  $.ajax({          
+    data: data,
+    url: urlValue,
+    type: "PATCH",
+    dataType: "json"
+  });
 }
 
 function updatePosition() {
