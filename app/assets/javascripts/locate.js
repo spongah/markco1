@@ -54,6 +54,15 @@ function initMap() {
       document.getElementById("roomid").innerHTML = result;
     });
 
+    document.getElementById("invitebutton").onclick = function(){
+      displayInvite({room: 1, name: "Eric"});
+    }
+
+    document.getElementById("homebutton").onclick = function() {
+      goHome();
+    }
+
+
     mainLoop();
 
     modal = document.getElementById('myModal');
@@ -108,8 +117,9 @@ function goHome() {
   bounds = new google.maps.LatLngBounds();  // CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
   bounds.extend(myMarker.position);
   gon.watch("markerArray", function(results) { updateMarkers(results); });
-  // map.fitBounds(bounds);                  // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
-  // map.setCenter(myPosition);              // CENTER MAP ON myPosition
+  map.fitBounds(bounds);                  // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
+  map.setCenter(myPosition); 
+  console.log(bounds);             // CENTER MAP ON myPosition
   document.getElementById("roomid").innerHTML = "Your Group";
 }
 
@@ -143,7 +153,7 @@ function updateMarkers(markerArray) {
       if (!markerFound) {
         allMarkers[allMarkers.length] = placeMarker(tempPosition, "", m.name, "", m.icon, m.userid)
         map.fitBounds(bounds);                  // I THINK FIT BOUNDS AFTER ADDING A NEW PERSON!
-        document.getElementById('status2').innerHTML = m.name + " just joined the map!";
+        document.getElementById('status').innerHTML = m.name + " just joined the map!";
         //map.setCenter(myPosition);              // CENTER MAP ON myPosition
       }
     }
@@ -159,7 +169,7 @@ function updateMarkers(markerArray) {
         }
       }
       if (!markerExists) {
-        document.getElementById('status2').innerHTML = allMarkers[x].title + " just left the map!";
+        document.getElementById('status').innerHTML = allMarkers[x].title + " just left the map!";
         allMarkers[x].setMap(null);
         allMarkers.splice(x,1);
         currentMarkerLength -= 1;

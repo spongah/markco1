@@ -1,15 +1,32 @@
 .main {
 	display: block;
 	position: absolute;
-	border: 0px solid green;
-	height: 98%;
-	width: 98%;
+	border: 1px solid black;
+	border-radius: 10px;
+	height: 90%;
+	width: 95%;
 }
 
 .title {
 	border: 0px solid blue;
 	font-size: 2em;
 	padding-left: 0%;
+	text-align: center;
+}
+
+.generalbutton {
+  padding: 1% 5% 1% 5%;
+  border: 1px solid black;
+  border-radius: 5px
+}
+
+.generalbutton:hover {
+    background-color: #D9D9D9;
+    cursor: pointer;
+}
+
+.bottomButtons {
+	margin-top: 5%;
 	text-align: center;
 }
 
@@ -67,6 +84,17 @@
 	color: red;
 }
 
+.invite {
+	margin-right: 25%;
+}
+
+.home {
+
+}
+
+.status {
+	margin-top: 5%;
+}
 
 .loading {
 	text-align: center;
@@ -89,6 +117,10 @@
 	.loading img {
   width: 30%;
 	}
+
+	.status {
+		margin-top: 0%;
+	}
 }
 
 @media (min-width:960px) {
@@ -100,4 +132,20 @@
 	.loading img {
   width: 20%;
 	}
+
+	.status {
+		margin-top: -1%;
+	}
+
+	.generalbutton {
+	  padding: 0.5% 5% 0.5% 5%;
+	  border: 1px solid black;
+	  border-radius: 5px
+	}
+
+	.bottomButtons {
+		margin-top: 2%;
+		text-align: center;
+	}
+
 }
