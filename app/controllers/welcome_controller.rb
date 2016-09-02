@@ -4,30 +4,32 @@ class WelcomeController < ApplicationController
 	
 
   def index
-  	gon.active = true
-  	gon.watch.user_signed_in = user_signed_in?
-  	gon.watch.user = @user
-  	markerArray = []
-    inviteArray = []
-  	@users = User.all
-  	@users.each do |x|
-  		if (x != current_user) && x.tracking && (x.room == @user.room)
-  			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, name: x.name, icon: x.icon, userid: x.id })
-  		end
-  	end
-  	gon.watch.markerArray = markerArray
+    if (User.find(current_user.id).approved)
+    	gon.active = true
+    	gon.watch.user_signed_in = user_signed_in?
+    	gon.watch.user = @user
+    	markerArray = []
+      inviteArray = []
+    	@users = User.all
+    	@users.each do |x|
+    		if (x != current_user) && x.tracking && (x.room == @user.room)
+    			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, name: x.name, icon: x.icon, userid: x.id })
+    		end
+    	end
+    	gon.watch.markerArray = markerArray
 
-    if (@user.invite != @user.room)
-      inviter = User.find(@user.invite)
-      inviteArray = [{ name: inviter.name, room: inviter.id }]   # I will push later to handle multiple invites at once
-    end
-    gon.watch.inviteArray = inviteArray
+      if (@user.invite != @user.room)
+        inviter = User.find(@user.invite)
+        inviteArray = [{ name: inviter.name, room: inviter.id }]   # I will push later to handle multiple invites at once
+      end
+      gon.watch.inviteArray = inviteArray
 
 
-    if (@user.room == @user.id)
-      gon.watch.roomName = "Your Group"
-    else
-      gon.watch.roomName = "" + @users.find(@user.room).name.to_s + "'s Group"
+      if (@user.room == @user.id)
+        gon.watch.roomName = "Your Group"
+      else
+        gon.watch.roomName = "" + @users.find(@user.room).name.to_s + "'s Group"
+      end
     end
   end
 
@@ -64,11 +66,11 @@ class WelcomeController < ApplicationController
   end
 
   def user_params
-			params.permit(:lat, :lng, :tracking, :room, :invite)
+		params.permit(:lat, :lng, :tracking, :room, :invite)
 	end
 
-	def set_user
-			@user = User.find(current_user.id)
+	def set_user   
+		@user = User.find(current_user.id)
 	end
 
 end
