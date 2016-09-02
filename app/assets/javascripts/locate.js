@@ -15,13 +15,15 @@ function mainLoop() {
       updateMarkers(result);
     });
     gon.watch("inviteArray", function(result){
-      if (result[0] != undefined) {
-        if (result[0].room != gon.user.invite) {
-          console.log(result);
-          displayInvite(result[0]);
+      gon.watch("user", function(result2){
+        if (result[0] != undefined) {
+          if ((result2.room != result2.invite) && (result2.invite != result2.id)) {
+            displayInvite(result[0]);
+          }
         }
-      }
+      });
     });
+
 
     mainloopcount += 1;
     mainLoop();
@@ -72,7 +74,6 @@ function initMap() {
 
 function displayInvite(user) {
   userInviting.innerHTML = user.name;
-  console.log("updating to room # " + user.room);
   modal.style.display = "block";
   invitingUser = user;
 
@@ -80,14 +81,18 @@ function displayInvite(user) {
     updateGeneric(user = { invite: gon.user.id });
     newRoom = invitingUser.room;
     updateGeneric(user = { room: newRoom });
-    document.getElementById("roomid").innerHTML = invitingUser.name + "'s Room";
-
-    console.log("ACCEPTED INVITE!");
+    document.getElementById("roomid").innerHTML = invitingUser.name + "'s Group";
     modal.style.display = "none";
+    bounds = new google.maps.LatLngBounds();  // CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
+    bounds.extend(myMarker.position);
+    gon.watch("markerArray", function(results) { updateMarkers(results); });
+    // map.fitBounds(bounds);                  // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
+    // map.setCenter(myPosition);              // CENTER MAP ON myPosition
+
   }
 
   declineInvite.onclick = function() {
-    console.log("DECLINED INVITE!");
+    updateGeneric(user = { invite: gon.user.id });
     modal.style.display = "none";
   }
 
@@ -96,6 +101,16 @@ function displayInvite(user) {
           modal.style.display = "none";
       }
   }
+}
+
+function goHome() {
+  updateGeneric({ room: gon.user.id });
+  bounds = new google.maps.LatLngBounds();  // CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
+  bounds.extend(myMarker.position);
+  gon.watch("markerArray", function(results) { updateMarkers(results); });
+  // map.fitBounds(bounds);                  // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
+  // map.setCenter(myPosition);              // CENTER MAP ON myPosition
+  document.getElementById("roomid").innerHTML = "Your Group";
 }
 
 function updateMarkers(markerArray) {

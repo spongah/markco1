@@ -5,8 +5,8 @@ class WelcomeController < ApplicationController
 
   def index
   	gon.active = true
-  	gon.user_signed_in = user_signed_in?
-  	gon.user = @user
+  	gon.watch.user_signed_in = user_signed_in?
+  	gon.watch.user = @user
   	markerArray = []
     inviteArray = []
   	@users = User.all
@@ -25,9 +25,9 @@ class WelcomeController < ApplicationController
 
 
     if (@user.room == @user.id)
-      gon.watch.roomName = "Your Room"
+      gon.watch.roomName = "Your Group"
     else
-      gon.watch.roomName = "" + @users.find(@user.room).name.to_s + "'s Room"
+      gon.watch.roomName = "" + @users.find(@user.room).name.to_s + "'s Group"
     end
   end
 
