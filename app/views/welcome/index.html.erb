@@ -34,13 +34,6 @@
 			<span class="invite generalbutton" id="invitebutton">Invite Friends</span>
 			<span class="home generalbutton" id="homebutton">Leave Group</span>
 		</div>
-		<% if notice %>
-			<p class="notice success alert-box"><%= notice %></p>
-		<% end %>
-		<% if alert %>
-			<p class="alert error alert-box"><%= alert %></p>
-		<% end %>
-
 		<script>
 			setTimeout(fade_out, 5000);
 
@@ -54,11 +47,15 @@
 			}
 
 		</script>
-		<div id="status" class="status"></div>
-		<!-- <div id="status2" class="status"></div>
-		<div id="status3" class="status">status 3</div>  -->
+		<div id="status" class="status">
+			<% if notice %>
+				<p class="notice success alert-box"><%= notice %></p>
+			<% end %>
+			<% if alert %>
+				<p class="alert error alert-box"><%= alert %></p>
+			<% end %>
+		</div>
 
-		
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWjXhmnA63FsuAVIrTzKRG_D5SJZrDrqg&callback=initMap" async defer></script>
 	</div>
