@@ -97,7 +97,8 @@
 }
 
 .status {
-	margin-top: 5%;
+	text-align: center;
+	margin-top: 10px;
 }
 
 .loading {
@@ -122,10 +123,6 @@
   width: 30%;
 	}
 
-	.status {
-		margin-top: 0%;
-	}
-
 	.alert-box {
 		margin-top:2%;
 	}
@@ -139,10 +136,6 @@
 
 	.loading img {
   width: 20%;
-	}
-
-	.status {
-		margin-top: -1%;
 	}
 
 	.generalbutton {

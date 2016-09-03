@@ -103,6 +103,24 @@ function initMap() {
  	});
 }
 
+function fade_out_joined() {
+  $("#joined").fadeOut(2000, function() { 
+    $(this).remove()
+  });
+}
+
+function fade_out_declined() {
+  $("#declined").fadeOut(2000, function() { 
+    $(this).remove()
+  });
+}
+
+function fade_out_leftgroup() {
+  $("#leftgroup").fadeOut(2000, function() { 
+    $(this).remove()
+  });
+}
+
 function displayInvite(user) {
   userInviting.innerHTML = user.name;
   modal.style.display = "block";
@@ -128,21 +146,25 @@ function displayInvite(user) {
       // map.setCenter(myPosition);              // CENTER MAP ON myPosition
     });
 
-    document.getElementById("status").innerHTML = "You joined " + invitingUser.name + "'s group!"
+    // document.getElementById("status").innerHTML = "You joined " + invitingUser.name + "'s group!"
+    document.getElementById("status").innerHTML += "<p class=\"notice success alert-box\" id=\"joined\">You joined " + invitingUser.name + "'s group!</p>";
     document.getElementById("homebutton").style.display = "initial";
     document.getElementById("invitebutton").style.display = "none";
+    setTimeout(fade_out_joined, 3000);      
   }
 
   declineInvite.onclick = function() {
     updateGeneric(user = { invite: gon.user.id });
     modal.style.display = "none";
-    document.getElementById("status").innerHTML = "You declined " + invitingUser.name + "'s invitation!"
+    //document.getElementById("status").innerHTML = "You declined " + invitingUser.name + "'s invitation!"
+    document.getElementById("status").innerHTML += "<p class=\"alert error alert-box\" id=\"declined\">You declined " + invitingUser.name + "'s invitation!</p>";
+    setTimeout(fade_out_declined, 3000);
   }
 
   window.onclick = function(event) {
-      if (event.target == modal) {
-          modal.style.display = "none";
-      }
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
   }
 }
 
@@ -158,7 +180,9 @@ function goHome() {
   document.getElementById("roomid").innerHTML = "Your Group";
   document.getElementById("homebutton").style.display = "none";
   document.getElementById("invitebutton").style.display = "initial";
-  document.getElementById("status").innerHTML = "You left the group!"
+  //document.getElementById("status").innerHTML = "You left the group!"
+  document.getElementById("status").innerHTML += "<p class=\"alert error alert-box\" id=\"leftgroup\">You left the group!</p>";
+  setTimeout(fade_out_leftgroup, 3000);
 }
 
 function updateMarkers(markerArray) {
