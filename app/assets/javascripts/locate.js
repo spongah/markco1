@@ -66,11 +66,11 @@ function initMap() {
     updatePosition()                        // SEND NEW POSITION TO DATABASE
 
  		myMarker = placeMarker(myPosition, "", gon.user.name, "", gon.user.icon); // SET MY MARKER
- 	  gon.watch("markerArray", function(result){ 
-      loadMarkers(result);    
+ 	  if (gon.markerArray) { 
+      loadMarkers(gon.markerArray);    
       map.fitBounds(bounds);                 // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
-      map.setCenter(bounds.center);              // CENTER MAP ON myPosition
-    });						// LOAD OTHER MARKERS (NOT MINE)
+      map.setCenter(bounds.getCenter());              // CENTER MAP ON myPosition
+    }						// LOAD OTHER MARKERS (NOT MINE)
 
     gon.watch("roomName", function(result) {
       document.getElementById("roomid").innerHTML = result;
@@ -124,7 +124,7 @@ function displayInvite(user) {
     gon.watch("markerArray", function(results) { 
       updateMarkers(results);
       map.fitBounds(bounds);                  // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
-      map.setCenter(bounds.center);
+      map.setCenter(bounds.getCenter());
       // map.setCenter(myPosition);              // CENTER MAP ON myPosition
     });
 
