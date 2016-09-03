@@ -150,7 +150,7 @@ function displayInvite(user) {
     document.getElementById("status").innerHTML = "<p class=\"notice success alert-box\" id=\"joined\">You joined " + invitingUser.name + "'s group!</p>";
     document.getElementById("homebutton").style.display = "initial";
     document.getElementById("invitebutton").style.display = "none";
-    setTimeout(fade_out_joined, 3000);      
+    setTimeout(fade_out_joined, 5000);      
   }
 
   declineInvite.onclick = function() {
@@ -158,7 +158,7 @@ function displayInvite(user) {
     modal.style.display = "none";
     //document.getElementById("status").innerHTML = "You declined " + invitingUser.name + "'s invitation!"
     document.getElementById("status").innerHTML = "<p class=\"alert error alert-box\" id=\"declined\">You declined " + invitingUser.name + "'s invitation!</p>";
-    setTimeout(fade_out_declined, 3000);
+    setTimeout(fade_out_declined, 5000);
   }
 
   window.onclick = function(event) {
@@ -182,7 +182,7 @@ function goHome() {
   document.getElementById("invitebutton").style.display = "initial";
   //document.getElementById("status").innerHTML = "You left the group!"
   document.getElementById("status").innerHTML = "<p class=\"alert error alert-box\" id=\"leftgroup\">You left the group!</p>";
-  setTimeout(fade_out_leftgroup, 3000);
+  setTimeout(fade_out_leftgroup, 5000);
 }
 
 function updateMarkers(markerArray) {
