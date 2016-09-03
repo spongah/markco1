@@ -14,25 +14,46 @@ function mainLoop() {
     gon.watch("markerArray", function(result){
       updateMarkers(result);
     });
-    gon.watch("inviteArray", function(result){
-      gon.watch("user", function(result2){
-        if (result[0] != undefined) {
-          if ((result2.room != result2.invite) && (result2.invite != result2.id)) {
-            displayInvite(result[0]);
-          }
-        }
-      });
+    gon.watch("user", function(result){
+      if (result.room == result.id) {
+        document.getElementById("homebutton").style.display = "none";
+        document.getElementById("invitebutton").style.display = "initial";
+      } else {
+        document.getElementById("homebutton").style.display = "initial";
+        document.getElementById("invitebutton").style.display = "none";
+      }
+      if ((result.room != result.invite) && (result.invite != result.id)) {
+        gon.watch("inviter", function(result2){
+          displayInvite({room: result2.room, name: result2.name});
+        });
+      }
     });
 
 
     mainloopcount += 1;
     mainLoop();
-  }, 2000);
+  }, 5000);
 }
 
 function initMap() {
 	var updates = 0;
  	bounds = new google.maps.LatLngBounds();	// CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
+
+  gon.watch("user", function(result){
+    if (result.room == result.id) {
+      document.getElementById("homebutton").style.display = "none";
+      document.getElementById("invitebutton").style.display = "initial";
+    } else {
+      document.getElementById("homebutton").style.display = "initial";
+      document.getElementById("invitebutton").style.display = "none";
+    }
+    if ((result.room != result.invite) && (result.invite != result.id)) {
+      gon.watch("inviter", function(result2){
+        displayInvite({room: result2.room, name: result2.name});
+      });
+    }
+  });
+
  	getMyLocation(function () {
  		var options = {
 									  enableHighAccuracy: true,
@@ -45,10 +66,11 @@ function initMap() {
     updatePosition()                        // SEND NEW POSITION TO DATABASE
 
  		myMarker = placeMarker(myPosition, "", gon.user.name, "", gon.user.icon); // SET MY MARKER
- 	  if (gon.markerArray) { loadMarkers(gon.markerArray); }						// LOAD OTHER MARKERS (NOT MINE)
-
-    map.fitBounds(bounds);									// ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
-    map.setCenter(myPosition);							// CENTER MAP ON myPosition
+ 	  gon.watch("markerArray", function(result){ 
+      loadMarkers(result);    
+      map.fitBounds(bounds);                 // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
+      map.setCenter(bounds.center);              // CENTER MAP ON myPosition
+    });						// LOAD OTHER MARKERS (NOT MINE)
 
     gon.watch("roomName", function(result) {
       document.getElementById("roomid").innerHTML = result;
@@ -92,17 +114,29 @@ function displayInvite(user) {
     updateGeneric(user = { room: newRoom });
     document.getElementById("roomid").innerHTML = invitingUser.name + "'s Group";
     modal.style.display = "none";
-    bounds = new google.maps.LatLngBounds();  // CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
+    // bounds = new google.maps.LatLngBounds();  // CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
     bounds.extend(myMarker.position);
-    gon.watch("markerArray", function(results) { updateMarkers(results); });
-    // map.fitBounds(bounds);                  // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
-    // map.setCenter(myPosition);              // CENTER MAP ON myPosition
+    if (allMarkers) {
+      for (x=0;x<allMarkers.length;x++) {
+        bounds.extend(allMarkers[x].position);
+      }
+    }
+    gon.watch("markerArray", function(results) { 
+      updateMarkers(results);
+      map.fitBounds(bounds);                  // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
+      map.setCenter(bounds.center);
+      // map.setCenter(myPosition);              // CENTER MAP ON myPosition
+    });
 
+    document.getElementById("status").innerHTML = "You joined " + invitingUser.name + "'s group!"
+    document.getElementById("homebutton").style.display = "initial";
+    document.getElementById("invitebutton").style.display = "none";
   }
 
   declineInvite.onclick = function() {
     updateGeneric(user = { invite: gon.user.id });
     modal.style.display = "none";
+    document.getElementById("status").innerHTML = "You declined " + invitingUser.name + "'s invitation!"
   }
 
   window.onclick = function(event) {
@@ -116,11 +150,15 @@ function goHome() {
   updateGeneric({ room: gon.user.id });
   bounds = new google.maps.LatLngBounds();  // CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
   bounds.extend(myMarker.position);
-  gon.watch("markerArray", function(results) { updateMarkers(results); });
-  map.fitBounds(bounds);                  // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
-  map.setCenter(myPosition); 
-  console.log(bounds);             // CENTER MAP ON myPosition
+  gon.watch("markerArray", function(results) { 
+    updateMarkers(results); 
+    map.fitBounds(bounds);                  // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
+    map.setCenter(myPosition); 
+  });
   document.getElementById("roomid").innerHTML = "Your Group";
+  document.getElementById("homebutton").style.display = "none";
+  document.getElementById("invitebutton").style.display = "initial";
+  document.getElementById("status").innerHTML = "You left the group!"
 }
 
 function updateMarkers(markerArray) {
@@ -144,7 +182,7 @@ function updateMarkers(markerArray) {
         if (m.userid == allMarkers[y].userid) {
           if ((Number(allMarkers[y].position.lat()).toPrecision(10) != Number(m.lat).toPrecision(10)) || (Number(allMarkers[y].position.lng()).toPrecision(10) != Number(m.lng).toPrecision(10))) {
             allMarkers[y].setPosition(tempPosition);        // MOVE MARKERS, LETS MAKE A FUNCTION TO ANIMATE THIS?
-            document.getElementById('status').innerHTML = "Updated " + m.name + "'s position!";
+            // document.getElementById('status').innerHTML = "Updated " + m.name + "'s position!";
             // map.fitBounds(bounds);                     //  I THINK NO FITBOUNDS AFTER UPDATES (HAPPENS A LOT)
           }
           markerFound = true;
@@ -153,7 +191,7 @@ function updateMarkers(markerArray) {
       if (!markerFound) {
         allMarkers[allMarkers.length] = placeMarker(tempPosition, "", m.name, "", m.icon, m.userid)
         map.fitBounds(bounds);                  // I THINK FIT BOUNDS AFTER ADDING A NEW PERSON!
-        document.getElementById('status').innerHTML = m.name + " just joined the map!";
+        // document.getElementById('status').innerHTML = m.name + " just joined the map!";
         //map.setCenter(myPosition);              // CENTER MAP ON myPosition
       }
     }
@@ -169,7 +207,7 @@ function updateMarkers(markerArray) {
         }
       }
       if (!markerExists) {
-        document.getElementById('status').innerHTML = allMarkers[x].title + " just left the map!";
+        // document.getElementById('status').innerHTML = allMarkers[x].title + " just left the map!";
         allMarkers[x].setMap(null);
         allMarkers.splice(x,1);
         currentMarkerLength -= 1;

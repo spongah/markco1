@@ -19,11 +19,8 @@ class WelcomeController < ApplicationController
     	gon.watch.markerArray = markerArray
 
       if (@user.invite != @user.room)
-        inviter = User.find(@user.invite)
-        inviteArray = [{ name: inviter.name, room: inviter.id }]   # I will push later to handle multiple invites at once
+        gon.watch.inviter = User.find(@user.invite)
       end
-      gon.watch.inviteArray = inviteArray
-
 
       if (@user.room == @user.id)
         gon.watch.roomName = "Your Group"

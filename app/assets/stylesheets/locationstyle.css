@@ -85,11 +85,15 @@
 }
 
 .invite {
-	margin-right: 25%;
+	margin-right: 0%;
 }
 
-.home {
+#homebutton {
+	display: none;
+}
 
+#invitebutton {
+	display: none;
 }
 
 .status {
