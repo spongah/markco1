@@ -1,6 +1,6 @@
 class WelcomeController < ApplicationController
-	before_action :authenticate_user!, only: [:index, :updatepos, :updateothers, :starttracking, :stoptracking]
-	before_action :set_user, only: [:updatepos, :index, :starttracking, :stoptracking, :updateothers]
+	before_action :authenticate_user!, only: [:index, :updatepos, :updateinvite, :updateroom, :starttracking, :stoptracking]
+	before_action :set_user, only: [:updatepos, :index, :starttracking, :stoptracking, :updateinvite, :updateroom]
 	
 
   def index
@@ -31,7 +31,7 @@ class WelcomeController < ApplicationController
 
       gon.watch.inviteUsers = User.all.where.not({room: @user.id}).where.not({invite: @user.id}).order(:displayname)
 
-      gon.watch.removeUsers = User.all.where({room: @user.id})
+      gon.watch.removeUsers = User.all.where({room: @user.id}).where.not({id: @user.id})
    
     end
   end
@@ -46,13 +46,22 @@ class WelcomeController < ApplicationController
     end
   end
 
-  def updateothers
+  def updateinvite
     if User.find(user_params[:userid]).update({invite: user_params[:invite]})
       render :nothing => true, :status => 200, :content_type => 'text/html'
     else
       render :nothing => true, :status => 200, :content_type => 'text/html'
     end
   end
+
+  def updateroom
+    if User.find(user_params[:userid]).update({room: user_params[:room]})
+      render :nothing => true, :status => 200, :content_type => 'text/html'
+    else
+      render :nothing => true, :status => 200, :content_type => 'text/html'
+    end
+  end
+  
 
   def starttracking
   	updateTracking(true)

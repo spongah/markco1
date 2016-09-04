@@ -204,6 +204,16 @@ function populateUserList(options) {
     });
   } else if ((options.invite == false) && (options.remove == true)) {   // REMOVE ONLY
     document.getElementById("userListHeader").innerHTML = "Choose a user to remove";
+    gon.watch("removeUsers", function(result){
+      console.log(result);
+      if (result.length > 0) {
+        for(x=0;x<result.length;x+=1){
+          document.getElementById("userList").innerHTML += '<li class="userListItem" id="userListItem' + result[x].id + '" onClick="removeUser({ id: ' + result[x].id + ', displayname: \'' + result[x].displayname + '\' });">' + result[x].displayname + ' - ' + result[x].firstname + ' ' + result[x].lastname + '</li>';
+        }
+      } else {
+        document.getElementById("userListHeader").innerHTML = "No users in your group!";
+      }
+    });
 
   } else if ((options.invite == true) && (options.remove == true)) {    // BOTH!!!
     document.getElementById("userListHeader").innerHTML = "Choose a user to invite or remove";
@@ -226,12 +236,11 @@ function populateUserList(options) {
 }
 
 function sendInvite(options) {
-
   if (confirm("Are you sure you would like to invite " + options.displayname + " to your group?")) {
     data = { userid: options.id, invite: gon.user.id };
     $.ajax({          
       data: data,
-      url: "updateothers",
+      url: "updateinvite",
       type: "PATCH",
       dataType: "json"
     });
@@ -243,9 +252,27 @@ function sendInvite(options) {
         document.getElementById("userListHeader").innerHTML = "No users left to invite to your group!";
       }
     });
-  } else {
-    
-  }
+  } 
+}
+
+function removeUser(options) {
+  if (confirm("Are you sure you would like to remove " + options.displayname + " from your group?")) {
+    data = { userid: options.id, room: options.id };
+    $.ajax({          
+      data: data,
+      url: "updateroom",
+      type: "PATCH",
+      dataType: "json"
+    });
+    document.getElementById("status").innerHTML = "<p class=\"notice success alert-box\" id=\"invite\">You removed " + options.displayname + " from your group!</p>";
+    setTimeout(fade_out_invite, 5000);
+    $("#userListItem" + options.id).fadeOut(200, function() { 
+      $(this).remove();
+      if (document.getElementById("userList").innerHTML.trim() == "") {
+        document.getElementById("userListHeader").innerHTML = "No users in your group!";
+      }
+    });
+  } 
 }
 
 function updateMarkers(markerArray) {
