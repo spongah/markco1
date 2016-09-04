@@ -243,7 +243,10 @@ function sendInvite(options) {
     document.getElementById("status").innerHTML = "<p class=\"notice success alert-box\" id=\"invite\">You invited " + options.name + " to your group!</p>";
     setTimeout(fade_out_invite, 5000);
     $("#userListItem" + options.id).fadeOut(200, function() { 
-      $(this).remove()
+      $(this).remove();
+      if (document.getElementById("userList").innerHTML.trim() == "") {
+        document.getElementById("userListHeader").innerHTML = "No users left to invite to your group!";
+      }
     });
   } else {
     
