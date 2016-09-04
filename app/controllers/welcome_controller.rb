@@ -17,11 +17,6 @@ class WelcomeController < ApplicationController
     			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, displayname: x.displayname, icon: x.icon, userid: x.id })
     		end
     	end
-    	gon.watch.markerArray = markerArray
-
-      # if (@user.invite != @user.room)
-        gon.watch.inviter = User.find(@user.invite)
-      # end
 
       if (@user.room == @user.id)
         gon.watch.roomName = "Your Group"
@@ -29,12 +24,11 @@ class WelcomeController < ApplicationController
         gon.watch.roomName = "" + @users.find(@user.room).displayname.to_s + "'s Group"
       end
 
+      gon.watch.markerArray = markerArray
+      gon.watch.inviter = User.find(@user.invite)
       gon.watch.inviteUsers = User.all.where.not(id: @user.id).where.not({room: @user.id}).where.not({invite: @user.id}).order(:displayname)
-
       gon.watch.removeUsers = User.all.where({room: @user.id}).where.not({id: @user.id})
-
       gon.watch.declinedUser = User.find(@user.declined)
-
       gon.watch.removedUser = User.find(@user.removed)
    
     end

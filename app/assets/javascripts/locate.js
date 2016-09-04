@@ -59,7 +59,7 @@ function mainLoop() {
     });
     mainloopcount += 1;
     mainLoop();
-  }, 2500);
+  }, 1000);
 }
 
 function initMap() {
@@ -82,7 +82,7 @@ function initMap() {
     var options = {
                     enableHighAccuracy: true,
                     timeout: Infinity,
-                    maximumAge: 2500
+                    maximumAge: 1000
                   }
   	
     createMap();														// CREATES MAP AFTER getMyLocation SETS myPosition
