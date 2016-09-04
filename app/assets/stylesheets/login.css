@@ -29,6 +29,11 @@
     background-position-x: center;
 }
 
+.signuplogo {
+    background-position-y: 15vh;
+		height: 31vh;
+}
+
 .field {
 
 }
@@ -48,6 +53,19 @@
     outline-width: 0px;
 
 }
+
+.resendconfirmation, .signuplogin {
+  width: 100%;
+  font-size: 0.7em;
+}
+
+.resendconfirmation a, .signuplogin a {
+		text-decoration: none;
+    color: white;
+    outline-width: 0px;
+
+}
+
 
 .signup {
 	font-size: 0.9em;
@@ -72,11 +90,11 @@
 		color: #D9D9D9;
 }
 
-.signup a:hover {
+.signup a:hover, .signuplogin a:hover, .resendconfirmation a:hover {
 		color: #D9D9D9;
 }
 
-input[type=text], input[type=email], input[type=password] {
+input[type=text], input[type=text], input[type=email], input[type=password] {
 		width: 70%;
     padding: 10px 15px 6px 10px;
     margin: 6px 0;
@@ -124,10 +142,38 @@ input[type=submit]:hover {
 	color: #D9D9D9;
 }
 
+
+
+.field_with_errors input {
+	background-color: rgba(255, 255, 255, 0.6);
+	-webkit-text-fill-color: red !important;
+}
+
+
+
+
 @media (min-width:700px) {
 	.mainlogo {
 		background-size: 50%;
     background-position-y: 15vh;
   }
+
+  .signuplogo {
+  	background-size: 50%;
+    background-position-y: 10vh;
+	}
 }
+
+@media (min-width:1280px) {
+	.mainlogo {
+		background-size: 40%;
+    background-position-y: 10vh;
+  }
+
+  .signuplogo {
+  	background-size: 40%;
+    background-position-y: 5vh;
+	}
+}
+
 

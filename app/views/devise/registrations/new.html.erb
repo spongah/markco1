@@ -2,44 +2,76 @@
 
 <div class="login">
 
-  <h2>Sign up</h2>
+  <div class="mainlogo signuplogo"></div>
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <%= devise_error_messages! %>
 
     <div class="field">
-      <%= f.label :email %><br />
-      <%= f.email_field :email, autofocus: true %>
+      <%= f.email_field :email, placeholder: if (resource.errors[:email]).blank? then "e-mail" else ("e-mail " + resource.errors[:email][0].to_s).upcase end, autofocus: true %>
     </div>
 
     <div class="field">
-      <%= f.label :first_name %><br />
-      <%= f.text_field :firstname %>
+        <%= f.text_field :firstname, placeholder: if (resource.errors[:firstname]).blank? then "first name" else ("first name " + resource.errors[:firstname][0].to_s).upcase end %><span class="help-inline"></span>
     </div>
 
     <div class="field">
-      <%= f.label :last_name %><br />
-      <%= f.text_field :lastname %>
+      <%= f.text_field :lastname, placeholder: if (resource.errors[:lastname]).blank? then "last name" else ("last name " + resource.errors[:lastname][0].to_s).upcase end %>
     </div>
 
     <div class="field">
-      <%= f.label :password %>
-      <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
-      <% end %><br />
-      <%= f.password_field :password, autocomplete: "off" %>
+      <%= f.password_field :password, placeholder: if (resource.errors[:password]).blank? then "password" else ("password " + resource.errors[:password][0].to_s).upcase end, autocomplete: "off" %>
     </div>
 
     <div class="field">
-      <%= f.label :password_confirmation %><br />
-      <%= f.password_field :password_confirmation, autocomplete: "off" %>
+      <%= f.password_field :password_confirmation, placeholder: if (resource.errors[:password_confirmation]).blank? then "password confirmation" else (resource.errors[:password_confirmation][0].to_s).upcase end, autocomplete: "off" %>
+    </div>
+
+    <div class="resendconfirmation">
+      <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+        <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name) %><br />
+      <% end -%>
     </div>
 
     <div class="actions">
       <%= f.submit "Sign up" %>
     </div>
+<!--    <div class="signuplogin">
+      <%- if controller_name != 'sessions' %>
+        <%= link_to "Log in", new_session_path(resource_name) %><br />
+      <% end -%>
+    </div>   -->
   <% end %>
+<%= if (!(resource.errors[:email]).blank?) then end %> 
 
-  <%= render "devise/shared/links" %>
-  
+  <script>
+    
+    var emailElement = document.getElementById("user_email");
+    var firstnameElement = document.getElementById("user_firstname");
+    var lastnameElement = document.getElementById("user_lastname")
+    var passwordElement = document.getElementById("user_password")
+    var password_confirmationElement = document.getElementById("user_password_confirmation")
+
+    emailElement.oninput = function(){ 
+      emailElement.placeholder = "";
+      emailElement.parentElement.className = "";
+    };
+    firstnameElement.oninput = function(){ 
+      firstnameElement.placeholder = "";
+      firstnameElement.parentElement.className = "";
+    };
+    lastnameElement.oninput = function(){ 
+      lastnameElement.placeholder = ""; 
+      lastnameElement.parentElement.className = "";
+    };
+    passwordElement.oninput = function(){ 
+      passwordElement.placeholder = ""; 
+      passwordElement.parentElement.className = "";
+    };
+    password_confirmationElement.oninput = function(){ 
+      password_confirmationElement.placeholder = ""; 
+      password_confirmationElement.parentElement.className = "";
+    };
+
+  </script>
+
 </div>
