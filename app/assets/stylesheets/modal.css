@@ -155,17 +155,14 @@
 
 
 @media (min-width:720px) {
-    .modal-content, {
+    .modal-content {
         margin: 25% auto;
         width: 50%;
         font-size: 1.1em;
     }
 
-    .modal-content2, {
+    .modal-content2 {
         width: 50%;
         font-size: 1.1em;
     }
-
-
-
 }

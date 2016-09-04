@@ -8,7 +8,7 @@ class WelcomeController < ApplicationController
     # if (User.find(current_user.id).approved)
     if (true)
     	gon.watch.user_signed_in = user_signed_in?
-    	gon.watch.user = @user
+    	gon.watch.user = User.find(current_user.id)
     	markerArray = []
       inviteArray = []
     	@users = User.all
@@ -63,7 +63,6 @@ class WelcomeController < ApplicationController
   end
 
   def sentconfirmation
-    puts "wasaaaap!"
     render :setconfirmation => true, :status => 200, :content_type => 'text/html'
   end
 

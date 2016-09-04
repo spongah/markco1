@@ -47,11 +47,6 @@ function initMap() {
       document.getElementById("homebutton").style.display = "initial";
       document.getElementById("invitebutton").style.display = "none";
     }
-    if ((result.room != result.invite) && (result.invite != result.id)) {
-      gon.watch("inviter", function(result2){
-        displayInvite({room: result2.room, displayname: result2.displayname});
-      });
-    }
   });
 
  	getMyLocation(function () {
@@ -63,7 +58,7 @@ function initMap() {
 
  		createMap();														// CREATES MAP AFTER getMyLocation SETS myPosition
 
-    updatePosition()                        // SEND NEW POSITION TO DATABASE
+    updatePosition();                        // SEND NEW POSITION TO DATABASE
 
  		myMarker = placeMarker(myPosition, "", gon.user.displayname, "", gon.user.icon); // SET MY MARKER
  	  if (gon.markerArray) { 
@@ -78,14 +73,11 @@ function initMap() {
 
     document.getElementById("invitebutton").onclick = function(){
       populateUserList({ invite: true, remove: false });
-    }
+    };
 
     document.getElementById("homebutton").onclick = function() {
       goHome();
-    }
-
-
-    mainLoop();
+    };
 
     modal = document.getElementById('myModal');
     userInviting = document.getElementById('userInviting');
@@ -95,6 +87,9 @@ function initMap() {
 
     modal2 = document.getElementById('myModal2');
     close = document.getElementById('close');
+
+    mainLoop();
+
 
     myWatcher = navigator.geolocation.watchPosition(function(position) {		// SET WATCHER FOR LOCATION CHANGE
 		  updates += 1;
@@ -108,25 +103,25 @@ function initMap() {
 
 function fade_out_joined() {
   $("#joined").fadeOut(2000, function() { 
-    $(this).remove()
+    $(this).remove();
   });
 }
 
 function fade_out_declined() {
   $("#declined").fadeOut(2000, function() { 
-    $(this).remove()
+    $(this).remove();
   });
 }
 
 function fade_out_leftgroup() {
   $("#leftgroup").fadeOut(2000, function() { 
-    $(this).remove()
+    $(this).remove();
   });
 }
 
 function fade_out_invite() {
   $("#invite").fadeOut(2000, function() { 
-    $(this).remove()
+    $(this).remove();
   });  
 }
 
@@ -197,35 +192,35 @@ function goHome() {
 function populateUserList(options) {
   modal2.style.display = "block";
   if ((options.invite == true) && (options.remove == false)) {      // INVITES ONLY
-    document.getElementById("userListHeader").innerHTML = "Choose a user to invite"
+    document.getElementById("userListHeader").innerHTML = "Choose a user to invite";
     gon.watch("inviteUsers", function(result){
       if (result.length > 0) {
         for(x=0;x<result.length;x+=1){
           document.getElementById("userList").innerHTML += '<li class="userListItem" id="userListItem' + result[x].id + '" onClick="sendInvite({ id: ' + result[x].id + ', displayname: \'' + result[x].displayname + '\' });">' + result[x].displayname + ' - ' + result[x].firstname + ' ' + result[x].lastname + '</li>';
         }
       } else {
-        document.getElementById("userListHeader").innerHTML = "No users left to invite to your group!"
+        document.getElementById("userListHeader").innerHTML = "No users left to invite to your group!";
       }
     });
   } else if ((options.invite == false) && (options.remove == true)) {   // REMOVE ONLY
-    document.getElementById("userListHeader").innerHTML = "Choose a user to remove"
+    document.getElementById("userListHeader").innerHTML = "Choose a user to remove";
 
   } else if ((options.invite == true) && (options.remove == true)) {    // BOTH!!!
-    document.getElementById("userListHeader").innerHTML = "Choose a user to invite or remove"
+    document.getElementById("userListHeader").innerHTML = "Choose a user to invite or remove";
   } else { modal2.style.display = "none"; }
   // GET USERS NOT IN ROOM
 
   close.onclick = function(event) {
     if (event.target == close) {
         modal2.style.display = "none";
-        document.getElementById("userList").innerHTML = ""
+        document.getElementById("userList").innerHTML = "";
     }
   }
 
   window.onclick = function(event) {
     if (event.target == modal2) {
         modal2.style.display = "none";
-        document.getElementById("userList").innerHTML = ""
+        document.getElementById("userList").innerHTML = "";
     }
   }
 }
