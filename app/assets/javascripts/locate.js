@@ -14,7 +14,7 @@ function mainLoop() {
     gon.watch("markerArray", function(result){
       if (result.length == 0) {
         // map.fitBounds(bounds);                          // 
-        map.setCenter(bounds.getCenter());              // TRACK YOUR MARKER IF YOU ARE ALONE IN YOUR GROUP
+        map.setCenter(myPosition);              // TRACK YOUR MARKER IF YOU ARE ALONE IN YOUR GROUP
       } else {
         updateMarkers(result);
       }
@@ -121,7 +121,7 @@ function initMap() {
     close = document.getElementById('close');
 
     map.fitBounds(bounds);                 // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
-    map.setCenter(bounds.getCenter());              // CENTER MAP ON myPosition
+    map.setCenter(myPosition);              // CENTER MAP ON myPosition
 
     mainLoop();
 
