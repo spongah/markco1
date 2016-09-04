@@ -240,7 +240,7 @@ function populateUserList(options) {
     gon.watch("inviteUsers", function(result){
       if (result.length > 0) {
         for(x=0;x<result.length;x+=1){
-          document.getElementById("userList").innerHTML += '<li class="userListItem" id="userListItem' + result[x].id + '" onClick="sendInvite({ id: ' + result[x].id + ', displayname: \'' + result[x].displayname + '\' });">' + result[x].displayname + ' - ' + result[x].firstname + ' ' + result[x].lastname + '</li>';
+          document.getElementById("userList").innerHTML += '<li class="userListItem" id="userListItem' + result[x].id + '" onClick="sendInvite({ id: ' + result[x].id + ', displayname: \'' + result[x].displayname + '\' });">' + result[x].displayname + '</li>';
         }
       } else {
         document.getElementById("userListHeader").innerHTML = "No users left to invite to your group!";
@@ -251,7 +251,7 @@ function populateUserList(options) {
     gon.watch("removeUsers", function(result){
       if (result.length > 0) {
         for(x=0;x<result.length;x+=1){
-          document.getElementById("userList").innerHTML += '<li class="userListItem" id="userListItem' + result[x].id + '" onClick="removeUser({ id: ' + result[x].id + ', displayname: \'' + result[x].displayname + '\' });">' + result[x].displayname + ' - ' + result[x].firstname + ' ' + result[x].lastname + '</li>';
+          document.getElementById("userList").innerHTML += '<li class="userListItem" id="userListItem' + result[x].id + '" onClick="removeUser({ id: ' + result[x].id + ', displayname: \'' + result[x].displayname + '\' });">' + result[x].displayname + '</li>';
         }
       } else {
         document.getElementById("userListHeader").innerHTML = "No users in your group!";
