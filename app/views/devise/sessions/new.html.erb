@@ -2,31 +2,43 @@
 
 <div class="login">
 
-  <h2>Log in</h2>
+  <div class="mainlogo"></div>
 
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="field">
-      <%= f.label :email %><br />
-      <%= f.email_field :email, autofocus: true %>
+      <%= f.email_field :email, placeholder: "E-mail", autofocus: true, autocomplete: "on"  %>
     </div>
 
     <div class="field">
-      <%= f.label :password %><br />
-      <%= f.password_field :password, autocomplete: "off" %>
+      <%= f.password_field :password, placeholder: "Password", autocomplete: "off" %>
     </div>
 
-    <% if devise_mapping.rememberable? -%>
+ <!--   <% if devise_mapping.rememberable? -%>
       <div class="field">
         <%= f.check_box :remember_me %>
         <%= f.label :remember_me %>
       </div>
     <% end -%>
+-->
+    <div class="forgotpassword">
+      <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+        <%= link_to "forgot password?", new_password_path(resource_name) %><br />
+      <% end -%>
+    </div>
 
     <div class="actions">
-      <%= f.submit "Log in" %>
+      <%= f.submit "LOGIN" %>
     </div>
-  <% end %>
 
-  <%= render "devise/shared/links" %>
+    <div class="signup">
+      not a markco user? create an account 
+      <span class="signuplink">
+        <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+          <%= link_to "here", new_registration_path(resource_name) %><br />
+        <% end -%>
+      </span>
+    </div>
+
+  <% end %>
 
 </div>

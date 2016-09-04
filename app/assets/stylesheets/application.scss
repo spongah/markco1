@@ -10,6 +10,14 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
- *= require_self
  */
+
+
+ /* Then, remove all the  require and require_tree statements (removed require_tree . and require_self) from the Sass file. Instead, use @import to import Sass files.
+ */
+ @import "bootstrap";
+ @import "locationstyle";
+ @import "modal";
+ @import "login";
+ @import "tether";
+ 
