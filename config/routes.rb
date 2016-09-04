@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, :controllers => { registrations: 'registrations' }
+  devise_for :users, :controllers => { registrations: 'registrations', sessions: 'custom_sessions' }
   get 'sentconfirmation' => 'welcome#sentconfirmation'
   get 'welcome/index'
   patch 'updatepos' => 'welcome#updatepos'
