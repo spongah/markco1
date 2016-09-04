@@ -94,6 +94,18 @@ input[type=text], input[type=email], input[type=password] {
    color: #D9D9D9;
 }
 
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: white !important;
+}
+
+
+
 input[type=submit] {
 		margin-top: 3vh;
     padding: 12px 20px;
