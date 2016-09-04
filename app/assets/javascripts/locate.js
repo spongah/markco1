@@ -24,7 +24,7 @@ function mainLoop() {
       }
       if ((result.room != result.invite) && (result.invite != result.id)) {
         gon.watch("inviter", function(result2){
-          displayInvite({room: result2.id, name: result2.displayname});
+          displayInvite({room: result2.id, displayname: result2.displayname});
         });
       }
     });
@@ -49,7 +49,7 @@ function initMap() {
     }
     if ((result.room != result.invite) && (result.invite != result.id)) {
       gon.watch("inviter", function(result2){
-        displayInvite({room: result2.room, name: result2.displayname});
+        displayInvite({room: result2.room, displayname: result2.displayname});
       });
     }
   });
@@ -201,7 +201,7 @@ function populateUserList(options) {
     gon.watch("inviteUsers", function(result){
       if (result.length > 0) {
         for(x=0;x<result.length;x+=1){
-          document.getElementById("userList").innerHTML += '<li class="userListItem" id="userListItem' + result[x].id + '" onClick="sendInvite({ id: ' + result[x].id + ', name: \'' + result[x].displayname + '\' });">' + result[x].displayname + ' - ' + result[x].firstname + ' ' + result[x].lastname + '</li>';
+          document.getElementById("userList").innerHTML += '<li class="userListItem" id="userListItem' + result[x].id + '" onClick="sendInvite({ id: ' + result[x].id + ', displayname: \'' + result[x].displayname + '\' });">' + result[x].displayname + ' - ' + result[x].firstname + ' ' + result[x].lastname + '</li>';
         }
       } else {
         document.getElementById("userListHeader").innerHTML = "No users left to invite to your group!"
@@ -232,7 +232,7 @@ function populateUserList(options) {
 
 function sendInvite(options) {
 
-  if (confirm("Are you sure you would like to invite " + options.name + " to your group?")) {
+  if (confirm("Are you sure you would like to invite " + options.displayname + " to your group?")) {
     data = { userid: options.id, invite: gon.user.id };
     $.ajax({          
       data: data,
@@ -240,7 +240,7 @@ function sendInvite(options) {
       type: "PATCH",
       dataType: "json"
     });
-    document.getElementById("status").innerHTML = "<p class=\"notice success alert-box\" id=\"invite\">You invited " + options.name + " to your group!</p>";
+    document.getElementById("status").innerHTML = "<p class=\"notice success alert-box\" id=\"invite\">You invited " + options.displayname + " to your group!</p>";
     setTimeout(fade_out_invite, 5000);
     $("#userListItem" + options.id).fadeOut(200, function() { 
       $(this).remove();
