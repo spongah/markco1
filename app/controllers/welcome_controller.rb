@@ -1,6 +1,6 @@
 class WelcomeController < ApplicationController
-	before_action :authenticate_user!, only: [:index, :updatepos, :updateinvite, :updateroom, :starttracking, :stoptracking]
-	before_action :set_user, only: [:updatepos, :index, :starttracking, :stoptracking, :updateinvite, :updateroom]
+	before_action :authenticate_user!, only: [:index, :updatepos, :updateinvite, :updateroom, :updatedeclined, :updateremoved, :starttracking, :stoptracking]
+	before_action :set_user, only: [:updatepos, :index, :starttracking, :stoptracking, :updateinvite, :updateroom, :updatedeclined, :updateremoved ]
 	
 
   def index
@@ -32,6 +32,10 @@ class WelcomeController < ApplicationController
       gon.watch.inviteUsers = User.all.where.not({room: @user.id}).where.not({invite: @user.id}).order(:displayname)
 
       gon.watch.removeUsers = User.all.where({room: @user.id}).where.not({id: @user.id})
+
+      gon.watch.declinedUser = User.find(@user.declined)
+
+      gon.watch.removedUser = User.find(@user.removed)
    
     end
   end
@@ -56,6 +60,23 @@ class WelcomeController < ApplicationController
 
   def updateroom
     if User.find(user_params[:userid]).update({room: user_params[:room]})
+      render :nothing => true, :status => 200, :content_type => 'text/html'
+    else
+      render :nothing => true, :status => 200, :content_type => 'text/html'
+    end
+  end
+
+
+  def updatedeclined
+    if User.find(user_params[:userid]).update({declined: user_params[:declined]})
+      render :nothing => true, :status => 200, :content_type => 'text/html'
+    else
+      render :nothing => true, :status => 200, :content_type => 'text/html'
+    end
+  end
+
+  def updateremoved
+    if User.find(user_params[:userid]).update({removed: user_params[:removed]})
       render :nothing => true, :status => 200, :content_type => 'text/html'
     else
       render :nothing => true, :status => 200, :content_type => 'text/html'
@@ -90,7 +111,7 @@ class WelcomeController < ApplicationController
   end
 
   def user_params
-		params.permit(:lat, :lng, :tracking, :room, :invite, :userid, :displayname, :firstname, :lastname)
+		params.permit(:lat, :lng, :tracking, :room, :invite, :userid, :displayname, :firstname, :lastname, :declined, :removed)
 	end
 
 	def set_user   

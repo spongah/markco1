@@ -27,6 +27,29 @@ function mainLoop() {
           displayInvite({room: result2.id, displayname: result2.displayname});
         });
       }
+      if (result.declined != result.id) {
+        gon.watch("declinedUser", function(result2) {
+          document.getElementById("status").innerHTML = "<p class=\"alert error alert-box\" id=\"decline\">" + result2.displayname + " declined your invitation!</p>";
+          setTimeout(fade_out_decline, 5000);
+        });
+        updateGeneric({declined: result.id});
+
+      }
+      if (result.removed != result.id) {
+        gon.watch("removedUser", function(result2) {
+          document.getElementById("status").innerHTML = "<p class=\"alert error alert-box\" id=\"removed\">" + result2.displayname + " removed you from their group!</p>";
+          setTimeout(fade_out_removed, 5000);
+          bounds = new google.maps.LatLngBounds();  // CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
+          bounds.extend(myMarker.position);
+          gon.watch("markerArray", function(results) { 
+            updateMarkers(results); 
+            map.fitBounds(bounds);                  // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
+            map.setCenter(myPosition); 
+            document.getElementById("roomid").innerHTML = "Your Group";
+          });
+        });
+        updateGeneric({removed: result.id});
+      }
     });
 
 
@@ -50,13 +73,8 @@ function initMap() {
   });
 
  	getMyLocation(function () {
- 		var options = {
-									  enableHighAccuracy: true,
-									  timeout: Infinity,
-									  maximumAge: 5000
-									}
-
- 		createMap();														// CREATES MAP AFTER getMyLocation SETS myPosition
+  	
+    createMap();														// CREATES MAP AFTER getMyLocation SETS myPosition
 
     updatePosition();                        // SEND NEW POSITION TO DATABASE
 
@@ -97,7 +115,7 @@ function initMap() {
 		  myPosition.lng = position.coords.longitude;		// SET myPosition
 		  myMarker.setPosition(myPosition);							// SET myMarker POSITION BASED ON UPDATED myPosition
       updatePosition();                             // SEND NEW POSITION TO DATABASE
-		}, function(err){ console.log(err) }, options);	// LOGS ERRORS TO CONSOLE, INSERTS OPTIONS HASH
+		});	// LOGS ERRORS TO CONSOLE, INSERTS OPTIONS HASH
  	});
 }
 
@@ -123,6 +141,18 @@ function fade_out_invite() {
   $("#invite").fadeOut(2000, function() { 
     $(this).remove();
   });  
+}
+
+function fade_out_decline() {
+  $("#decline").fadeOut(2000, function() { 
+    $(this).remove();
+  });
+}
+
+function fade_out_removed() {
+  $("#removed").fadeOut(2000, function() { 
+    $(this).remove();
+  });
 }
 
 function displayInvite(user) {
@@ -158,11 +188,19 @@ function displayInvite(user) {
   }
 
   declineInvite.onclick = function() {
+    data = { userid: invitingUser.room, declined: gon.user.id };
+    $.ajax({          
+      data: data,
+      url: "updatedeclined",
+      type: "PATCH",
+      dataType: "json"
+    });
     updateGeneric(user = { invite: gon.user.id });
     modal.style.display = "none";
     //document.getElementById("status").innerHTML = "You declined " + invitingUser.name + "'s invitation!"
     document.getElementById("status").innerHTML = "<p class=\"alert error alert-box\" id=\"declined\">You declined " + invitingUser.displayname + "'s invitation!</p>";
     setTimeout(fade_out_declined, 5000);
+
   }
 
   window.onclick = function(event) {
@@ -205,7 +243,6 @@ function populateUserList(options) {
   } else if ((options.invite == false) && (options.remove == true)) {   // REMOVE ONLY
     document.getElementById("userListHeader").innerHTML = "Choose a user to remove";
     gon.watch("removeUsers", function(result){
-      console.log(result);
       if (result.length > 0) {
         for(x=0;x<result.length;x+=1){
           document.getElementById("userList").innerHTML += '<li class="userListItem" id="userListItem' + result[x].id + '" onClick="removeUser({ id: ' + result[x].id + ', displayname: \'' + result[x].displayname + '\' });">' + result[x].displayname + ' - ' + result[x].firstname + ' ' + result[x].lastname + '</li>';
@@ -261,6 +298,13 @@ function removeUser(options) {
     $.ajax({          
       data: data,
       url: "updateroom",
+      type: "PATCH",
+      dataType: "json"
+    });
+    data2 = { userid: options.id, removed: gon.user.id };
+    $.ajax({          
+      data: data2,
+      url: "updateremoved",
       type: "PATCH",
       dataType: "json"
     });

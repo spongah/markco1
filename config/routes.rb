@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   patch 'updatepos' => 'welcome#updatepos'
   patch 'updateinvite' => 'welcome#updateinvite'
   patch 'updateroom' => 'welcome#updateroom'
+  patch 'updatedeclined' => 'welcome#updatedeclined'
+  patch 'updateremoved' => 'welcome#updateremoved'
   patch 'starttracking' => 'welcome#starttracking'
   patch 'stoptracking' => 'welcome#stoptracking'
   # patch 'updatemarkers' => 'welcome#updatemarkers'

@@ -6,6 +6,7 @@ class CustomSessionsController < Devise::SessionsController
   end
 
   def after_login
-  	User.find(current_user.id).update({ room: current_user.id, invite: current_user.id, tracking: true })  # RESET USER.ROOM AND USER.INVITE TO USER.ID
+  	User.find(current_user.id).update({ room: current_user.id, invite: current_user.id, 
+  		declined: current_user.id, removed: current_user.id, tracking: true })  # SET ALL VALUES TO DEFAULT (USER ID)
   end
 end
