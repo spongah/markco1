@@ -55,7 +55,7 @@ function mainLoop() {
     });
     mainloopcount += 1;
     mainLoop();
-  }, 5000);
+  }, 2500);
 }
 
 function initMap() {
