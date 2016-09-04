@@ -30,8 +30,8 @@
 }
 
 .signuplogo {
-    background-position-y: 12vh;
-		height: 28vh;
+    background-position-y: 8vh;
+		height: 25vh;
 }
 
 .field {
@@ -152,15 +152,15 @@ input[type=submit]:hover {
 
 
 
-@media (min-width:700px) {
+@media (min-width:750px) {
 	.mainlogo {
 		background-size: 50%;
     background-position-y: 15vh;
   }
 
   .signuplogo {
-  	background-size: 50%;
-    background-position-y: 10vh;
+  	background-size: 40%;
+    background-position-y: 5vh;
 	}
 }
 
@@ -171,7 +171,7 @@ input[type=submit]:hover {
   }
 
   .signuplogo {
-  	background-size: 40%;
+  	background-size: 35%;
     background-position-y: 5vh;
 	}
 }
