@@ -12,7 +12,12 @@ var close;
 function mainLoop() {
   setTimeout(function () {
     gon.watch("markerArray", function(result){
-      updateMarkers(result);
+      if (result.length == 0) {
+        // map.fitBounds(bounds);                          // 
+        map.setCenter(bounds.getCenter());              // TRACK YOUR MARKER IF YOU ARE ALONE IN YOUR GROUP
+      } else {
+        updateMarkers(result);
+      }
     });
     gon.watch("user", function(result){
       if (result.room == result.id) {
@@ -75,6 +80,11 @@ function initMap() {
   });
 
  	getMyLocation(function () {
+    var options = {
+                    enableHighAccuracy: true,
+                    timeout: Infinity,
+                    maximumAge: 2500
+                  }
   	
     createMap();														// CREATES MAP AFTER getMyLocation SETS myPosition
 
@@ -83,8 +93,6 @@ function initMap() {
  		myMarker = placeMarker(myPosition, "", gon.user.displayname, "", gon.user.icon); // SET MY MARKER
  	  if (gon.markerArray) { 
       loadMarkers(gon.markerArray);    
-      map.fitBounds(bounds);                 // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
-      map.setCenter(bounds.getCenter());              // CENTER MAP ON myPosition
     }						// LOAD OTHER MARKERS (NOT MINE)
 
     gon.watch("roomName", function(result) {
@@ -112,6 +120,9 @@ function initMap() {
     modal2 = document.getElementById('myModal2');
     close = document.getElementById('close');
 
+    map.fitBounds(bounds);                 // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
+    map.setCenter(bounds.getCenter());              // CENTER MAP ON myPosition
+
     mainLoop();
 
 
@@ -121,7 +132,7 @@ function initMap() {
 		  myPosition.lng = position.coords.longitude;		// SET myPosition
 		  myMarker.setPosition(myPosition);							// SET myMarker POSITION BASED ON UPDATED myPosition
       updatePosition();                             // SEND NEW POSITION TO DATABASE
-		});	// LOGS ERRORS TO CONSOLE, INSERTS OPTIONS HASH
+		}, function(err){ console.log(err) }, options);	// LOGS ERRORS TO CONSOLE, INSERTS OPTIONS HASH
  	});
 }
 
