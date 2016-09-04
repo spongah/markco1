@@ -8,7 +8,7 @@
 }
 
 .login {
-	background-image: url("/assets/loginbg.png");
+	background-image: image-url("loginbg.png");
 	background-size: cover;
 	text-align: center;
 	height: 100vh;
@@ -21,7 +21,7 @@
 }
 
 .mainlogo {
-    background-image: url("/assets/markcologo.png");
+    background-image: image-url("/assets/markcologo.png");
     background-size: contain;
 		background-size: 70%;
     background-position-y: 24vh;
