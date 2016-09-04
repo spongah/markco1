@@ -7,7 +7,7 @@ var myWatcher;
 var mainloopcount = 0;
 var allMarkers = [];
 var modal;
-var closeModal;
+var close;
 
 function mainLoop() {
   setTimeout(function () {
@@ -77,7 +77,7 @@ function initMap() {
     });
 
     document.getElementById("invitebutton").onclick = function(){
-      displayInvite({room: 1, name: "Eric"});
+      populateUserList({ invite: true, remove: false });
     }
 
     document.getElementById("homebutton").onclick = function() {
@@ -89,9 +89,12 @@ function initMap() {
 
     modal = document.getElementById('myModal');
     userInviting = document.getElementById('userInviting');
-    closeModal = document.getElementsByClassName("close")[0];
+    // closeModal = document.getElementsByClassName("close")[0];
     acceptInvite = document.getElementById('acceptInvite');
     declineInvite = document.getElementById('declineInvite');
+
+    modal2 = document.getElementById('myModal2');
+    close = document.getElementById('close');
 
     myWatcher = navigator.geolocation.watchPosition(function(position) {		// SET WATCHER FOR LOCATION CHANGE
 		  updates += 1;
@@ -119,6 +122,12 @@ function fade_out_leftgroup() {
   $("#leftgroup").fadeOut(2000, function() { 
     $(this).remove()
   });
+}
+
+function fade_out_invite() {
+  $("#invite").fadeOut(2000, function() { 
+    $(this).remove()
+  });  
 }
 
 function displayInvite(user) {
@@ -183,6 +192,60 @@ function goHome() {
   //document.getElementById("status").innerHTML = "You left the group!"
   document.getElementById("status").innerHTML = "<p class=\"alert error alert-box\" id=\"leftgroup\">You left the group!</p>";
   setTimeout(fade_out_leftgroup, 5000);
+}
+
+function populateUserList(options) {
+  modal2.style.display = "block";
+  if ((options.invite == true) && (options.remove == false)) {      // INVITES ONLY
+    document.getElementById("userListHeader").innerHTML = "Choose a user to invite"
+    gon.watch("inviteUsers", function(result){
+      if (result.length > 0) {
+        for(x=0;x<result.length;x+=1){
+          document.getElementById("userList").innerHTML += '<li class="userListItem" id="userListItem' + result[x].id + '" onClick="sendInvite({ id: ' + result[x].id + ', name: \'' + result[x].name + '\' });">' + result[x].name + ' - ' + result[x].firstname + ' ' + result[x].lastname + '</li>';
+        }
+      } else {
+        document.getElementById("userListHeader").innerHTML = "No users left to invite to your group!"
+      }
+    });
+  } else if ((options.invite == false) && (options.remove == true)) {   // REMOVE ONLY
+    document.getElementById("userListHeader").innerHTML = "Choose a user to remove"
+
+  } else if ((options.invite == true) && (options.remove == true)) {    // BOTH!!!
+    document.getElementById("userListHeader").innerHTML = "Choose a user to invite or remove"
+  } else { modal2.style.display = "none"; }
+  // GET USERS NOT IN ROOM
+
+  close.onclick = function(event) {
+    if (event.target == close) {
+        modal2.style.display = "none";
+    }
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal2) {
+        modal2.style.display = "none";
+    }
+  }
+}
+
+function sendInvite(options) {
+
+  if (confirm("Are you sure you would like to invite " + options.name + " to your group?")) {
+    data = { userid: options.id, invite: gon.user.id };
+    $.ajax({          
+      data: data,
+      url: "updateothers",
+      type: "PATCH",
+      dataType: "json"
+    });
+    document.getElementById("status").innerHTML = "<p class=\"notice success alert-box\" id=\"invite\">You invited " + options.name + " to your group!</p>";
+    setTimeout(fade_out_invite, 5000);
+    $("#userListItem" + options.id).fadeOut(200, function() { 
+      $(this).remove()
+    });
+  } else {
+    
+  }
 }
 
 function updateMarkers(markerArray) {

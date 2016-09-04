@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   get 'welcome/index'
   patch 'updatepos' => 'welcome#updatepos'
+  patch 'updateothers' => 'welcome#updateothers'
   patch 'starttracking' => 'welcome#starttracking'
   patch 'stoptracking' => 'welcome#stoptracking'
   # patch 'updatemarkers' => 'welcome#updatemarkers'
