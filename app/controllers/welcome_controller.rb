@@ -29,7 +29,7 @@ class WelcomeController < ApplicationController
         gon.watch.roomName = "" + @users.find(@user.room).displayname.to_s + "'s Group"
       end
 
-      gon.watch.inviteUsers = User.all.where.not({room: @user.id}).where.not({invite: @user.id}).order(:displayname)
+      gon.watch.inviteUsers = User.all.where.not(id: @user.id).where.not({room: @user.id}).where.not({invite: @user.id}).order(:displayname)
 
       gon.watch.removeUsers = User.all.where({room: @user.id}).where.not({id: @user.id})
 
