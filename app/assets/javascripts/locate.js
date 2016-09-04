@@ -218,14 +218,14 @@ function populateUserList(options) {
   close.onclick = function(event) {
     if (event.target == close) {
         modal2.style.display = "none";
-        document.getElementById("status").innerHTML = ""
+        document.getElementById("userList").innerHTML = ""
     }
   }
 
   window.onclick = function(event) {
     if (event.target == modal2) {
         modal2.style.display = "none";
-        document.getElementById("status").innerHTML = ""
+        document.getElementById("userList").innerHTML = ""
     }
   }
 }
