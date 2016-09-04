@@ -19,9 +19,9 @@ class WelcomeController < ApplicationController
     	end
     	gon.watch.markerArray = markerArray
 
-      if (@user.invite != @user.room)
+      # if (@user.invite != @user.room)
         gon.watch.inviter = User.find(@user.invite)
-      end
+      # end
 
       if (@user.room == @user.id)
         gon.watch.roomName = "Your Group"
