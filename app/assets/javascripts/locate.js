@@ -15,9 +15,8 @@ function mainLoop() {
       if (result.length == 0) {
         // map.fitBounds(bounds);                          // 
         map.setCenter(myPosition);              // TRACK YOUR MARKER IF YOU ARE ALONE IN YOUR GROUP
-      } else {
-        updateMarkers(result);
       }
+      updateMarkers(result);
     });
     gon.watch("user", function(result){
       if (result.room == result.id) {
