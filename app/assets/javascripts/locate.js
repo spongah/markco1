@@ -179,8 +179,10 @@ function displayInvite(user) {
   acceptInvite.onclick = function() {
     updateGeneric(user = { invite: gon.user.id });
     newRoom = invitingUser.room;
-    updateGeneric(user = { room: newRoom });
-    document.getElementById("roomid").innerHTML = invitingUser.displayname + "'s Group";
+    if (newRoom != gon.user.id) {  
+      updateGeneric(user = { room: newRoom });
+      document.getElementById("roomid").innerHTML = invitingUser.displayname + "'s Group";
+    }
     modal.style.display = "none";
     // bounds = new google.maps.LatLngBounds();  // CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
     bounds.extend(myMarker.position);
