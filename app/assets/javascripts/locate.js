@@ -24,7 +24,7 @@ function mainLoop() {
       }
       if ((result.room != result.invite) && (result.invite != result.id)) {
         gon.watch("inviter", function(result2){
-          displayInvite({room: result2.room, name: result2.name});
+          displayInvite({room: result2.id, name: result2.displayname});
         });
       }
     });
