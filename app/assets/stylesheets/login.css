@@ -105,6 +105,10 @@ input[type=submit] {
     font-weight: bolder;
 }
 
+input[type=submit]:hover {
+	color: #D9D9D9;
+}
+
 @media (min-width:700px) {
 	.mainlogo {
 		background-size: 50%;
