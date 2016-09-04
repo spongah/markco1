@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, :controllers => { registrations: 'registrations' }
+  get 'sentconfirmation' => 'welcome#sentconfirmation'
   get 'welcome/index'
   patch 'updatepos' => 'welcome#updatepos'
   patch 'updateothers' => 'welcome#updateothers'

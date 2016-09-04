@@ -49,7 +49,7 @@ function initMap() {
     }
     if ((result.room != result.invite) && (result.invite != result.id)) {
       gon.watch("inviter", function(result2){
-        displayInvite({room: result2.room, name: result2.name});
+        displayInvite({room: result2.room, name: result2.displayname});
       });
     }
   });
@@ -65,7 +65,7 @@ function initMap() {
 
     updatePosition()                        // SEND NEW POSITION TO DATABASE
 
- 		myMarker = placeMarker(myPosition, "", gon.user.name, "", gon.user.icon); // SET MY MARKER
+ 		myMarker = placeMarker(myPosition, "", gon.user.displayname, "", gon.user.icon); // SET MY MARKER
  	  if (gon.markerArray) { 
       loadMarkers(gon.markerArray);    
       map.fitBounds(bounds);                 // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
@@ -131,7 +131,7 @@ function fade_out_invite() {
 }
 
 function displayInvite(user) {
-  userInviting.innerHTML = user.name;
+  userInviting.innerHTML = user.displayname;
   modal.style.display = "block";
   invitingUser = user;
 
@@ -139,7 +139,7 @@ function displayInvite(user) {
     updateGeneric(user = { invite: gon.user.id });
     newRoom = invitingUser.room;
     updateGeneric(user = { room: newRoom });
-    document.getElementById("roomid").innerHTML = invitingUser.name + "'s Group";
+    document.getElementById("roomid").innerHTML = invitingUser.displayname + "'s Group";
     modal.style.display = "none";
     // bounds = new google.maps.LatLngBounds();  // CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
     bounds.extend(myMarker.position);
@@ -156,7 +156,7 @@ function displayInvite(user) {
     });
 
     // document.getElementById("status").innerHTML = "You joined " + invitingUser.name + "'s group!"
-    document.getElementById("status").innerHTML = "<p class=\"notice success alert-box\" id=\"joined\">You joined " + invitingUser.name + "'s group!</p>";
+    document.getElementById("status").innerHTML = "<p class=\"notice success alert-box\" id=\"joined\">You joined " + invitingUser.displayname + "'s group!</p>";
     document.getElementById("homebutton").style.display = "initial";
     document.getElementById("invitebutton").style.display = "none";
     setTimeout(fade_out_joined, 5000);      
@@ -166,7 +166,7 @@ function displayInvite(user) {
     updateGeneric(user = { invite: gon.user.id });
     modal.style.display = "none";
     //document.getElementById("status").innerHTML = "You declined " + invitingUser.name + "'s invitation!"
-    document.getElementById("status").innerHTML = "<p class=\"alert error alert-box\" id=\"declined\">You declined " + invitingUser.name + "'s invitation!</p>";
+    document.getElementById("status").innerHTML = "<p class=\"alert error alert-box\" id=\"declined\">You declined " + invitingUser.displayname + "'s invitation!</p>";
     setTimeout(fade_out_declined, 5000);
   }
 
@@ -201,7 +201,7 @@ function populateUserList(options) {
     gon.watch("inviteUsers", function(result){
       if (result.length > 0) {
         for(x=0;x<result.length;x+=1){
-          document.getElementById("userList").innerHTML += '<li class="userListItem" id="userListItem' + result[x].id + '" onClick="sendInvite({ id: ' + result[x].id + ', name: \'' + result[x].name + '\' });">' + result[x].name + ' - ' + result[x].firstname + ' ' + result[x].lastname + '</li>';
+          document.getElementById("userList").innerHTML += '<li class="userListItem" id="userListItem' + result[x].id + '" onClick="sendInvite({ id: ' + result[x].id + ', name: \'' + result[x].displayname + '\' });">' + result[x].displayname + ' - ' + result[x].firstname + ' ' + result[x].lastname + '</li>';
         }
       } else {
         document.getElementById("userListHeader").innerHTML = "No users left to invite to your group!"
@@ -278,7 +278,7 @@ function updateMarkers(markerArray) {
         }
       }
       if (!markerFound) {
-        allMarkers[allMarkers.length] = placeMarker(tempPosition, "", m.name, "", m.icon, m.userid)
+        allMarkers[allMarkers.length] = placeMarker(tempPosition, "", m.displayname, "", m.icon, m.userid)
         map.fitBounds(bounds);                  // I THINK FIT BOUNDS AFTER ADDING A NEW PERSON!
         // document.getElementById('status').innerHTML = m.name + " just joined the map!";
         //map.setCenter(myPosition);              // CENTER MAP ON myPosition
@@ -355,7 +355,7 @@ function loadMarkers(markerArray) {
 	for(x=0;x<markerArray.length;x+=1) {
 		m = markerArray[x];
 		tempPosition = { lat : m.lat, lng : m.lng };
-		allMarkers[x] = placeMarker(tempPosition, "", m.name, "", m.icon, m.userid);
+		allMarkers[x] = placeMarker(tempPosition, "", m.displayname, "", m.icon, m.userid);
 	}
 }
 

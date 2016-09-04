@@ -1,0 +1,23 @@
+<div id="mainmessage">
+<h3>Confirmation sent, please check your email and click the link to verify your identity.</h3>
+
+<p>Redirecting to login screen in <span id="countdown">5</span> seconds...</p>
+</div>
+
+<script>
+	var count = 5
+	setTimeout(redirect, 1000);
+
+	function redirect() {
+		count -= 1
+		document.getElementById("countdown").innerHTML = count;
+		if (count <= 0) {
+			$("#mainmessage").fadeOut(2000, function() { 
+			  $(this).remove();
+			  window.location.href = "/users/sign_in"
+			});
+		} else {
+			setTimeout(redirect, 1000);
+		}
+	}
+</script>

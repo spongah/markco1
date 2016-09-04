@@ -1,11 +1,12 @@
 class WelcomeController < ApplicationController
-	before_action :authenticate_user!
+	before_action :authenticate_user!, only: [:index]
 	before_action :set_user, only: [:updatepos, :index, :starttracking, :stoptracking, :updateothers]
 	
 
   def index
-    if (User.find(current_user.id).approved)
-    	gon.active = true
+    gon.active = true
+    # if (User.find(current_user.id).approved)
+    if (true)
     	gon.watch.user_signed_in = user_signed_in?
     	gon.watch.user = @user
     	markerArray = []
@@ -13,7 +14,7 @@ class WelcomeController < ApplicationController
     	@users = User.all
     	@users.each do |x|
     		if (x != current_user) && x.tracking && (x.room == @user.room)
-    			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, name: x.name, icon: x.icon, userid: x.id })
+    			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, name: x.displayname, icon: x.icon, userid: x.id })
     		end
     	end
     	gon.watch.markerArray = markerArray
@@ -25,10 +26,10 @@ class WelcomeController < ApplicationController
       if (@user.room == @user.id)
         gon.watch.roomName = "Your Group"
       else
-        gon.watch.roomName = "" + @users.find(@user.room).name.to_s + "'s Group"
+        gon.watch.roomName = "" + @users.find(@user.room).displayname.to_s + "'s Group"
       end
 
-      gon.watch.inviteUsers = User.all.where.not({room: @user.id}).where.not({invite: @user.id}).order(:name)
+      gon.watch.inviteUsers = User.all.where.not({room: @user.id}).where.not({invite: @user.id}).order(:displayname)
 
       gon.watch.removeUsers = User.all.where({room: @user.id})
    
@@ -61,6 +62,11 @@ class WelcomeController < ApplicationController
   	updateTracking(false)
   end
 
+  def sentconfirmation
+    puts "wasaaaap!"
+    render :setconfirmation => true, :status => 200, :content_type => 'text/html'
+  end
+
 
 
   private
@@ -76,7 +82,7 @@ class WelcomeController < ApplicationController
   end
 
   def user_params
-		params.permit(:lat, :lng, :tracking, :room, :invite, :userid)
+		params.permit(:lat, :lng, :tracking, :room, :invite, :userid, :displayname, :firstname, :lastname)
 	end
 
 	def set_user   

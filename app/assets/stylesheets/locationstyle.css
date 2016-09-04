@@ -14,6 +14,15 @@
 	text-align: center;
 }
 
+#mainmessage {
+	padding-top: 25%;
+	text-align: center;
+}
+
+#mainmessage h3 {
+	padding-bottom: 25%;
+}
+
 .generalbutton {
   padding: 1% 5% 1% 5%;
   border: 1px solid black;
