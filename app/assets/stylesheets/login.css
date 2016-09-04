@@ -17,7 +17,6 @@
 	font-style: normal;
 	font-variant: normal;
 	font-weight: 400;
-
 }
 
 .mainlogo {
@@ -46,6 +45,8 @@
     float: right;
     padding-left: 25vw;
     font-weight: bolder;
+    outline-width: 0px;
+
 }
 
 .signup {
@@ -64,6 +65,7 @@
     color: white;
     font-weight: 900;
     font-family: "Century Gothic Bold", CenturyGothicBold, AppleGothic, sans-serif;
+    outline-width: 0px;
 }
 
 .forgotpassword a:hover {
@@ -115,6 +117,7 @@ input[type=submit] {
     color: white;
     font-size: 2em;
     font-weight: bolder;
+    outline-width: 0px;
 }
 
 input[type=submit]:hover {
