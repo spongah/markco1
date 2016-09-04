@@ -21,7 +21,7 @@
 }
 
 .mainlogo {
-    background-image: image-url("/assets/markcologo.png");
+    background-image: image-url("markcologo.png");
     background-size: contain;
 		background-size: 70%;
     background-position-y: 24vh;
