@@ -18,9 +18,11 @@ function mainLoop() {
       if (result.room == result.id) {
         document.getElementById("homebutton").style.display = "none";
         document.getElementById("invitebutton").style.display = "initial";
+        document.getElementById("removebutton").style.display = "initial";
       } else {
         document.getElementById("homebutton").style.display = "initial";
         document.getElementById("invitebutton").style.display = "none";
+        document.getElementById("removebutton").style.display = "none";
       }
       if ((result.room != result.invite) && (result.invite != result.id)) {
         gon.watch("inviter", function(result2){
@@ -46,13 +48,11 @@ function mainLoop() {
             map.fitBounds(bounds);                  // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
             map.setCenter(myPosition); 
             document.getElementById("roomid").innerHTML = "Your Group";
+            updateGeneric({removed: result.id});
           });
         });
-        updateGeneric({removed: result.id});
       }
     });
-
-
     mainloopcount += 1;
     mainLoop();
   }, 5000);
@@ -66,9 +66,11 @@ function initMap() {
     if (result.room == result.id) {
       document.getElementById("homebutton").style.display = "none";
       document.getElementById("invitebutton").style.display = "initial";
+      document.getElementById("removebutton").style.display = "initial";
     } else {
       document.getElementById("homebutton").style.display = "initial";
       document.getElementById("invitebutton").style.display = "none";
+      document.getElementById("removebutton").style.display = "none";
     }
   });
 
@@ -95,6 +97,10 @@ function initMap() {
 
     document.getElementById("homebutton").onclick = function() {
       goHome();
+    };
+
+    document.getElementById("removebutton").onclick = function() {
+      populateUserList(options = {invite: false, remove: true});
     };
 
     modal = document.getElementById('myModal');
@@ -157,7 +163,7 @@ function fade_out_removed() {
 
 function displayInvite(user) {
   userInviting.innerHTML = user.displayname;
-  modal.style.display = "block";
+  document.getElementById('myModal').style.display = "block";
   invitingUser = user;
 
   acceptInvite.onclick = function() {
@@ -351,6 +357,9 @@ function updateMarkers(markerArray) {
         map.fitBounds(bounds);                  // I THINK FIT BOUNDS AFTER ADDING A NEW PERSON!
         // document.getElementById('status').innerHTML = m.name + " just joined the map!";
         //map.setCenter(myPosition);              // CENTER MAP ON myPosition
+        document.getElementById("status").innerHTML = "<p class=\"notice success alert-box\" id=\"joined\">" + m.displayname + " joined the group!</p>";
+        setTimeout(fade_out_joined, 5000);      
+
       }
     }
 
@@ -365,6 +374,8 @@ function updateMarkers(markerArray) {
         }
       }
       if (!markerExists) {
+        document.getElementById("status").innerHTML = "<p class=\"alert error alert-box\" id=\"leftgroup\">" + allMarkers[x].title + " left the group!</p>";
+        setTimeout(fade_out_leftgroup, 5000);
         // document.getElementById('status').innerHTML = allMarkers[x].title + " just left the map!";
         allMarkers[x].setMap(null);
         allMarkers.splice(x,1);

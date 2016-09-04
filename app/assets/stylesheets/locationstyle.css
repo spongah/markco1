@@ -24,7 +24,7 @@
 }
 
 .generalbutton {
-  padding: 1% 5% 1% 5%;
+  padding: 1% 5% 1.4% 5%;
   border: 1px solid black;
   border-radius: 5px
 }
@@ -103,6 +103,11 @@
 
 #invitebutton {
 	display: none;
+}
+
+#removebutton {
+	display: none;
+	margin-left: 25%;
 }
 
 .status {

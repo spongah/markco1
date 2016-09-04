@@ -14,7 +14,7 @@ class WelcomeController < ApplicationController
     	@users = User.all
     	@users.each do |x|
     		if (x != current_user) && x.tracking && (x.room == @user.room)
-    			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, name: x.displayname, icon: x.icon, userid: x.id })
+    			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, displayname: x.displayname, icon: x.icon, userid: x.id })
     		end
     	end
     	gon.watch.markerArray = markerArray
