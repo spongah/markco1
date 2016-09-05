@@ -46,9 +46,88 @@
     margin-left: 1.7px;
 }
 
-
 .hamburger {
     font-size: 5vh;
     margin-top: 0.8vh;
     margin-left: 0.8vh;
+}
+
+.dropdown-nav {
+    float: right;
+    position: relative;
+    z-index: 10;
+    background-color: rgba(197, 43, 37, 0.75);
+    width: 43vw;
+    color: white;
+    border-radius: 0px 0px 10px 10px;
+    padding-bottom: 3vh;
+}
+
+.dropdown-nav ul {
+    list-style-type: none;
+    padding-left: 0px;
+    text-align: center;
+}
+
+.dropdown-nav li {
+    padding-top: 3vh;
+    font-size: 1.2em;
+}
+
+.dropdown-nav li:hover {
+    color: #D9D9D9;
+}
+
+.dropdown-email {
+    color: #d9d9d9;
+    padding-left: 1vh;
+    padding-top: 2vh;
+    width: 100%;
+    border: 0px solid white;
+    text-align: center;
+    font-size: 0.85em;
+}
+
+.dropdown-signout {
+    text-align: center;
+    width: 15vh;
+    font-size: 0.85em;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding-top: 0.5vh;
+    padding-bottom: 0.5vh;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3vh;
+}
+
+.dropdown-signout:hover {
+    background-color: rgba(197, 43, 37, 0.75);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.dropdown-tracking {
+    text-align: center;
+    margin-top: 3vh;
+}
+
+.dropdown-toggleswitch {
+    background-image: image-url("toggle-on.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-top: 0.8vh;
+    height: 5vh;
+    margin-left: 1.7px;
+}
+
+.dropdown-tracking img {
+    width: 5vh;
+}
+
+.active-page {
+    height: 5vh;
+    width: 5vh;
+    border: 1px solid black;
+    border-radius: 100%;
 }
