@@ -1,37 +1,45 @@
 <div class="navbar-markco">
-	<div class="navleft"><div class="avatar"></div></div>
+	<div class="navleft"><div class="avatar" id="avatar"></div></div>
 	<div class="navmiddle"><div class="iconlogo"></div></div>
-	<div class="navright"><div class="hamburger glyphicon glyphicon-menu-hamburger"></div></div>
+	<div class="navright"><div class="hamburger glyphicon glyphicon-menu-hamburger" id="dropdownbutton"></div></div>
 </div>
-<div class="dropdown-nav">
-	<div class="dropdown-email">testing@testing.com</div>
-	<ul>
-		<li id="dropdownhome">Home</li>
-		<li id="dropdownprofile">Profile</li>
-		<li id="dropdowninvite">Invite</li>
-		<li id="dropdownremove">Remove</li>
-	</ul>
-	<div class="dropdown-tracking">Tracking - <%= image_tag "toggle-on.png" %></span></div>
-	<div class="dropdown-signout">Sign Out</div>
+<div class="dropdowntest">
+	<div class="dropdown-nav" id="maindropdown">
+
+		<div class="dropdown-email">testing@testing.com</div>
+		<ul>
+			<li id="dropdownhome">Home</li>
+			<li id="dropdownprofile"><%= link_to("Profile", edit_user_registration_path) %></li>
+			<li id="dropdowninvite">Invite</li>
+			<li id="dropdownremove">Remove</li>
+		</ul>
+		<div class="dropdown-tracking" id="dropdown-tracking">
+			<% if @user.tracking %>
+				<%= link_to(stoptracking_path, method: :patch) do %>
+				 <%= image_tag "toggle-on.png" %>
+				 <script> document.getElementById("avatar").style.border = "3px solid green"; </script>
+				 <% end %><br />(Tracking)
+				<% else %>
+				<%= link_to(starttracking_path, method: :patch) do %>
+					<%= image_tag "toggle-off.png" %>
+					<script> document.getElementById("avatar").style.border = "3px solid white"; </script>
+				<% end %><br />(Tracking)<% end %>
+		</div>
+		<div class="dropdown-signout" id="dropdown-signout">
+			<% if user_signed_in? %>
+				<%= link_to("Sign Out", destroy_user_session_path, method: :delete) %>
+				<% else %>
+				<%= link_to("Sign In", user_session_path) %>
+			<% end %>
+		</div>
+	</div>
 </div>
+
 
 	
 <div class="main">
-	<div class="signout">
-		<% if user_signed_in? %>
-			<%= link_to("Sign Out", destroy_user_session_path, method: :delete) %>
-			<% else %>
-			<%= link_to("Sign In", user_session_path) %>
-		<% end %>
-	</div>
-
 
 	<div class="tracking">
-		<% if @user.tracking %>
-			<%= link_to("Hide Location", stoptracking_path, method: :patch) %>
-			<% else %>
-			<%= link_to("Show Location", starttracking_path, method: :patch) %>
-		<% end %>
 	</div>
 	<% if @user.tracking %>
 		<div class="title" style="color: green">Markco 1</div>
@@ -64,6 +72,31 @@
 			 		$(".alert").remove();
 			  });
 			}
+			var dropdown = document.getElementById("maindropdown");
+			document.getElementById("dropdownbutton").onclick = function() {
+				if (dropdown.style.display == "none") {
+					dropdown.style.display = "block"; 
+				} else {
+					dropdown.style.display = "none";
+				}
+			}
+
+			var dropdowninvite = document.getElementById("dropdowninvite");
+			dropdowninvite.onclick = function(){ 
+				populateUserList({ invite: true, remove: false });
+				document.getElementById("maindropdown").style.display = "none";
+			}
+
+			var dropdownremove = document.getElementById("dropdownremove");
+			dropdownremove.onclick = function(){
+				populateUserList(options = {invite: false, remove: true});
+				document.getElementById("maindropdown").style.display = "none";
+			}
+
+			var tracking = function(){
+				console.log("Tracking!");
+			}
+
 		</script>
 		<div id="status" class="status">
 			<% if notice %>

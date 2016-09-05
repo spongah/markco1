@@ -6,6 +6,14 @@
     display: flex;
 }
 
+.coverdropdown {
+    background-color: #c52b25;
+    color: white;
+    height: 9vh;
+    padding-top: 1.2vh;
+    display: flex;
+}
+
 .navleft {
     border: 0px solid white;
     height: 7vh;
@@ -28,7 +36,7 @@
     margin-right: 7vw;
 }
 
-.avatar {
+#avatar {
     border: 3px solid white;
     height: 6vh;
     width: 6vh;
@@ -52,16 +60,37 @@
     margin-left: 0.8vh;
 }
 
+.hamburger:hover {
+    cursor: pointer;    
+}
+
 .dropdown-nav {
+    display: none;
     float: right;
     position: relative;
     z-index: 10;
     background-color: rgba(197, 43, 37, 0.75);
     width: 43vw;
     color: white;
-    border-radius: 0px 0px 10px 10px;
+    border-radius: 0px 0px 0px 20px;
     padding-bottom: 3vh;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
 }
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {-webkit-transform:translatex(200px); opacity: 0} 
+    to {-webkit-transform:translatex(0px); opacity: 1}
+}
+
+@keyframes animatetop {
+    from {transform:translatex(200px); opacity: 0}
+    to {transform:translatex(0px); opacity: 1}
+}
+
 
 .dropdown-nav ul {
     list-style-type: none;
@@ -74,7 +103,7 @@
     font-size: 1.2em;
 }
 
-.dropdown-nav li:hover {
+.dropdown-nav li:hover, #dropdownprofile a:hover {
     color: #D9D9D9;
 }
 
@@ -101,7 +130,13 @@
     margin-top: 3vh;
 }
 
-.dropdown-signout:hover {
+.dropdown-signout a, #dropdown-tracking a, #dropdownprofile a {
+    text-decoration: none;
+    color: white;
+}
+
+.dropdown-signout:hover, .dropdown-signout a:hover {
+    color: white;
     background-color: rgba(197, 43, 37, 0.75);
     text-decoration: none;
     cursor: pointer;
@@ -110,6 +145,9 @@
 .dropdown-tracking {
     text-align: center;
     margin-top: 3vh;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.9em;
 }
 
 .dropdown-toggleswitch {
@@ -121,8 +159,13 @@
     margin-left: 1.7px;
 }
 
+.dropdown-toggleswitch:hover, .dropdown-tracking:hover {
+    cursor: pointer;
+}
+
 .dropdown-tracking img {
-    width: 5vh;
+    width: 8vh;
+    margin-left: 1.5vw;
 }
 
 .active-page {
@@ -131,3 +174,6 @@
     border: 1px solid black;
     border-radius: 100%;
 }
+
+
+

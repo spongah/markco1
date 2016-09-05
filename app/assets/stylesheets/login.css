@@ -34,6 +34,11 @@
 		height: 25vh;
 }
 
+.signuplogoedit {
+    background-position-y: 8vh;
+    height: 22vh;
+}
+
 .field {
 
 }
@@ -149,8 +154,29 @@ input[type=submit]:hover {
 
 
 .field_with_errors input {
-	background-color: rgba(255, 255, 255, 0.6);
-	-webkit-text-fill-color: red !important;
+	 background-color: rgba(255, 255, 255, 0.6);
+	 -webkit-text-fill-color: red !important;
+}
+
+.edit_user input {
+    padding: 6px 15px 3px 10px;
+    margin: 4px 0;
+}
+
+.edit_user {
+  color: white;
+  font-size: 0.9em;
+}
+
+.editnotification {
+  margin-top: 3vh;
+}
+
+.cancelaccount, .cancelaccount input {
+    color: white;
+    font-size: 1em;
+    margin-top: 0px;
+    padding-top: 4px;
 }
 
 
