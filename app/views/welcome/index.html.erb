@@ -2,16 +2,6 @@
 
 <div class="main">
 
-	<div class="tracking">
-	</div>
-	<% if @user.tracking %>
-		<div class="title" style="color: green">Markco 1</div>
-	<% else %>
-		<div class="title" style="color: red">Markco 1</div>
-	<% end %>
-	<div class="userid" id="roomid">
-		<%= @user.email %>
-	</div>
 	<div class="yourlocation" id="yourlocation">
 
 		<div id="map">
@@ -19,11 +9,18 @@
 				<%= image_tag "loading.gif" %>
 			</div> 
 		</div>
-		<div class="bottomButtons">
-			<span class="invite generalbutton" id="invitebutton">Invite</span>
-			<span class="home generalbutton" id="homebutton">Leave</span>
-			<span class="remove generalbutton" id="removebutton">Remove</span>
+		<div class="submap">
+			<div id="status" class="status">
+				<% if notice %>
+					<p class="notice success alert-box"><%= notice %></p>
+				<% end %>
+				<% if alert %>
+					<p class="alert error alert-box"><%= alert %></p>
+				<% end %>
+			</div>
+			<div class="userid" id="roomid"></div>
 		</div>
+
 		<script>
 			setTimeout(fade_out, 5000);
 
@@ -57,16 +54,7 @@
 			}
 
 		</script>
-		<div id="status" class="status">
-			<% if notice %>
-				<p class="notice success alert-box"><%= notice %></p>
-			<% end %>
-			<% if alert %>
-				<p class="alert error alert-box"><%= alert %></p>
-			<% end %>
-		</div>
-
-
+		
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWjXhmnA63FsuAVIrTzKRG_D5SJZrDrqg&callback=initMap" async defer></script>
 	</div>
 

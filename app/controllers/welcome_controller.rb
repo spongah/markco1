@@ -19,9 +19,9 @@ class WelcomeController < ApplicationController
     	end
 
       if (@user.room == @user.id)
-        gon.watch.roomName = "Your Group"
+        gon.watch.roomName = "Your group"
       else
-        gon.watch.roomName = "" + @users.find(@user.room).displayname.to_s + "'s Group"
+        gon.watch.roomName = "" + @users.find(@user.room).displayname.to_s + "'s group"
       end
 
       gon.watch.markerArray = markerArray

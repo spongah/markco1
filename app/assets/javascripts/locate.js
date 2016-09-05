@@ -20,13 +20,13 @@ function mainLoop() {
     });
     gon.watch("user", function(result){
       if (result.room == result.id) {
-        document.getElementById("homebutton").style.display = "none";
-        document.getElementById("invitebutton").style.display = "initial";
-        document.getElementById("removebutton").style.display = "initial";
+        document.getElementById("dropdownleave").style.display = "none";
+        document.getElementById("dropdowninvite").style.display = "block";
+        document.getElementById("dropdownremove").style.display = "block";
       } else {
-        document.getElementById("homebutton").style.display = "initial";
-        document.getElementById("invitebutton").style.display = "none";
-        document.getElementById("removebutton").style.display = "none";
+        document.getElementById("homebutton").style.display = "block";
+        document.getElementById("dropdowninvite").style.display = "none";
+        document.getElementById("dropdownremove").style.display = "none";
       }
       if ((result.room != result.invite) && (result.invite != result.id)) {
         gon.watch("inviter", function(result2){
@@ -68,13 +68,13 @@ function initMap() {
 
   gon.watch("user", function(result){
     if (result.room == result.id) {
-      document.getElementById("homebutton").style.display = "none";
-      document.getElementById("invitebutton").style.display = "initial";
-      document.getElementById("removebutton").style.display = "initial";
+      document.getElementById("dropdownleave").style.display = "none";
+      document.getElementById("dropdowninvite").style.display = "block";
+      document.getElementById("dropdownremove").style.display = "block";
     } else {
-      document.getElementById("homebutton").style.display = "initial";
-      document.getElementById("invitebutton").style.display = "none";
-      document.getElementById("removebutton").style.display = "none";
+      document.getElementById("homebutton").style.display = "block";
+      document.getElementById("dropdowninvite").style.display = "none";
+      document.getElementById("dropdownremove").style.display = "none";
     }
   });
 
@@ -98,15 +98,18 @@ function initMap() {
       document.getElementById("roomid").innerHTML = result;
     });
 
-    document.getElementById("invitebutton").onclick = function(){
+    document.getElementById("dropdowninvite").onclick = function(){
+      document.getElementById("maindropdown").style.display = "none";
       populateUserList({ invite: true, remove: false });
     };
 
-    document.getElementById("homebutton").onclick = function() {
+    document.getElementById("dropdownleave").onclick = function() {
+      document.getElementById("maindropdown").style.display = "none";
       goHome();
     };
 
-    document.getElementById("removebutton").onclick = function() {
+    document.getElementById("dropdownremove").onclick = function() {
+      document.getElementById("maindropdown").style.display = "none";
       populateUserList(options = {invite: false, remove: true});
     };
 
@@ -181,7 +184,7 @@ function displayInvite(user) {
     newRoom = invitingUser.room;
     if (newRoom != gon.user.id) {  
       updateGeneric(user = { room: newRoom });
-      document.getElementById("roomid").innerHTML = invitingUser.displayname + "'s Group";
+      document.getElementById("roomid").innerHTML = invitingUser.displayname + "'s group";
     }
     modal.style.display = "none";
     // bounds = new google.maps.LatLngBounds();  // CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
@@ -237,7 +240,7 @@ function goHome() {
     map.fitBounds(bounds);                  // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
     map.setCenter(myPosition); 
   });
-  document.getElementById("roomid").innerHTML = "Your Group";
+  document.getElementById("roomid").innerHTML = "Your group";
   document.getElementById("homebutton").style.display = "none";
   document.getElementById("invitebutton").style.display = "initial";
   //document.getElementById("status").innerHTML = "You left the group!"

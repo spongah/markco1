@@ -6,23 +6,33 @@
 <div class="dropdowntest">
 	<div class="dropdown-nav" id="maindropdown">
 
-		<div class="dropdown-email">testing@testing.com</div>
+		<div class="dropdown-email"><%= @user.email %></div>
 		<ul>
 			<li id="dropdownhome"><%= link_to("Home", root_path) %></li>
 			<li id="dropdownprofile"><%= link_to("Profile", edit_user_registration_path) %></li>
 			<li id="dropdowninvite">Invite</li>
 			<li id="dropdownremove">Remove</li>
+			<li id="dropdownleave">Leave Group</li>
 		</ul>
 		<div class="dropdown-tracking" id="dropdown-tracking">
+			<%= image_tag "toggle-on.png", id: :trackingtoggleon %>
+			<%= image_tag "toggle-off.png", id: :trackingtoggleoff %>
+
 			<% if @user.tracking %>
 				<%= link_to(stoptracking_path, method: :patch) do %>
-				 <%= image_tag "toggle-on.png" %>
-				 <script> document.getElementById("avatar").style.border = "3px solid green"; </script>
+				 <script> 
+				 		document.getElementById("trackingtoggleon").style.display = "initial";
+				 		document.getElementById("trackingtoggleoff").style.display = "none";
+				 		document.getElementById("avatar").style.border = "3px solid green"; 
+				 </script>
 				 <% end %><br />(Tracking)
 				<% else %>
 				<%= link_to(starttracking_path, method: :patch) do %>
-					<%= image_tag "toggle-off.png" %>
-					<script> document.getElementById("avatar").style.border = "3px solid white"; </script>
+					<script>
+				 		document.getElementById("trackingtoggleon").style.display = "none";
+				 		document.getElementById("trackingtoggleoff").style.display = "initial";
+						document.getElementById("avatar").style.border = "3px solid white";
+					</script>
 				<% end %><br />(Tracking)<% end %>
 		</div>
 		<div class="dropdown-signout" id="dropdown-signout">
@@ -34,3 +44,24 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	var trackingToggleOn = document.getElementById("trackingtoggleon");
+	var trackingToggleOff = document.getElementById("trackingtoggleoff");
+
+	trackingToggleOn.onclick = function(){
+		trackingToggleOn.style.display = "none";
+		trackingToggleOff.style.display = "initial";
+		document.getElementById("avatar").style.border = "3px solid white"; 
+		updateGeneric({tracking: false});
+	}
+
+	trackingToggleOff.onclick = function(){
+		trackingToggleOn.style.display = "initial";
+		trackingToggleOff.style.display = "none";
+		document.getElementById("avatar").style.border = "3px solid green"; 
+		updateGeneric({tracking: true});
+	}
+	
+	
+</script>
