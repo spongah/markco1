@@ -1,4 +1,6 @@
-<div class="login">
+<%= render "devise/shared/navbar" %>
+
+<div class="login main">
 
   <%= link_to(:back) do %>
     <div class="mainlogo signuplogoedit"></div>
@@ -81,6 +83,26 @@
       password_confirmationElement.parentElement.className = "";
     };
 
+    var dropdown = document.getElementById("maindropdown");
+    document.getElementById("dropdownbutton").onclick = function() {
+      if (dropdown.style.display != "block") {
+        dropdown.style.display = "block"; 
+      } else {
+        dropdown.style.display = "none";
+      }
+    }
+
+    var dropdowninvite = document.getElementById("dropdowninvite");
+    dropdowninvite.onclick = function(){ 
+      populateUserList({ invite: true, remove: false });
+      document.getElementById("maindropdown").style.display = "none";
+    }
+
+    var dropdownremove = document.getElementById("dropdownremove");
+    dropdownremove.onclick = function(){
+      populateUserList(options = {invite: false, remove: true});
+      document.getElementById("maindropdown").style.display = "none";
+    }
   </script>
 </div>
 

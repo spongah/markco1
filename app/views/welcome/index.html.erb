@@ -1,42 +1,5 @@
-<div class="navbar-markco">
-	<div class="navleft"><div class="avatar" id="avatar"></div></div>
-	<div class="navmiddle"><div class="iconlogo"></div></div>
-	<div class="navright"><div class="hamburger glyphicon glyphicon-menu-hamburger" id="dropdownbutton"></div></div>
-</div>
-<div class="dropdowntest">
-	<div class="dropdown-nav" id="maindropdown">
+<%= render "devise/shared/navbar" %>
 
-		<div class="dropdown-email">testing@testing.com</div>
-		<ul>
-			<li id="dropdownhome">Home</li>
-			<li id="dropdownprofile"><%= link_to("Profile", edit_user_registration_path) %></li>
-			<li id="dropdowninvite">Invite</li>
-			<li id="dropdownremove">Remove</li>
-		</ul>
-		<div class="dropdown-tracking" id="dropdown-tracking">
-			<% if @user.tracking %>
-				<%= link_to(stoptracking_path, method: :patch) do %>
-				 <%= image_tag "toggle-on.png" %>
-				 <script> document.getElementById("avatar").style.border = "3px solid green"; </script>
-				 <% end %><br />(Tracking)
-				<% else %>
-				<%= link_to(starttracking_path, method: :patch) do %>
-					<%= image_tag "toggle-off.png" %>
-					<script> document.getElementById("avatar").style.border = "3px solid white"; </script>
-				<% end %><br />(Tracking)<% end %>
-		</div>
-		<div class="dropdown-signout" id="dropdown-signout">
-			<% if user_signed_in? %>
-				<%= link_to("Sign Out", destroy_user_session_path, method: :delete) %>
-				<% else %>
-				<%= link_to("Sign In", user_session_path) %>
-			<% end %>
-		</div>
-	</div>
-</div>
-
-
-	
 <div class="main">
 
 	<div class="tracking">
