@@ -175,8 +175,11 @@ input[type=submit]:hover {
 .cancelaccount, .cancelaccount input {
     color: white;
     font-size: 1em;
-    margin-top: 0px;
     padding-top: 4px;
+}
+
+#user_current_password {
+  margin-bottom: 5vh;
 }
 
 

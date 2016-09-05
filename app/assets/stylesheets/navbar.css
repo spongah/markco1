@@ -37,6 +37,9 @@
 }
 
 #avatar {
+    background-image: image-url("eric.png");
+    background-size: contain;
+    background-repeat: no-repeat;    
     border: 3px solid white;
     height: 6vh;
     width: 6vh;

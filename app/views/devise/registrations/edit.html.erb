@@ -6,7 +6,7 @@
     <div class="mainlogo signuplogoedit"></div>
   <% end %>
 
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
 
     <div class="field">
       <%= f.email_field :email, placeholder: if (resource.errors[:email]).blank? then "e-mail" else ("e-mail " + resource.errors[:email][0].to_s) end, autofocus: true %>
@@ -35,24 +35,21 @@
 
     <div class="field">
       <div class="editnotification"><i>(we need your current password to confirm your changes)</i></div>
-      <%= f.password_field :current_password,placeholder: if (resource.errors[:current_password]).blank? then "current password" else (resource.errors[:current_password][0].to_s) end, autocomplete: "off" %>
+      <%= f.password_field :current_password, placeholder: if (resource.errors[:current_password]).blank? then "current password" else (resource.errors[:current_password][0].to_s) end, autocomplete: "off" %>
     </div>
 
-
-    <div class="cancelaccount">
-      <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %>
-    </div>
 
     <div class="actions">
       <%= f.submit "UPDATE" %>
     </div>
-<!--    <div class="signuplogin">
-      <%- if controller_name != 'sessions' %>
-        <%= link_to "Log in", new_session_path(resource_name) %><br />
-      <% end -%>
-    </div>   -->
   <% end %>
-<%= if (!(resource.errors[:email]).blank?) then end %> 
+
+  
+    <div class="cancelaccount">
+      <%= button_to "Cancel my account", registration_path(resource_name), 
+        data: { confirm: "Delete account, Are you sure?" }, method: :delete %>
+    </div>
+
 
   <script>
     
