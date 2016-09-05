@@ -86,21 +86,6 @@ function initMap() {
       document.getElementById("roomid").innerHTML = result;
     });
 
-    document.getElementById("dropdowninvite").onclick = function(){
-      document.getElementById("maindropdown").style.display = "none";
-      populateUserList({ invite: true, remove: false });
-    };
-
-    document.getElementById("dropdownleave").onclick = function() {
-      document.getElementById("maindropdown").style.display = "none";
-      goHome();
-    };
-
-    document.getElementById("dropdownremove").onclick = function() {
-      document.getElementById("maindropdown").style.display = "none";
-      populateUserList(options = {invite: false, remove: true});
-    };
-
     modal = document.getElementById('myModal');
     userInviting = document.getElementById('userInviting');
     // closeModal = document.getElementsByClassName("close")[0];
