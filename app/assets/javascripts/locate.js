@@ -66,18 +66,6 @@ function initMap() {
 	var updates = 0;
  	bounds = new google.maps.LatLngBounds();	// CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
 
-  gon.watch("user", function(result){
-    if (result.room == result.id) {
-      document.getElementById("dropdownleave").style.display = "none";
-      document.getElementById("dropdowninvite").style.display = "block";
-      document.getElementById("dropdownremove").style.display = "block";
-    } else {
-      document.getElementById("homebutton").style.display = "block";
-      document.getElementById("dropdowninvite").style.display = "none";
-      document.getElementById("dropdownremove").style.display = "none";
-    }
-  });
-
  	getMyLocation(function () {
     var options = {
                     enableHighAccuracy: true,

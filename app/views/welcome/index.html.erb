@@ -53,8 +53,36 @@
 				document.getElementById("maindropdown").style.display = "none";
 			}
 
+			gon.watch("user", function(result){
+		    if (result.room == result.id) {
+		      document.getElementById("dropdownleave").style.display = "none";
+		      document.getElementById("dropdowninvite").style.display = "block";
+		      document.getElementById("dropdownremove").style.display = "block";
+		    } else {
+		      document.getElementById("dropdownleave").style.display = "block";
+		      document.getElementById("dropdowninvite").style.display = "none";
+		      document.getElementById("dropdownremove").style.display = "none";
+		    }
+		  });
+
+	    document.getElementById("dropdowninvite").onclick = function(){
+	      document.getElementById("maindropdown").style.display = "none";
+	      populateUserList({ invite: true, remove: false });
+	    };
+
+	    document.getElementById("dropdownleave").onclick = function() {
+	      document.getElementById("maindropdown").style.display = "none";
+	      goHome();
+	    };
+
+	    document.getElementById("dropdownremove").onclick = function() {
+	      document.getElementById("maindropdown").style.display = "none";
+	      populateUserList(options = {invite: false, remove: true});
+	    };
+
+
 		</script>
-		
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWjXhmnA63FsuAVIrTzKRG_D5SJZrDrqg&callback=initMap" async defer></script>
 	</div>
 
