@@ -74,7 +74,8 @@
 			}
 			var dropdown = document.getElementById("maindropdown");
 			document.getElementById("dropdownbutton").onclick = function() {
-				if (dropdown.style.display == "none") {
+				console.log(dropdown.style.display);	
+				if (dropdown.style.display != "block") {
 					dropdown.style.display = "block"; 
 				} else {
 					dropdown.style.display = "none";
