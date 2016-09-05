@@ -63,7 +63,11 @@
 		text-decoration: none;
     color: white;
     outline-width: 0px;
+}
 
+.field label {
+  margin-bottom: 0px;
+  color: white;
 }
 
 

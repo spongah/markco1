@@ -7,10 +7,10 @@
   <% end %>
 
 	<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-	  <%= devise_error_messages! %>
 
 	  <div class="field">
-	    <%= f.email_field :email, placeholder: "enter e-mail address to reset password", autofocus: true %>
+	  	<%= f.label :forgot_password %><br />
+	    <%= f.email_field :email, placeholder: if (resource.errors[:email]).blank? then "e-mail" else ("e-mail " + resource.errors[:email][0].to_s) end, autofocus: true %>
 	  </div>
 	  <div class="forgotpassword">
 			<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
@@ -19,8 +19,20 @@
 		</div>
 
 	  <div class="actions">
-	    <%= f.submit "Reset" %>
+	    <%= f.submit "RESET" %>
 	  </div>
 	<% end %>
+
+	<script>
+    
+    var emailElement = document.getElementById("user_email");
+
+    emailElement.oninput = function(){ 
+      emailElement.placeholder = "";
+      emailElement.parentElement.className = "";
+    };
+
+  </script>
+
 
 </div>

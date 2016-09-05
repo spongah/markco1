@@ -9,23 +9,23 @@
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
 
     <div class="field">
-      <%= f.email_field :email, placeholder: if (resource.errors[:email]).blank? then "e-mail" else ("e-mail " + resource.errors[:email][0].to_s).upcase end, autofocus: true %>
+      <%= f.email_field :email, placeholder: if (resource.errors[:email]).blank? then "e-mail" else ("e-mail " + resource.errors[:email][0].to_s) end, autofocus: true %>
     </div>
 
     <div class="field">
-        <%= f.text_field :firstname, placeholder: if (resource.errors[:firstname]).blank? then "first name" else ("first name " + resource.errors[:firstname][0].to_s).upcase end %><span class="help-inline"></span>
+        <%= f.text_field :firstname, placeholder: if (resource.errors[:firstname]).blank? then "first name" else ("first name " + resource.errors[:firstname][0].to_s) end %><span class="help-inline"></span>
     </div>
 
     <div class="field">
-      <%= f.text_field :lastname, placeholder: if (resource.errors[:lastname]).blank? then "last name" else ("last name " + resource.errors[:lastname][0].to_s).upcase end %>
+      <%= f.text_field :lastname, placeholder: if (resource.errors[:lastname]).blank? then "last name" else ("last name " + resource.errors[:lastname][0].to_s) end %>
     </div>
 
     <div class="field">
-      <%= f.password_field :password, placeholder: if (resource.errors[:password]).blank? then "password" else ("password " + resource.errors[:password][0].to_s).upcase end, autocomplete: "off" %>
+      <%= f.password_field :password, placeholder: if (resource.errors[:password]).blank? then "password" else ("password " + resource.errors[:password][0].to_s) end, autocomplete: "off" %>
     </div>
 
     <div class="field">
-      <%= f.password_field :password_confirmation, placeholder: if (resource.errors[:password_confirmation]).blank? then "password confirmation" else (resource.errors[:password_confirmation][0].to_s).upcase end, autocomplete: "off" %>
+      <%= f.password_field :password_confirmation, placeholder: if (resource.errors[:password_confirmation]).blank? then "password confirmation" else (resource.errors[:password_confirmation][0].to_s) end, autocomplete: "off" %>
     </div>
 
     <div class="resendconfirmation">

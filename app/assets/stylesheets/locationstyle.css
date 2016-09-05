@@ -72,6 +72,15 @@
     margin-top:3%;
 }
 
+.loginalert-box {
+		border-radius: 10px;
+    font-family: Tahoma,Geneva,Arial,sans-serif;
+    font-size: 0.9em;
+    padding: 5px 0px 7px 0px;
+    margin-top: 4vh;
+}
+
+
 .error {
     background:#ffecec;
     border:1px solid #f5aca6;
