@@ -74,7 +74,6 @@
 			}
 			var dropdown = document.getElementById("maindropdown");
 			document.getElementById("dropdownbutton").onclick = function() {
-				console.log(dropdown.style.display);	
 				if (dropdown.style.display != "block") {
 					dropdown.style.display = "block"; 
 				} else {
@@ -92,10 +91,6 @@
 			dropdownremove.onclick = function(){
 				populateUserList(options = {invite: false, remove: true});
 				document.getElementById("maindropdown").style.display = "none";
-			}
-
-			var tracking = function(){
-				console.log("Tracking!");
 			}
 
 		</script>
