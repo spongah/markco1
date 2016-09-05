@@ -1,0 +1,54 @@
+.navbar-markco {
+    background-color: #c52b25;
+    color: white;
+    height: 9vh;
+    padding-top: 1.2vh;
+    display: flex;
+}
+
+.navleft {
+    border: 0px solid white;
+    height: 7vh;
+    width: 7vh;
+    margin-right: auto;
+    margin-left: 7vw;
+}
+
+.navmiddle {
+    border: 0px solid white;
+    height: 7vh;
+    width: 6vh;
+    margin-right: auto;
+}
+
+.navright {
+    border: 0px solid white;
+    height: 7vh;
+    width: 7vh;
+    margin-right: 7vw;
+}
+
+.avatar {
+    border: 3px solid white;
+    height: 6vh;
+    width: 6vh;
+    border-radius: 100%;
+    margin-left: 0.35vh;
+    margin-top: 0.3vh;
+}
+
+.iconlogo {
+    background-image: image-url("markcoiconlogo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-top: 0.8vh;
+    height: 5vh;
+    margin-left: 1.7px;
+}
+
+
+.hamburger {
+    font-size: 5vh;
+    margin-top: 0.8vh;
+    margin-left: 0.8vh;
+}
