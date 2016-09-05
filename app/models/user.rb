@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   # validates :displayname, presence: true
   validates :email, presence: true
+  validates_format_of :email,:with => Devise.email_regexp
   validates :firstname, presence: true
   validates :lastname, presence: true
 
