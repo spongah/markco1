@@ -24,7 +24,7 @@ function mainLoop() {
         document.getElementById("dropdowninvite").style.display = "block";
         document.getElementById("dropdownremove").style.display = "block";
       } else {
-        document.getElementById("homebutton").style.display = "block";
+        document.getElementById("dropdownleave").style.display = "block";
         document.getElementById("dropdowninvite").style.display = "none";
         document.getElementById("dropdownremove").style.display = "none";
       }
@@ -176,8 +176,8 @@ function displayInvite(user) {
 
     // document.getElementById("status").innerHTML = "You joined " + invitingUser.name + "'s group!"
     document.getElementById("status").innerHTML = "<p class=\"notice success alert-box\" id=\"joined\">You joined " + invitingUser.displayname + "'s group!</p>";
-    document.getElementById("homebutton").style.display = "initial";
-    document.getElementById("invitebutton").style.display = "none";
+    document.getElementById("dropdownleave").style.display = "initial";
+    document.getElementById("dropdowninvite").style.display = "none";
     setTimeout(fade_out_joined, 5000);      
   }
 
@@ -214,8 +214,8 @@ function goHome() {
     map.setCenter(myPosition); 
   });
   document.getElementById("roomid").innerHTML = "Your group";
-  document.getElementById("homebutton").style.display = "none";
-  document.getElementById("invitebutton").style.display = "initial";
+  document.getElementById("dropdownleave").style.display = "none";
+  document.getElementById("dropdowninvite").style.display = "initial";
   //document.getElementById("status").innerHTML = "You left the group!"
   document.getElementById("status").innerHTML = "<p class=\"error alert-box\" id=\"leftgroup\">You left the group!</p>";
   setTimeout(fade_out_leftgroup, 5000);
