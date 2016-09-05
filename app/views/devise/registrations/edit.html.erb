@@ -2,54 +2,52 @@
 
 <div class="login main">
 
-  <%= link_to(:back) do %>
-    <div class="mainlogo signuplogoedit"></div>
-  <% end %>
+  <div class="editprofile">
 
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
 
-    <div class="field">
-      <%= f.email_field :email, placeholder: if (resource.errors[:email]).blank? then "e-mail" else ("e-mail " + resource.errors[:email][0].to_s) end, autofocus: true %>
-    </div>
+      <div class="field">
+        <%= f.email_field :email, placeholder: if (resource.errors[:email]).blank? then "e-mail" else ("e-mail " + resource.errors[:email][0].to_s) end, autofocus: true %>
+      </div>
 
-    <div class="field">
-        <%= f.text_field :firstname, placeholder: if (resource.errors[:firstname]).blank? then "first name" else ("first name " + resource.errors[:firstname][0].to_s) end %><span class="help-inline"></span>
-    </div>
+      <div class="field">
+          <%= f.text_field :firstname, placeholder: if (resource.errors[:firstname]).blank? then "first name" else ("first name " + resource.errors[:firstname][0].to_s) end %><span class="help-inline"></span>
+      </div>
 
-    <div class="field">
-      <%= f.text_field :lastname, placeholder: if (resource.errors[:lastname]).blank? then "last name" else ("last name " + resource.errors[:lastname][0].to_s) end %>
-    </div>
+      <div class="field">
+        <%= f.text_field :lastname, placeholder: if (resource.errors[:lastname]).blank? then "last name" else ("last name " + resource.errors[:lastname][0].to_s) end %>
+      </div>
 
-    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+      <% end %>
+
+      <div class="field">
+        <div class="editnotification"><i>(leave blank if you don't want to change it)</i></div>
+        <%= f.password_field :password, placeholder: if (resource.errors[:password]).blank? then "password" else ("password " + resource.errors[:password][0].to_s) end, autocomplete: "off" %>
+      </div>
+
+      <div class="field">
+        <%= f.password_field :password_confirmation, placeholder: if (resource.errors[:password_confirmation]).blank? then "password confirmation" else (resource.errors[:password_confirmation][0].to_s) end, autocomplete: "off" %>
+      </div>
+
+      <div class="field">
+        <div class="editnotification"><i>(we need your current password to confirm your changes)</i></div>
+        <%= f.password_field :current_password, placeholder: if (resource.errors[:current_password]).blank? then "current password" else (resource.errors[:current_password][0].to_s) end, autocomplete: "off" %>
+      </div>
+
+
+      <div class="actions">
+        <%= f.submit "UPDATE" %>
+      </div>
     <% end %>
 
-    <div class="field">
-      <div class="editnotification"><i>(leave blank if you don't want to change it)</i></div>
-      <%= f.password_field :password, placeholder: if (resource.errors[:password]).blank? then "password" else ("password " + resource.errors[:password][0].to_s) end, autocomplete: "off" %>
-    </div>
 
-    <div class="field">
-      <%= f.password_field :password_confirmation, placeholder: if (resource.errors[:password_confirmation]).blank? then "password confirmation" else (resource.errors[:password_confirmation][0].to_s) end, autocomplete: "off" %>
-    </div>
-
-    <div class="field">
-      <div class="editnotification"><i>(we need your current password to confirm your changes)</i></div>
-      <%= f.password_field :current_password, placeholder: if (resource.errors[:current_password]).blank? then "current password" else (resource.errors[:current_password][0].to_s) end, autocomplete: "off" %>
-    </div>
-
-
-    <div class="actions">
-      <%= f.submit "UPDATE" %>
-    </div>
-  <% end %>
-
-  
     <div class="cancelaccount">
       <%= button_to "Cancel my account", registration_path(resource_name), 
         data: { confirm: "Delete account, Are you sure?" }, method: :delete %>
     </div>
-
+  </div>
 
   <script>
     
