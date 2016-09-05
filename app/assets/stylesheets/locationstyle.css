@@ -1,3 +1,8 @@
+body, html { 
+    overflow-x: hidden; 
+    overflow-y: auto;
+}
+
 .main {
 	display: block;
 	position: absolute;
@@ -16,7 +21,7 @@
 
 .submap {
 		background-color: #c52b25;
-		height: 30vh
+		height: 100vh
 }
 
 .editprofile {
@@ -102,10 +107,12 @@
 .error {
     background:#ffecec;
     border:1px solid #f5aca6;
+    color: red;
 }
 .success {
     background:#e9ffd9;
     border:1px solid #a6ca8a;
+    color: green;
 }
 
 .notice {

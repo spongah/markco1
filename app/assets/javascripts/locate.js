@@ -35,7 +35,7 @@ function mainLoop() {
       }
       if (result.declined != result.id) {
         gon.watch("declinedUser", function(result2) {
-          document.getElementById("status").innerHTML = "<p class=\"alert error alert-box\" id=\"decline\">" + result2.displayname + " declined your invitation!</p>";
+          document.getElementById("status").innerHTML = "<p class=\"error alert-box\" id=\"decline\">" + result2.displayname + " declined your invitation!</p>";
           setTimeout(fade_out_decline, 5000);
         });
         updateGeneric({declined: result.id});
@@ -43,7 +43,7 @@ function mainLoop() {
       }
       if (result.removed != result.id) {
         gon.watch("removedUser", function(result2) {
-          document.getElementById("status").innerHTML = "<p class=\"alert error alert-box\" id=\"removed\">" + result2.displayname + " removed you from their group!</p>";
+          document.getElementById("status").innerHTML = "<p class=\"error alert-box\" id=\"removed\">" + result2.displayname + " removed you from their group!</p>";
           setTimeout(fade_out_removed, 5000);
           bounds = new google.maps.LatLngBounds();  // CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
           bounds.extend(myMarker.position);
@@ -219,7 +219,7 @@ function displayInvite(user) {
     updateGeneric(user = { invite: gon.user.id });
     modal.style.display = "none";
     //document.getElementById("status").innerHTML = "You declined " + invitingUser.name + "'s invitation!"
-    document.getElementById("status").innerHTML = "<p class=\"alert error alert-box\" id=\"declined\">You declined " + invitingUser.displayname + "'s invitation!</p>";
+    document.getElementById("status").innerHTML = "<p class=\"error alert-box\" id=\"declined\">You declined " + invitingUser.displayname + "'s invitation!</p>";
     setTimeout(fade_out_declined, 5000);
 
   }
@@ -244,7 +244,7 @@ function goHome() {
   document.getElementById("homebutton").style.display = "none";
   document.getElementById("invitebutton").style.display = "initial";
   //document.getElementById("status").innerHTML = "You left the group!"
-  document.getElementById("status").innerHTML = "<p class=\"alert error alert-box\" id=\"leftgroup\">You left the group!</p>";
+  document.getElementById("status").innerHTML = "<p class=\"error alert-box\" id=\"leftgroup\">You left the group!</p>";
   setTimeout(fade_out_leftgroup, 5000);
 }
 
@@ -389,7 +389,7 @@ function updateMarkers(markerArray) {
         }
       }
       if (!markerExists) {
-        document.getElementById("status").innerHTML = "<p class=\"alert error alert-box\" id=\"leftgroup\">" + allMarkers[x].title + " left the group!</p>";
+        document.getElementById("status").innerHTML = "<p class=\"error alert-box\" id=\"leftgroup\">" + allMarkers[x].title + " left the group!</p>";
         setTimeout(fade_out_leftgroup, 5000);
         // document.getElementById('status').innerHTML = allMarkers[x].title + " just left the map!";
         allMarkers[x].setMap(null);
