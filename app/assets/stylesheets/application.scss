@@ -16,10 +16,10 @@
  /* Then, remove all the  require and require_tree statements (removed require_tree . and require_self) from the Sass file. Instead, use @import to import Sass files.
  */
 
-
+ @import "croppie";
  @import "locationstyle";
  @import "modal";
  @import "login";
  @import "bootstrap";
-  @import "navbar";
+ @import "navbar";
  
