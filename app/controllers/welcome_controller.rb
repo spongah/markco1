@@ -7,13 +7,18 @@ class WelcomeController < ApplicationController
     # if (User.find(current_user.id).approved)
     if (true)
     	gon.watch.user_signed_in = user_signed_in?
-    	gon.watch.user = User.find(current_user.id)
+    	gon.watch.user = @user
     	markerArray = []
       inviteArray = []
     	@users = User.all
     	@users.each do |x|
     		if (x != current_user) && x.tracking && (x.room == @user.room)
-    			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, displayname: x.displayname, icon: x.icon, userid: x.id })
+          if (File.exist?('./public/' + x.id + '.png'))
+            iconFile = '/' + x.id + '.png'
+          else
+            iconFile = '/noavatar.png'
+          end
+    			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, displayname: x.displayname, icon: (iconFile), userid: x.id })
     		end
     	end
 
@@ -116,6 +121,12 @@ class WelcomeController < ApplicationController
 
 	def set_user   
 		@user = User.find(current_user.id)
+    if (File.exist?('./public/' + @user.id.to_s + '.png'))
+      iconFile = '/' + @user.id.to_s + '.png'
+    else
+      iconFile = '/noavatar.png'
+    end
+    @user.icon = iconFile
 	end
 
 end
