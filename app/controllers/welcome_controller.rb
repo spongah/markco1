@@ -13,8 +13,8 @@ class WelcomeController < ApplicationController
     	@users = User.all
     	@users.each do |x|
     		if (x != current_user) && x.tracking && (x.room == @user.room)
-          if (File.exist?('./public/' + x.id + '.png'))
-            iconFile = '/' + x.id + '.png'
+          if (File.exist?('./public/' + x.id.to_s + '.png'))
+            iconFile = '/' + x.id.to_s + '.png'
           else
             iconFile = '/noavatar.png'
           end
