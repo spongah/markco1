@@ -11,9 +11,9 @@
 // about supported directives.
 //
 
+//= require croppie
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
-//= require croppie
 //= require turbolinks
 //= require_tree .
