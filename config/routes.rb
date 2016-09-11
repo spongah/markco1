@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   patch 'updateremoved' => 'welcome#updateremoved'
   patch 'starttracking' => 'welcome#starttracking'
   patch 'stoptracking' => 'welcome#stoptracking'
+  patch 'savepicture' => 'welcome#savepicture'
   # patch 'updatemarkers' => 'welcome#updatemarkers'
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -1,5 +1,5 @@
 <div class="navbar-markco">
-	<div class="navleft"><div class="avatar" id="avatar"></div></div>
+	<div class="navleft"><div class="avatar" id="avatar" style="background-image: url('/<%= current_user.id.to_s %>.png')"></div></div>
 	<div class="navmiddle"><div class="iconlogo"></div></div>
 	<div class="navright"><div class="hamburger glyphicon glyphicon-menu-hamburger" id="dropdownbutton"></div></div>
 </div>
@@ -45,6 +45,7 @@
 	</div>
 </div>
 
+
 <script>
 	var trackingToggleOn = document.getElementById("trackingtoggleon");
 	var trackingToggleOff = document.getElementById("trackingtoggleoff");
@@ -62,6 +63,10 @@
 		document.getElementById("avatar").style.border = "3px solid green"; 
 		updateGeneric({tracking: true});
 	}
+//	gon.watch("avatar", function (result){
+//		document.getElementById('avatar').style.backgroundImage = "url(" + result + ")";
+//	});
+	
 	
 	
 </script>

@@ -1,7 +1,6 @@
 class WelcomeController < ApplicationController
-	before_action :authenticate_user!, only: [:index, :updatepos, :updateinvite, :updateroom, :updatedeclined, :updateremoved, :starttracking, :stoptracking]
-	before_action :set_user, only: [:updatepos, :index, :starttracking, :stoptracking, :updateinvite, :updateroom, :updatedeclined, :updateremoved ]
-	
+	before_action :authenticate_user!, only: [:index, :updatepos, :updateinvite, :updateroom, :updatedeclined, :updateremoved, :starttracking, :stoptracking, :savepicture]
+	before_action :set_user, only: [:updatepos, :index, :starttracking, :stoptracking, :updateinvite, :updateroom, :updatedeclined, :updateremoved, :savepicture ]
 
   def index
     gon.active = true
@@ -30,7 +29,6 @@ class WelcomeController < ApplicationController
       gon.watch.removeUsers = User.all.where({room: @user.id}).where.not({id: @user.id})
       gon.watch.declinedUser = User.find(@user.declined)
       gon.watch.removedUser = User.find(@user.removed)
-   
     end
   end
 
@@ -90,6 +88,14 @@ class WelcomeController < ApplicationController
     render :setconfirmation => true, :status => 200, :content_type => 'text/html'
   end
 
+  def savepicture
+    filename = 'public/' + current_user.id.to_s + '.png'
+    File.open(filename, 'wb') do |f|
+      f.write(Base64.decode64(user_params[:savepicture]))
+    end
+    render :nothing => true, :status => 200, :content_type => 'text/html'
+  end
+
 
 
   private
@@ -105,7 +111,7 @@ class WelcomeController < ApplicationController
   end
 
   def user_params
-		params.permit(:lat, :lng, :tracking, :room, :invite, :userid, :displayname, :firstname, :lastname, :declined, :removed)
+		params.permit(:lat, :lng, :tracking, :room, :invite, :userid, :displayname, :firstname, :lastname, :declined, :removed, :savepicture)
 	end
 
 	def set_user   
