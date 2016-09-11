@@ -25,7 +25,7 @@ body, html {
 }
 
 .editprofile {
-	padding-top: 5vh;
+	padding-top: 1vh;
 }
 
 #mainmessage {
@@ -103,6 +103,35 @@ body, html {
     margin-top: 4vh;
 }
 
+.avatarLabel {
+	color: white;
+	font-size: 0.8em;
+	margin-top: 0px;
+}
+
+.currentAvatar {
+    /* background-image: image-url("/29.png"); */
+    background-color: white;
+    background-size: contain;
+    background-repeat: no-repeat;    
+    /* border: 3px solid white; */
+    height: 10vh;
+    width: 10vh;
+    border-radius: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
 
 .error {
     background:#ffecec;

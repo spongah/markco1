@@ -100,6 +100,7 @@ function initMap() {
     modal2 = document.getElementById('myModal2');
     close = document.getElementById('close');
 
+
     map.fitBounds(bounds);                 // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
     map.setCenter(myPosition);              // CENTER MAP ON myPosition
 

@@ -1,13 +1,27 @@
 <%= render "devise/shared/navbar" %>
 
+    <div id="myModal3" class="modal3">
+
+      <!-- Modal content -->
+      <div class="modal-content3">
+        <span class="close3" id="close3">x</span>
+        <input type="file" id="upload" class="inputfile" value="Choose a file" accept="image/*">
+        <div class="croplabel">Cropping photo</div>
+        <div id="upload-demo"></div>
+        <div id="result"></div>
+        <button class="upload-result savebutton">Save</button>
+      </div>
+
+    </div>
+
     <div class="login main">
 
       <div class="editprofile">
-        <input type="file" id="upload" value="Choose a file" accept="image/*">
-        <button class="upload-result">Result</button>
-        <div id="upload-demo">
+
+        <div class="avatarLabel"><i>Profile Picture<br />(Click to change)</i></div>
+        <div class="currentAvatar" id="currentAvatar" style="background-image: url('<%= @user.icon %>')">
         </div>
-        <div id="result"></div>
+
 
         <script>
 
@@ -48,7 +62,10 @@
                 enableExif: true
               });
 
-              $('#upload').on('change', function () { readFile(this); });
+              $('#upload').on('change', function () { 
+                readFile(this);
+                document.getElementById("myModal3").style.display = "block";
+              });
               $('.upload-result').on('click', function (ev) {
                 $uploadCrop.croppie('result', {
                   type: 'canvas',
@@ -64,6 +81,7 @@
                     dataType: "json"
                   });
                   setTimeout(function(){ window.location.href = "/users/edit" }, 500);
+                  document.getElementById("upload").value = ""
                 });
               });
             }
@@ -178,6 +196,32 @@
       populateUserList(options = {invite: false, remove: true});
       document.getElementById("maindropdown").style.display = "none";
     }
+
+    var profilePicture = document.getElementById("currentAvatar");
+    profilePicture.onclick = function(){
+      // document.getElementById("myModal3").style.display = "block";
+      document.getElementById("upload").click();
+    }
+
+    modal3 = document.getElementById('myModal3');
+    close3 = document.getElementById('close3');
+
+    window.onclick = function(event) {
+      if (event.target == modal3) {
+          modal3.style.display = "none";
+          document.getElementById("upload").value = ""
+      }
+    }
+
+    close3.onclick = function(event) {
+      if (event.target == close3) {
+          modal3.style.display = "none";
+          document.getElementById("upload").value = ""
+      }
+    }
+
+
+
   </script>
 </div>
 
