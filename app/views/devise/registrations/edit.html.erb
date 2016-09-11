@@ -56,13 +56,12 @@
                 }).then(function (resp) {
                   data = { savepicture: resp.split(',')[1] }
                   // console.log(JSON.stringify(resp).length);
-                  document.getElementById('result').innerHTML = "<img src=\"" + resp + "\">";
+                  // document.getElementById('result').innerHTML = "<img src=\"" + resp + "\">";
                   $.ajax({          
                     data: data,
                     url: "/savepicture",
                     type: "PATCH",
-                    dataType: "json",
-                    success: goHome
+                    dataType: "json"
                   });
                   setTimeout(function(){ window.location.href = "/users/edit" }, 100);
                 });
