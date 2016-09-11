@@ -56,15 +56,15 @@
                 }).then(function (resp) {
                   data = { savepicture: resp.split(',')[1] }
                   // console.log(JSON.stringify(resp).length);
-                  console.log(data);
                   document.getElementById('result').innerHTML = "<img src=\"" + resp + "\">";
                   $.ajax({          
                     data: data,
                     url: "/savepicture",
                     type: "PATCH",
-                    dataType: "json"
+                    dataType: "json",
+                    success: goHome
                   });
-                  window.location.href = "/users/edit"
+                  setTimeout(function(){ window.location.href = "/users/edit" }, 100);
                 });
               });
             }
