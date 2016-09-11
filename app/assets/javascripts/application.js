@@ -11,6 +11,7 @@
 // about supported directives.
 //
 
+//= require exif
 //= require croppie
 //= require locate
 //= require jquery
