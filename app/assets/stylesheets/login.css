@@ -160,7 +160,7 @@ input[type=submit]:hover {
 
 .edit_user input {
     padding: 6px 15px 3px 10px;
-    margin: 4px 0;
+    margin: 2px 0;
 }
 
 .edit_user {
@@ -179,7 +179,7 @@ input[type=submit]:hover {
 }
 
 #user_current_password {
-  margin-bottom: 5vh;
+  margin-bottom: 2vh;
 }
 
 
