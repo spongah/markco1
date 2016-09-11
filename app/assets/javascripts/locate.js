@@ -72,12 +72,17 @@ function initMap() {
                     timeout: Infinity,
                     maximumAge: 10000
                   }
+
+    myIcon = {
+      url: gon.user.icon,
+      scaledSize: new google.maps.Size(50, 50)
+    }
   	
     createMap();														// CREATES MAP AFTER getMyLocation SETS myPosition
 
     updatePosition();                        // SEND NEW POSITION TO DATABASE
 
- 		myMarker = placeMarker(myPosition, "", gon.user.displayname, "", gon.user.icon); // SET MY MARKER
+ 		myMarker = placeMarker(myPosition, "", gon.user.displayname, "", myIcon); // SET MY MARKER
  	  if (gon.markerArray) { 
       loadMarkers(gon.markerArray);    
     }						// LOAD OTHER MARKERS (NOT MINE)
@@ -341,7 +346,11 @@ function updateMarkers(markerArray) {
         }
       }
       if (!markerFound) {
-        allMarkers[allMarkers.length] = placeMarker(tempPosition, "", m.displayname, "", m.icon, m.userid)
+        iconImage = {
+          url: m.icon,
+          scaledSize: new google.maps.Size(50, 50)
+        }
+        allMarkers[allMarkers.length] = placeMarker(tempPosition, "", m.displayname, "", iconImage, m.userid)
         map.fitBounds(bounds);                  // I THINK FIT BOUNDS AFTER ADDING A NEW PERSON!
         // document.getElementById('status').innerHTML = m.name + " just joined the map!";
         //map.setCenter(myPosition);              // CENTER MAP ON myPosition
@@ -423,7 +432,11 @@ function loadMarkers(markerArray) {
 	for(x=0;x<markerArray.length;x+=1) {
 		m = markerArray[x];
 		tempPosition = { lat : m.lat, lng : m.lng };
-		allMarkers[x] = placeMarker(tempPosition, "", m.displayname, "", m.icon, m.userid);
+    iconImage = {
+          url: m.icon,
+          scaledSize: new google.maps.Size(50, 50)
+        }
+		allMarkers[x] = placeMarker(tempPosition, "", m.displayname, "", iconImage, m.userid);
 	}
 }
 
