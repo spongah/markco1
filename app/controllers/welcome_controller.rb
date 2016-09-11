@@ -18,7 +18,7 @@ class WelcomeController < ApplicationController
           else
             iconFile = '/noavatar.png'
           end
-    			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, displayname: x.displayname, icon: (iconFile), userid: x.id })
+    			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, displayname: x.displayname, icon: iconFile, userid: x.id })
     		end
     	end
 
@@ -98,6 +98,9 @@ class WelcomeController < ApplicationController
     File.open(filename, 'wb') do |f|
       f.write(Base64.decode64(user_params[:savepicture]))
     end
+    @user.icon = '/' + @user.id.to_s + '.png'
+    puts @user.icon
+    gon.watch.user = @user
     render :nothing => true, :status => 200, :content_type => 'text/html'
   end
 

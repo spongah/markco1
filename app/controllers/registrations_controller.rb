@@ -1,5 +1,17 @@
 class RegistrationsController < Devise::RegistrationsController
 
+  def edit
+    @user = User.find(current_user.id)
+    if (File.exist?('./public/' + @user.id.to_s + '.png'))
+      iconFile = '/' + @user.id.to_s + '.png'
+    else
+      iconFile = '/noavatar.png'
+    end
+    @user.icon = iconFile
+    gon.watch.user = @user
+    super
+  end
+
 
   private
 
