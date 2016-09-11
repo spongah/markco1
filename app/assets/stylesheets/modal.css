@@ -111,21 +111,21 @@
     padding-top: 5vh;
     padding-bottom: 5vh;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    -webkit-animation-name: animatebottom;
+    -webkit-animation-name: animateleft;
     -webkit-animation-duration: 0.4s;
-    animation-name: animatebottom;
+    animation-name: animateleft;
     animation-duration: 0.4s;
 }
 
 /* Add Animation */
-@-webkit-keyframes animatebottom {
-    from {top: 35%; opacity: 0} 
-    to {top: 0; opacity: 1}
+@-webkit-keyframes animateleft {
+    from {-webkit-transform:translatex(-200px); opacity: 0} 
+    to {-webkit-transform:translatex(0px); opacity: 1}
 }
 
-@keyframes animatebottom {
-    from {top: 35%; opacity: 0}
-    to {top: 0; opacity: 1}
+@keyframes animateleft {
+    from {transform:translatex(-200px); opacity: 0}
+    to {transform:translatex(0px); opacity: 1}
 }
 
 .croplabel {
@@ -143,7 +143,7 @@
     color: white;
     background-color: #b40700; 
     text-align: center;
-    width: 20vh;
+    width: 16vh;
     font-size: 1em;
     border: 1px solid white;
     border-radius: 10px;

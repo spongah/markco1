@@ -9,6 +9,7 @@
         <div class="croplabel">Cropping photo</div>
         <div id="upload-demo"></div>
         <div id="result"></div>
+        <button class="cancel savebutton" id="cancelcrop">Cancel</button>
         <button class="upload-result savebutton">Save</button>
       </div>
 
@@ -205,6 +206,7 @@
 
     modal3 = document.getElementById('myModal3');
     close3 = document.getElementById('close3');
+    cancelcrop = document.getElementById('cancelcrop');
 
     window.onclick = function(event) {
       if (event.target == modal3) {
@@ -219,6 +221,13 @@
           document.getElementById("upload").value = ""
       }
     }
+
+    cancelcrop.onclick = function(event) {
+      modal3.style.display = "none";
+      document.getElementById("upload").value = ""
+    }
+
+
 
 
 
