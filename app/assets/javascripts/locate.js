@@ -347,8 +347,10 @@ function updateMarkers(markerArray) {
         }
       }
       if (!markerFound) {
+        tempImage = "";
+        if (m.icon.url != null) { tempImage = m.icon.url } else { tempImage = "/noavatar.png" }
         iconImage = {
-          url: m.icon.url || '/noavatar.png',
+          url: tempImage,
           scaledSize: new google.maps.Size(50, 50)
         }
         allMarkers[allMarkers.length] = placeMarker(tempPosition, "", m.displayname, "", iconImage, m.userid)
@@ -433,8 +435,10 @@ function loadMarkers(markerArray) {
 	for(x=0;x<markerArray.length;x+=1) {
 		m = markerArray[x];
 		tempPosition = { lat : m.lat, lng : m.lng };
+    tempImage = "";
+    if (m.icon.url != null) { tempImage = m.icon.url } else { tempImage = "/noavatar.png" }
     iconImage = {
-          url: m.icon.url || '/noavatar.png',
+          url: tempImage,
           scaledSize: new google.maps.Size(50, 50)
         }
 		allMarkers[x] = placeMarker(tempPosition, "", m.displayname, "", iconImage, m.userid);
