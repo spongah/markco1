@@ -348,7 +348,7 @@ function updateMarkers(markerArray) {
       }
       if (!markerFound) {
         iconImage = {
-          url: m.icon,
+          url: m.icon.url,
           scaledSize: new google.maps.Size(50, 50)
         }
         allMarkers[allMarkers.length] = placeMarker(tempPosition, "", m.displayname, "", iconImage, m.userid)
@@ -434,7 +434,7 @@ function loadMarkers(markerArray) {
 		m = markerArray[x];
 		tempPosition = { lat : m.lat, lng : m.lng };
     iconImage = {
-          url: m.icon,
+          url: m.icon.url,
           scaledSize: new google.maps.Size(50, 50)
         }
 		allMarkers[x] = placeMarker(tempPosition, "", m.displayname, "", iconImage, m.userid);
