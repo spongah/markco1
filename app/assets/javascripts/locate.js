@@ -74,7 +74,7 @@ function initMap() {
                   }
 
     myIcon = {
-      url: gon.user.icon.url,
+      url: '<%= @user.icon.url || "/noavatar.png" %>',
       scaledSize: new google.maps.Size(50, 50)
     }
   	
