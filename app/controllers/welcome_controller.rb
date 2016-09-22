@@ -13,11 +13,7 @@ class WelcomeController < ApplicationController
     	@users = User.all
     	@users.each do |x|
     		if (x != current_user) && x.tracking && (x.room == @user.room)
-          if (File.exist?('./public/' + x.id.to_s + '.png'))
-            iconFile = '/' + x.id.to_s + '.png'
-          else
-            iconFile = '/noavatar.png'
-          end
+          iconFile = x.icon.url
     			markerArray.push({ lat: x.lat.to_f, lng: x.lng.to_f, displayname: x.displayname, icon: iconFile, userid: x.id })
     		end
     	end
@@ -131,12 +127,6 @@ class WelcomeController < ApplicationController
 
 	def set_user   
 		@user = User.find(current_user.id)
-    # if (File.exist?('./public/' + @user.id.to_s + '.png'))
-    #   iconFile = '/' + @user.id.to_s + '.png'
-    # else
-    #   iconFile = '/noavatar.png'
-    # end
-    # @user.icon = iconFile
 	end
 
 end
