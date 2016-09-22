@@ -97,9 +97,7 @@ class WelcomeController < ApplicationController
     @user.remove_icon!
     @user.save
     @user.icon = s
-    if @user.save
-      redirect_to root_path
-    end
+    @user.save
     gon.watch.user = @user
   end
 
