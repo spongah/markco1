@@ -9,7 +9,7 @@ class RegistrationsController < Devise::RegistrationsController
     # end
     # @user.icon = iconFile
     gon.watch.user = @user
-    super
+    # super
   end
 
 

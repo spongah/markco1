@@ -90,21 +90,17 @@ class WelcomeController < ApplicationController
   end
 
   def savepicture
-    filename = '' + current_user.id.to_s + '.png'
     file = Base64.decode64(user_params[:savepicture])
-    File.open(filename, 'wb') do |f|
-      f.write(file)
-    end
     uploader = IconuploaderUploader.new 
     s = StringIO.new(file)
     def s.original_filename; "icon.png"; end
     @user.remove_icon!
     @user.save
     @user.icon = s
-    @user.save
+    if @user.save
+      redirect_to root_path
+    end
     gon.watch.user = @user
-    redirect_to edit_user_registration_path(@user)
-    # render :nothing => true, :status => 200, :content_type => 'text/html'
   end
 
 
