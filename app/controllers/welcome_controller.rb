@@ -96,13 +96,12 @@ class WelcomeController < ApplicationController
       f.write(file)
     end
     uploader = IconuploaderUploader.new 
-
     s = StringIO.new(file)
     def s.original_filename; "icon.png"; end
+    @user.remove_icon!
+    @user.save
     @user.icon = s
     @user.save
-    # @user.icon = '/' + @user.id.to_s + '.png'
-    puts @user.icon
     gon.watch.user = @user
     render :nothing => true, :status => 200, :content_type => 'text/html'
   end
