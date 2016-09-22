@@ -68,9 +68,7 @@ function initMap() {
 
  	getMyLocation(function () {
     tempImage = "";
-    gon.watch("user", function(result) {
-      if (result.icon) { tempImage = result.icon.url } else { tempImage = "/noavatar.png" }
-    });
+    if (gon.user.icon) { tempImage = gon.user.icon.url } else { tempImage = "/noavatar.png" }
     var options = {
                     enableHighAccuracy: true,
                     timeout: Infinity,
@@ -352,8 +350,7 @@ function updateMarkers(markerArray) {
       }
       if (!markerFound) {
         tempImage = "";
-        console.log(m);
-        if (m.icon != null) { tempImage = m.icon.url } else { tempImage = "/noavatar.png" }
+        if (!m.icon) { tempImage = "/noavatar.png" } else { tempImage = m.icon }
         iconImage = {
           url: tempImage,
           scaledSize: new google.maps.Size(50, 50)
@@ -441,7 +438,7 @@ function loadMarkers(markerArray) {
 		m = markerArray[x];
 		tempPosition = { lat : m.lat, lng : m.lng };
     tempImage = "";
-    if (m.icon != null) { tempImage = m.icon.url } else { tempImage = "/noavatar.png" }
+    if (!m.icon) { tempImage = "/noavatar.png" } else { tempImage = m.icon }
     iconImage = {
           url: tempImage,
           scaledSize: new google.maps.Size(50, 50)
