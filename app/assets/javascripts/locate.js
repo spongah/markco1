@@ -348,7 +348,7 @@ function updateMarkers(markerArray) {
       }
       if (!markerFound) {
         tempImage = "";
-        if (m.icon.url) { tempImage = m.icon.url } else { tempImage = "/noavatar.png" }
+        if (m.icon) { tempImage = m.icon.url } else { tempImage = "/noavatar.png" }
         iconImage = {
           url: tempImage,
           scaledSize: new google.maps.Size(50, 50)
@@ -436,7 +436,7 @@ function loadMarkers(markerArray) {
 		m = markerArray[x];
 		tempPosition = { lat : m.lat, lng : m.lng };
     tempImage = "";
-    if (m.icon.url) { tempImage = m.icon.url } else { tempImage = "/noavatar.png" }
+    if (m.icon) { tempImage = m.icon.url } else { tempImage = "/noavatar.png" }
     iconImage = {
           url: tempImage,
           scaledSize: new google.maps.Size(50, 50)
