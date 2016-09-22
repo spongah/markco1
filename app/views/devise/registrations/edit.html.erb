@@ -73,16 +73,20 @@
                   size: 'viewport'
                 }).then(function (resp) {
                   data = { savepicture: resp.split(',')[1] }
+                  var clearMe = function() {
+                      document.getElementById("upload").value = "";
+                      window.location.href = "/users/edit";
+                  }
                   // console.log(JSON.stringify(resp).length);
                   // document.getElementById('result').innerHTML = "<img src=\"" + resp + "\">";
                   $.ajax({          
                     data: data,
                     url: "/savepicture",
                     type: "PATCH",
-                    dataType: "json"
+                    dataType: "json",
+                    success: clearMe()
                   });
-                  setTimeout(function(){ window.location.href = "/users/edit" }, 500);
-                  document.getElementById("upload").value = ""
+                  
                 });
               });
             }
