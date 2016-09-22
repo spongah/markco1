@@ -94,11 +94,18 @@ class WelcomeController < ApplicationController
   end
 
   def savepicture
-    filename = 'public/' + current_user.id.to_s + '.png'
+    filename = '' + current_user.id.to_s + '.png'
+    file = Base64.decode64(user_params[:savepicture])
     File.open(filename, 'wb') do |f|
-      f.write(Base64.decode64(user_params[:savepicture]))
+      f.write(file)
     end
-    @user.icon = '/' + @user.id.to_s + '.png'
+    uploader = IconuploaderUploader.new 
+
+    s = StringIO.new(file)
+    def s.original_filename; "icon.png"; end
+    @user.icon = s
+    @user.save
+    # @user.icon = '/' + @user.id.to_s + '.png'
     puts @user.icon
     gon.watch.user = @user
     render :nothing => true, :status => 200, :content_type => 'text/html'
@@ -124,12 +131,12 @@ class WelcomeController < ApplicationController
 
 	def set_user   
 		@user = User.find(current_user.id)
-    if (File.exist?('./public/' + @user.id.to_s + '.png'))
-      iconFile = '/' + @user.id.to_s + '.png'
-    else
-      iconFile = '/noavatar.png'
-    end
-    @user.icon = iconFile
+    # if (File.exist?('./public/' + @user.id.to_s + '.png'))
+    #   iconFile = '/' + @user.id.to_s + '.png'
+    # else
+    #   iconFile = '/noavatar.png'
+    # end
+    # @user.icon = iconFile
 	end
 
 end

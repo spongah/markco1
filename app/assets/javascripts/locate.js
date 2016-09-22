@@ -74,7 +74,7 @@ function initMap() {
                   }
 
     myIcon = {
-      url: gon.user.icon,
+      url: gon.user.icon.url,
       scaledSize: new google.maps.Size(50, 50)
     }
   	

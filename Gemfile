@@ -10,7 +10,9 @@ gem 'sass-rails', '~> 5.0'
 
 gem 'bootstrap', '~> 4.0.0.alpha3.1'
 
-gem 'cloudinary'
+gem 'carrierwave', '>= 1.0.0.beta', '< 2.0'
+
+gem 'fog'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
