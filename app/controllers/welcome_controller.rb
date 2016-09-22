@@ -99,6 +99,7 @@ class WelcomeController < ApplicationController
     @user.icon = s
     @user.save
     gon.watch.user = @user
+    render :nothing => true, :status => 200, :content_type => 'text/html'
   end
 
 

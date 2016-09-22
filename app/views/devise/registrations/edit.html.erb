@@ -74,8 +74,10 @@
                 }).then(function (resp) {
                   data = { savepicture: resp.split(',')[1] }
                   var clearMe = function() {
-                      document.getElementById("upload").value = "";
-                      window.location.href = "/users/edit";
+                      setTimeout(function() {
+                        document.getElementById("upload").value = "";
+                        window.location.href = "/users/edit";
+                      },1000);
                   }
                   // console.log(JSON.stringify(resp).length);
                   // document.getElementById('result').innerHTML = "<img src=\"" + resp + "\">";
