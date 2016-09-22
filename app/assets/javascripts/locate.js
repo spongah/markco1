@@ -67,6 +67,8 @@ function initMap() {
  	bounds = new google.maps.LatLngBounds();	// CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
 
  	getMyLocation(function () {
+    tempImage = "";
+    if (gon.user.icon) { tempImage = gon.user.icon.url } else { tempImage = "/noavatar.png" }
     var options = {
                     enableHighAccuracy: true,
                     timeout: Infinity,
@@ -74,7 +76,7 @@ function initMap() {
                   }
 
     myIcon = {
-      url: '<%= @user.icon.url || "/noavatar.png" %>',
+      url: tempImage,
       scaledSize: new google.maps.Size(50, 50)
     }
   	
