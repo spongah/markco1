@@ -59,7 +59,7 @@ function mainLoop() {
     });
     mainloopcount += 1;
     mainLoop();
-  }, 10000);
+  }, 3000);
 }
 
 function initMap() {

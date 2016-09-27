@@ -35,10 +35,8 @@ class WelcomeController < ApplicationController
 
   def updatepos
     if @user.update(user_params)
-    	# puts "UPDATED DATABASE WITH NEW LOCATION"
     	render :nothing => true, :status => 200, :content_type => 'text/html'
     else
-      # puts "OH SHIT"
       render :nothing => true, :status => 200, :content_type => 'text/html'
     end
   end
@@ -93,7 +91,7 @@ class WelcomeController < ApplicationController
     file = Base64.decode64(user_params[:savepicture])
     uploader = IconuploaderUploader.new 
     s = StringIO.new(file)
-    def s.original_filename; "icon.png"; end
+    def s.original_filename; d = Time.new; "icon#{d.to_i.to_s}.png"; end
     @user.remove_icon!
     @user.save
     @user.icon = s
@@ -111,7 +109,6 @@ class WelcomeController < ApplicationController
 		if @user.save
 			redirect_to root_path
 		else
-			# puts "OH SHIT"
 			render :nothing => true, :status => 200, :content_type => 'text/html'
 		end
   end
