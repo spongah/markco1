@@ -67,6 +67,7 @@
                 readFile(this);
                 document.getElementById("myModal3").style.display = "block";
               });
+
               $('.upload-result').on('click', function (ev) {
                 $uploadCrop.croppie('result', {
                   type: 'canvas',
@@ -74,11 +75,13 @@
                 }).then(function (resp) {
                   data = { savepicture: resp.split(',')[1] }
                   var clearMe = function() {
-                      setTimeout(function() {
-                        document.getElementById("upload").value = "";
-                        window.location.href = "/users/edit";
-                      },1000);
-                  }
+
+                      
+                  //    setTimeout(function() {
+                  //      document.getElementById("upload").value = "";
+                  //      window.location.href = "/users/edit";
+                  //    },1000);
+                   }
                   // console.log(JSON.stringify(resp).length);
                   // document.getElementById('result').innerHTML = "<img src=\"" + resp + "\">";
                   $.ajax({          
@@ -91,6 +94,7 @@
                   
                 });
               });
+
             }
 
         </script>
@@ -234,6 +238,29 @@
     }
 
 
+    var isDone = false;
+    $(document).on({
+        ajaxStart: function() { 
+          console.log("loading"); 
+          // $(".modal-content3").html("UPLOADING");     // THIS WAS ERASING UPLOAD
+          // PUT A SUPER COOL UPLOADING GIF
+          // SOMETHING ELSE ISN'T LOADING RIGHT, when you click the pic a second time it doesnt quite work
+
+        },
+        ajaxStop: function() { 
+          if (!isDone) {
+            console.log("done!!"); 
+            $("#myModal3").fadeOut(1000, function () {
+              console.log("refreshing avatar");
+              gon.watch("user", function(result) {
+                $("#avatar").css("background-image", "url(" + result.icon.url + ")");
+                $("#currentAvatar").css("background-image", "url(" + result.icon.url + ")");
+                isDone = true;
+              });
+            });
+          }
+        }
+    });
 
 
 
