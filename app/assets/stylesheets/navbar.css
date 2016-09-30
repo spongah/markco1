@@ -114,6 +114,7 @@
 
 .dropdown-nav li:hover, #dropdownprofile a:hover, , #dropdownhome a:hover {
     color: #D9D9D9;
+    cursor: pointer;
 }
 
 .dropdown-email {
