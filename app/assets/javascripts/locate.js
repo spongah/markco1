@@ -8,10 +8,11 @@ var mainloopcount = 0;
 var allMarkers = [];
 var modal;
 var close;
-var mapLoaded;
+var mapLoaded = false;
+var editPage = false;
 
 function mainLoop() {
-  if (editPage) {
+  if (!editPage) {
     setTimeout(function () {
       gon.watch("markerArray", function(result){
         updateMarkers(result);
@@ -21,14 +22,16 @@ function mainLoop() {
         }
       });
       gon.watch("user", function(result){
-        if (result.room == result.id) {
-          document.getElementById("dropdownleave").style.display = "none";
-          document.getElementById("dropdowninvite").style.display = "block";
-          document.getElementById("dropdownremove").style.display = "block";
-        } else {
-          document.getElementById("dropdownleave").style.display = "block";
-          document.getElementById("dropdowninvite").style.display = "none";
-          document.getElementById("dropdownremove").style.display = "none";
+        if (!editPage) {
+          if (result.room == result.id) {
+            document.getElementById("dropdownleave").style.display = "none";
+            document.getElementById("dropdowninvite").style.display = "block";
+            document.getElementById("dropdownremove").style.display = "block";
+          } else {
+            document.getElementById("dropdownleave").style.display = "block";
+            document.getElementById("dropdowninvite").style.display = "none";
+            document.getElementById("dropdownremove").style.display = "none";
+          }
         }
         if ((result.room != result.invite) && (result.invite != result.id)) {
           gon.watch("inviter", function(result2){
@@ -61,7 +64,7 @@ function mainLoop() {
       });
       mainloopcount += 1;
       mainLoop();
-    }, 3000);    
+    }, 3000);       
   }
 }
 
@@ -419,6 +422,7 @@ function createMap() {
     zoom: 13,
     mapTypeId: 'hybrid'
   });   
+  mapLoaded = true;
 }
 
 function getMyLocation(callback) {

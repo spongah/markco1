@@ -8,7 +8,7 @@
 
 		<div class="dropdown-email"><%= @user.email %></div>
 		<ul>
-			<li id="dropdownhome"><%= link_to("Home", root_path) %></li>
+			<li id="dropdownhome"><%= link_to("Home", root_url) %></li>
 			<li id="dropdownprofile"><%= link_to("Profile", edit_user_registration_path) %></li>
 			<li id="dropdowninvite">Invite</li>
 			<li id="dropdownremove">Remove</li>
@@ -64,9 +64,6 @@
 		document.getElementById("avatar").style.border = "3px solid green"; 
 		updateGeneric({tracking: true});
 	}
-//	gon.watch("avatar", function (result){
-//		document.getElementById('avatar').style.backgroundImage = "url(" + result + ")";
-//	});
-	
+
 
 </script>

@@ -30,7 +30,6 @@ class WelcomeController < ApplicationController
       gon.watch.removeUsers = User.all.where({room: @user.id}).where.not({id: @user.id})
       gon.watch.declinedUser = User.find(@user.declined)
       gon.watch.removedUser = User.find(@user.removed)
-      
     end
   end
 

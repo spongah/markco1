@@ -165,12 +165,8 @@
 
   <script>
 
-    document.getElementById("dropdowninvite").style.display = "none";
-    document.getElementById("dropdownremove").style.display = "none";
-    document.getElementById("dropdownleave").style.display = "none";
-    document.getElementById("dropdownprofile").style.display = "none";
     var editPage = true;
-    var isDone = false;
+    var isDone = true;
     
     
     
@@ -251,31 +247,36 @@
       document.getElementById("upload").value = ""
     }
 
-    if (editPage && !isDone) {
-      $(document).on({
-          ajaxStart: function() { 
-              if (editPage && !isDone) {
-                $("#myModal3").fadeOut(500, function() {
-                  $("#myModal3").css("display", "none");
-                });
-                $("#uploadingModal").fadeIn(500);
-                //$("#uploadingModal").css("display", "block");
-              }
-           },
-          ajaxStop: function() { 
+    $(document).on({
+        ajaxStart: function() { 
             if (editPage && !isDone) {
-              gon.watch("user", function(result) {
-                $("#uploadingModal").css("display", "none");
-                $("#avatar").css("background-image", "url(" + result.icon.url + ")");
-                $("#currentAvatar").css("background-image", "url(" + result.icon.url + ")");
-                isDone = true;
+              $("#myModal3").fadeOut(500, function() {
+                $("#myModal3").css("display", "none");
               });
+              $("#uploadingModal").fadeIn(500);
+              //$("#uploadingModal").css("display", "block");
             }
+         },
+        ajaxStop: function() { 
+          if (editPage && !isDone) {
+            gon.watch("user", function(result) {
+              $("#uploadingModal").css("display", "none");
+              $("#avatar").css("background-image", "url(" + result.icon.url + ")");
+              $("#currentAvatar").css("background-image", "url(" + result.icon.url + ")");
+              isDone = true;
+            });
           }
-      });
-    }
+        }
+    });
 
 
+    document.getElementById("dropdowninvite").style.display = "none";
+    document.getElementById("dropdownremove").style.display = "none";
+    document.getElementById("dropdownleave").style.display = "none";
+    document.getElementById("dropdownprofile").style.display = "none"; 
+    document.getElementById("avatar").onclick = function() {
+        location.href="/"
+    }  
 
   </script>
 </div>

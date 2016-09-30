@@ -20,13 +20,11 @@
 		</div>
 
 		<div id="maplink">
-			<!--
-			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWjXhmnA63FsuAVIrTzKRG_D5SJZrDrqg&callback=initMap" async defer>
-			</script>
-			-->
+
 		</div>
 
 		<script>
+			editPage = false;
 			setTimeout(fade_out, 5000);
 
 			 function fade_out() {
@@ -85,25 +83,68 @@
 	      populateUserList(options = {invite: false, remove: true});
 	    };
 
+	    document.getElementById("avatar").onclick = function() {
+      	location.href="users/edit"
+      }
 
 	    var editPage = false;
-	    if (!mapLoaded) {
-		    var mapLink = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDWjXhmnA63FsuAVIrTzKRG_D5SJZrDrqg&callback=initMap"
-		    var mapElement = document.createElement('script');
-		    mapElement.src = mapLink;
-		    mapElement.onload = mapLoaded;
-		    maplink = document.getElementById("maplink");
-		    if (maplink.childNodes[0]) { maplink.removeChild(maplink.childNodes[0]); }
-		    maplink.appendChild(mapElement);
+	    if (mapLoaded) { 
+			    tempImage = "";
+			    if (gon.user.icon) { tempImage = gon.user.icon.url } else { tempImage = "/noavatar.png" }
+			    var options = {
+			                    enableHighAccuracy: true,
+			                    timeout: Infinity,
+			                    maximumAge: 10000
+			                  }
 
-		    function mapLoaded() {
-		    	console.log("map is loaded!");
-		    	mapLoaded = true;
-		    }	    	
-	    } else { console.log("map is already loaded!"); }
+			    myIcon = {
+			      url: tempImage,
+			      scaledSize: new google.maps.Size(50, 50)
+			    }
+			  	
+			    createMap();	 												    // CREATES MAP AFTER getMyLocation SETS myPosition
+
+			    updatePosition();                        // SEND NEW POSITION TO DATABASE
+
+			 		myMarker = placeMarker(myPosition, "", gon.user.displayname, "", myIcon); // SET MY MARKER
+			 	  if (gon.markerArray) { 
+			      loadMarkers(gon.markerArray);    
+			    }						// LOAD OTHER MARKERS (NOT MINE)
+
+			    gon.watch("roomName", function(result) {
+			      document.getElementById("roomid").innerHTML = result;
+			    });
+
+			    modal = document.getElementById('myModal');
+			    userInviting = document.getElementById('userInviting');
+			    // closeModal = document.getElementsByClassName("close")[0];
+			    acceptInvite = document.getElementById('acceptInvite');
+			    declineInvite = document.getElementById('declineInvite');
+
+			    modal2 = document.getElementById('myModal2');
+			    close = document.getElementById('close');
+
+
+			    map.fitBounds(bounds);                 // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
+			    map.setCenter(myPosition);              // CENTER MAP ON myPosition
+
+			    mainLoop();
+
+
+			    myWatcher = navigator.geolocation.watchPosition(function(position) {		// SET WATCHER FOR LOCATION CHANGE
+					  updates += 1;
+					  myPosition.lat = position.coords.latitude;		// SET myPosition
+					  myPosition.lng = position.coords.longitude;		// SET myPosition
+					  myMarker.setPosition(myPosition);							// SET myMarker POSITION BASED ON UPDATED myPosition
+			      updatePosition();                             // SEND NEW POSITION TO DATABASE
+					}, function(err){ console.log(err) }, options);	// LOGS ERRORS TO CONSOLE, INSERTS OPTIONS HASH
+	    } else { initMap(); }
+
 
 		</script>
 
+
+		
 	</div>
 
 </div>
