@@ -13,9 +13,9 @@
 
 //= require exif
 //= require croppie
-//= require locate
 //= require jquery
+//= require locate
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require turbolinks
-//= require_tree .
+

@@ -5,9 +5,7 @@
 	<div class="yourlocation" id="yourlocation">
 
 		<div id="map">
-			<div class="loading">  
-				<%= image_tag "loading.gif" %>
-			</div> 
+			<div class="loading"><%= image_tag "loading.gif" %></div> 
 		</div>
 		<div class="submap">
 			<div id="status" class="status">
@@ -19,6 +17,13 @@
 				<% end %>
 			</div>
 			<div class="userid" id="roomid"></div>
+		</div>
+
+		<div id="maplink">
+			<!--
+			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWjXhmnA63FsuAVIrTzKRG_D5SJZrDrqg&callback=initMap" async defer>
+			</script>
+			-->
 		</div>
 
 		<script>
@@ -81,9 +86,26 @@
 	    };
 
 
+	    var editPage = false;
+	    if (!mapLoaded) {
+		    var mapLink = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDWjXhmnA63FsuAVIrTzKRG_D5SJZrDrqg&callback=initMap"
+		    var mapElement = document.createElement('script');
+		    mapElement.src = mapLink;
+		    mapElement.onload = mapLoaded;
+		    maplink = document.getElementById("maplink");
+		    maplink.removeChild(maplink.childNodes[0]);
+		    maplink.appendChild(mapElement);
+
+
+
+		    function mapLoaded() {
+		    	console.log("map is loaded!");
+		    	mapLoaded = true;
+		    }	    	
+	    } else { console.log("map is already loaded!"); }
+
 		</script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWjXhmnA63FsuAVIrTzKRG_D5SJZrDrqg&callback=initMap" async defer></script>
 	</div>
 
 </div>

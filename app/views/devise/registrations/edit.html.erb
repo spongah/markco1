@@ -14,6 +14,15 @@
       </div>
 
     </div>
+    <div id="uploadingModal" class="modal4">
+
+      <!-- Modal content -->
+      <div class="modal-content4" style="background-image: url('/loading.gif')">
+        
+      </div>
+
+    </div>
+
 
     <div class="login main">
 
@@ -38,7 +47,7 @@
                           $uploadCrop.croppie('bind', {
                             url: e.target.result
                           }).then(function(){
-                            console.log('jQuery bind complete');
+                            // console.log('jQuery bind complete');
                           });
                           
                         }
@@ -65,10 +74,13 @@
 
               $('#upload').on('change', function () { 
                 readFile(this);
+                document.getElementById("maindropdown").style.display = "none";
                 document.getElementById("myModal3").style.display = "block";
               });
 
               $('.upload-result').on('click', function (ev) {
+                isDone = false;
+                $('#upload').val("");
                 $uploadCrop.croppie('result', {
                   type: 'canvas',
                   size: 'viewport'
@@ -157,6 +169,8 @@
     document.getElementById("dropdownremove").style.display = "none";
     document.getElementById("dropdownleave").style.display = "none";
     document.getElementById("dropdownprofile").style.display = "none";
+    var editPage = true;
+    var isDone = false;
     
     
     
@@ -237,30 +251,29 @@
       document.getElementById("upload").value = ""
     }
 
-
-    var isDone = false;
-    $(document).on({
-        ajaxStart: function() { 
-          console.log("loading"); 
-          // $(".modal-content3").html("UPLOADING");     // THIS WAS ERASING UPLOAD
-          // PUT A SUPER COOL UPLOADING GIF
-          // SOMETHING ELSE ISN'T LOADING RIGHT, when you click the pic a second time it doesnt quite work
-
-        },
-        ajaxStop: function() { 
-          if (!isDone) {
-            console.log("done!!"); 
-            $("#myModal3").fadeOut(1000, function () {
-              console.log("refreshing avatar");
+    if (editPage && !isDone) {
+      $(document).on({
+          ajaxStart: function() { 
+              if (editPage && !isDone) {
+                $("#myModal3").fadeOut(500, function() {
+                  $("#myModal3").css("display", "none");
+                });
+                $("#uploadingModal").fadeIn(500);
+                //$("#uploadingModal").css("display", "block");
+              }
+           },
+          ajaxStop: function() { 
+            if (editPage && !isDone) {
               gon.watch("user", function(result) {
+                $("#uploadingModal").css("display", "none");
                 $("#avatar").css("background-image", "url(" + result.icon.url + ")");
                 $("#currentAvatar").css("background-image", "url(" + result.icon.url + ")");
                 isDone = true;
               });
-            });
+            }
           }
-        }
-    });
+      });
+    }
 
 
 

@@ -8,58 +8,61 @@ var mainloopcount = 0;
 var allMarkers = [];
 var modal;
 var close;
+var mapLoaded;
 
 function mainLoop() {
-  setTimeout(function () {
-    gon.watch("markerArray", function(result){
-      updateMarkers(result);
-      if (result.length == 0) {
-        // map.fitBounds(bounds);                          // 
-        map.setCenter(myPosition);              // TRACK YOUR MARKER IF YOU ARE ALONE IN YOUR GROUP
-      }
-    });
-    gon.watch("user", function(result){
-      if (result.room == result.id) {
-        document.getElementById("dropdownleave").style.display = "none";
-        document.getElementById("dropdowninvite").style.display = "block";
-        document.getElementById("dropdownremove").style.display = "block";
-      } else {
-        document.getElementById("dropdownleave").style.display = "block";
-        document.getElementById("dropdowninvite").style.display = "none";
-        document.getElementById("dropdownremove").style.display = "none";
-      }
-      if ((result.room != result.invite) && (result.invite != result.id)) {
-        gon.watch("inviter", function(result2){
-          displayInvite({room: result2.id, displayname: result2.displayname});
-        });
-      }
-      if (result.declined != result.id) {
-        gon.watch("declinedUser", function(result2) {
-          document.getElementById("status").innerHTML = "<p class=\"error alert-box\" id=\"decline\">" + result2.displayname + " declined your invitation!</p>";
-          setTimeout(fade_out_decline, 5000);
-        });
-        updateGeneric({declined: result.id});
-
-      }
-      if (result.removed != result.id) {
-        gon.watch("removedUser", function(result2) {
-          document.getElementById("status").innerHTML = "<p class=\"error alert-box\" id=\"removed\">" + result2.displayname + " removed you from their group!</p>";
-          setTimeout(fade_out_removed, 5000);
-          bounds = new google.maps.LatLngBounds();  // CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
-          bounds.extend(myMarker.position);
-          gon.watch("markerArray", function(results) { 
-            updateMarkers(results); 
-            map.fitBounds(bounds);                  // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
-            map.setCenter(myPosition); 
-            document.getElementById("roomid").innerHTML = "Your Group";
-            updateGeneric({removed: result.id});
+  if (editPage) {
+    setTimeout(function () {
+      gon.watch("markerArray", function(result){
+        updateMarkers(result);
+        if (result.length == 0) {
+          // map.fitBounds(bounds);                          // 
+          map.setCenter(myPosition);              // TRACK YOUR MARKER IF YOU ARE ALONE IN YOUR GROUP
+        }
+      });
+      gon.watch("user", function(result){
+        if (result.room == result.id) {
+          document.getElementById("dropdownleave").style.display = "none";
+          document.getElementById("dropdowninvite").style.display = "block";
+          document.getElementById("dropdownremove").style.display = "block";
+        } else {
+          document.getElementById("dropdownleave").style.display = "block";
+          document.getElementById("dropdowninvite").style.display = "none";
+          document.getElementById("dropdownremove").style.display = "none";
+        }
+        if ((result.room != result.invite) && (result.invite != result.id)) {
+          gon.watch("inviter", function(result2){
+            displayInvite({room: result2.id, displayname: result2.displayname});
           });
-        });
-      }
-    });
-    mainloopcount += 1;
-    mainLoop();
-  }, 3000);
+        }
+        if (result.declined != result.id) {
+          gon.watch("declinedUser", function(result2) {
+            document.getElementById("status").innerHTML = "<p class=\"error alert-box\" id=\"decline\">" + result2.displayname + " declined your invitation!</p>";
+            setTimeout(fade_out_decline, 5000);
+          });
+          updateGeneric({declined: result.id});
+
+        }
+        if (result.removed != result.id) {
+          gon.watch("removedUser", function(result2) {
+            document.getElementById("status").innerHTML = "<p class=\"error alert-box\" id=\"removed\">" + result2.displayname + " removed you from their group!</p>";
+            setTimeout(fade_out_removed, 5000);
+            bounds = new google.maps.LatLngBounds();  // CREATE BOUNDS OBJECT, SET TO GLOBAL VARIABLE
+            bounds.extend(myMarker.position);
+            gon.watch("markerArray", function(results) { 
+              updateMarkers(results); 
+              map.fitBounds(bounds);                  // ZOOM MAP AUTOMATICALLY BASED ON THE BOUNDS
+              map.setCenter(myPosition); 
+              document.getElementById("roomid").innerHTML = "Your Group";
+              updateGeneric({removed: result.id});
+            });
+          });
+        }
+      });
+      mainloopcount += 1;
+      mainLoop();
+    }, 3000);    
+  }
 }
 
 function initMap() {
@@ -80,7 +83,7 @@ function initMap() {
       scaledSize: new google.maps.Size(50, 50)
     }
   	
-    createMap();														// CREATES MAP AFTER getMyLocation SETS myPosition
+    createMap();	 												    // CREATES MAP AFTER getMyLocation SETS myPosition
 
     updatePosition();                        // SEND NEW POSITION TO DATABASE
 
@@ -415,7 +418,7 @@ function createMap() {
     center: myPosition,
     zoom: 13,
     mapTypeId: 'hybrid'
-  });    
+  });   
 }
 
 function getMyLocation(callback) {
