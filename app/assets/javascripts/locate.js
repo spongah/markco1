@@ -351,6 +351,15 @@ function updateMarkers(markerArray) {
             // document.getElementById('status').innerHTML = "Updated " + m.name + "'s position!";
             // map.fitBounds(bounds);                     //  I THINK NO FITBOUNDS AFTER UPDATES (HAPPENS A LOT)
           }
+          if ((m.icon) && (m.icon.url != allMarkers[y].icon)) {
+            tempImage = "";
+            if (!m.icon) { tempImage = "/noavatar.png" } else { tempImage = m.icon }
+            iconImage = {
+              url: tempImage,
+              scaledSize: new google.maps.Size(50, 50)
+            }
+            allMarkers[y].setIcon(iconImage);
+          }
           markerFound = true;
         }
       }
