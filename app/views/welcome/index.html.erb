@@ -93,10 +93,8 @@
 		    mapElement.src = mapLink;
 		    mapElement.onload = mapLoaded;
 		    maplink = document.getElementById("maplink");
-		    maplink.removeChild(maplink.childNodes[0]);
+		    if (maplink.childNodes[0]) { maplink.removeChild(maplink.childNodes[0]); }
 		    maplink.appendChild(mapElement);
-
-
 
 		    function mapLoaded() {
 		    	console.log("map is loaded!");
